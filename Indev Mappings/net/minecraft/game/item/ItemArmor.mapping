@@ -1,0 +1,6 @@
+CLASS net/minecraft/a/b/j net/minecraft/game/item/ItemArmor
+	FIELD as armorType I
+	FIELD at damageReduceAmount I
+	FIELD au renderIndex I
+	FIELD av damageReduceAmountArray [I
+	FIELD aw maxDamageArray [I

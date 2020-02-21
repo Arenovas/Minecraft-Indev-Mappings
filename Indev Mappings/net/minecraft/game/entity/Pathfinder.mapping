@@ -1,0 +1,12 @@
+CLASS net/minecraft/a/a/a/c net/minecraft/game/entity/Pathfinder
+	FIELD a worldMap Lnet/minecraft/a/a/g;
+	FIELD b path Lnet/minecraft/a/a/a/d;
+	FIELD c pointMap Ljava/util/Map;
+	FIELD d pathOptions [Lnet/minecraft/a/a/a/a;
+	METHOD a openPoint (III)Lnet/minecraft/a/a/a/a;
+	METHOD a getVerticalOffset (IIILnet/minecraft/a/a/a/a;)I
+	METHOD a createEntityPath (Lnet/minecraft/a/a/a/a;)Lnet/minecraft/a/a/a/b;
+	METHOD a addToPath (Lnet/minecraft/a/c/b;FFFF)Lnet/minecraft/a/a/a/b;
+	METHOD a createEntityPathTo (Lnet/minecraft/a/c/b;IIIF)Lnet/minecraft/a/a/a/b;
+	METHOD a getSafePoint (Lnet/minecraft/a/c/b;IIILnet/minecraft/a/a/a/a;I)Lnet/minecraft/a/a/a/a;
+	METHOD a createEntityPathTo (Lnet/minecraft/a/c/b;Lnet/minecraft/a/c/b;F)Lnet/minecraft/a/a/a/b;

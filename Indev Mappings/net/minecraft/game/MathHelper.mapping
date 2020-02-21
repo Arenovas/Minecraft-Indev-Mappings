@@ -1,0 +1,8 @@
+CLASS a/a net/minecraft/game/MathHelper
+	FIELD a SIN_TABLE [F
+	METHOD a floor_double (D)I
+	METHOD a sin (F)F
+	METHOD b cos (F)F
+	METHOD c sqrt_float (F)F
+	METHOD d floor_float (F)I
+	METHOD e abs (F)F

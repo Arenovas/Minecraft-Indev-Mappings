@@ -1,0 +1,2 @@
+CLASS com/a/a/h com/nbt/NBTTagShort
+	FIELD a shortValue S

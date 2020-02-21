@@ -1,0 +1,2 @@
+CLASS net/minecraft/a/c/c/a net/minecraft/game/entity/other/EntityTNT
+	FIELD a fuse I

@@ -1,0 +1,2 @@
+CLASS com/a/a/k com/nbt/NBTTagString
+	FIELD a stringValue Ljava/lang/String;

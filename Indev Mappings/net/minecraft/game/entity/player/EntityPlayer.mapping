@@ -1,0 +1,14 @@
+CLASS net/minecraft/a/c/e/a net/minecraft/game/entity/player/EntityPlayer
+	FIELD O unusedByte B
+	FIELD P getScore I
+	FIELD Q prevCameraYaw F
+	FIELD R cameraYaw F
+	FIELD a swingProgressInt I
+	FIELD b inventory Lnet/minecraft/a/c/e/b;
+	METHOD a displayGUIFurnace (Lnet/minecraft/a/a/b/a/b;)V
+	METHOD a canHarvestBlock (Lnet/minecraft/a/a/b/x;)Z
+	METHOD a dropPlayerItem (Lnet/minecraft/a/b/k;)V
+	METHOD a dropPlayerItemWithRandomChoice (Lnet/minecraft/a/b/k;Z)V
+	METHOD a displayGUIChest (Lnet/minecraft/a/b;)V
+	METHOD a onItemPickup (Lnet/minecraft/a/c/b;)V
+	METHOD g_ displayWorkbenchGUI ()V

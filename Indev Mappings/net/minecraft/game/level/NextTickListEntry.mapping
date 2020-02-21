@@ -1,0 +1,6 @@
+CLASS net/minecraft/a/a/e net/minecraft/game/level/NextTickListEntry
+	FIELD a x I
+	FIELD b y I
+	FIELD c z I
+	FIELD d block I
+	FIELD e ticks I

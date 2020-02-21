@@ -1,0 +1,8 @@
+CLASS net/minecraft/a/b/a/c net/minecraft/game/recipe/ShapelessRecipes
+	FIELD a width I
+	FIELD b height I
+	FIELD c ingredientMap [I
+	FIELD d recipeOutput Lnet/minecraft/a/b/k;
+	METHOD a createResult ()Lnet/minecraft/a/b/k;
+	METHOD a matchRecipe ([I)Z
+	METHOD a matches ([IIIZ)Z

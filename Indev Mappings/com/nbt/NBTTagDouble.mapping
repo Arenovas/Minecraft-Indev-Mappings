@@ -1,0 +1,2 @@
+CLASS com/a/a/g com/nbt/NBTTagDouble
+	FIELD a doubleValue D

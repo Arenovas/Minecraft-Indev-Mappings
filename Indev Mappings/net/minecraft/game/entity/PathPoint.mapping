@@ -1,0 +1,13 @@
+CLASS net/minecraft/a/a/a/a net/minecraft/game/entity/PathPoint
+	FIELD a xCoord I
+	FIELD b yCoord I
+	FIELD c zCoord I
+	FIELD d hash I
+	FIELD e index I
+	FIELD f totalPathDistance F
+	FIELD g distanceToNext F
+	FIELD h distanceToTarget F
+	FIELD i previous Lnet/minecraft/a/a/a/a;
+	FIELD j isFirst Z
+	METHOD a isAssigned ()Z
+	METHOD a distanceTo (Lnet/minecraft/a/a/a/a;)F

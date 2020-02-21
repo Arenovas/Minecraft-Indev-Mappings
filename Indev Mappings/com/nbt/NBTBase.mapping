@@ -1,0 +1,11 @@
+CLASS com/a/a/j com/nbt/NBTBase
+	FIELD a key Ljava/lang/String;
+	METHOD a getType ()B
+	METHOD a createTagOfType (B)Lcom/a/a/j;
+	METHOD a writeTag (Lcom/a/a/j;Ljava/io/DataOutput;)V
+		ARG 0 nbtBase
+	METHOD a readTagContents (Ljava/io/DataInput;)V
+	METHOD a writeTagContents (Ljava/io/DataOutput;)V
+	METHOD b readTag (Ljava/io/DataInput;)Lcom/a/a/j;
+	METHOD c getKey ()Ljava/lang/String;
+	METHOD l setKey (Ljava/lang/String;)Lcom/a/a/j;

@@ -1,0 +1,16 @@
+CLASS net/minecraft/a/a/i net/minecraft/game/level/BlockMap
+	FIELD a width I
+	FIELD b depth I
+	FIELD c height I
+	FIELD d entityGrid [Ljava/util/List;
+	FIELD e all Ljava/util/List;
+	FIELD f slot Lnet/minecraft/a/a/f;
+	FIELD g slot2 Lnet/minecraft/a/a/f;
+	FIELD h tmp Ljava/util/List;
+	METHOD a updateEntityList ()V
+	METHOD a insert (Lnet/minecraft/a/c/b;)V
+	METHOD a getEntities (Lnet/minecraft/a/c/b;FFFFFF)Ljava/util/List;
+	METHOD a getEntities (Lnet/minecraft/a/c/b;FFFFFFLjava/util/List;)Ljava/util/List;
+	METHOD a getEntitiesWithinAABBExcludingEntity (Lnet/minecraft/a/c/b;Lnet/minecraft/a/d/b;)Ljava/util/List;
+		ARG 2 aabb
+	METHOD b remove (Lnet/minecraft/a/c/b;)V

@@ -1,0 +1,2 @@
+CLASS net/minecraft/a/b/l net/minecraft/game/item/ItemSpade
+	FIELD as blocksEffectiveAgainst [Lnet/minecraft/a/a/b/x;

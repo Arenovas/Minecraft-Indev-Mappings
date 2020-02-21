@@ -1,0 +1,3 @@
+CLASS net/minecraft/a/b/a/d net/minecraft/game/recipe/RecipesOreBlocks
+	FIELD a recipeItems [[Ljava/lang/Object;
+	METHOD a addRecipe (Lnet/minecraft/a/b/a/f;)V

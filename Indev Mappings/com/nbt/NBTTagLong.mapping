@@ -1,0 +1,2 @@
+CLASS com/a/a/a com/nbt/NBTTagLong
+	FIELD a longValue J

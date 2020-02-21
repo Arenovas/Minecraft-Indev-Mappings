@@ -1,0 +1,5 @@
+CLASS net/minecraft/a/a/c/a/a net/minecraft/game/level/generator/noise/NoiseGeneratorPerlin
+	FIELD a permutations [I
+	METHOD a generateNoise (D)D
+	METHOD a lerp (DDD)D
+	METHOD a grad (IDDD)D

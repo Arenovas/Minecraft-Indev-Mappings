@@ -1,0 +1,10 @@
+CLASS net/minecraft/a/a/a/d net/minecraft/game/entity/Path
+	FIELD a pathPoints [Lnet/minecraft/a/a/a/a;
+	FIELD b count I
+	METHOD a clearPath ()V
+	METHOD a sortBack (I)V
+	METHOD a addPoint (Lnet/minecraft/a/a/a/a;)Lnet/minecraft/a/a/a/a;
+	METHOD a changeDistance (Lnet/minecraft/a/a/a/a;F)V
+	METHOD b dequeue ()Lnet/minecraft/a/a/a/a;
+	METHOD b sortForward (I)V
+	METHOD c isPathEmpty ()Z

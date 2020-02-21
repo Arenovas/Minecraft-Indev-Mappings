@@ -1,0 +1,2 @@
+CLASS com/a/a/d com/nbt/NBTTagInt
+	FIELD a intValue I

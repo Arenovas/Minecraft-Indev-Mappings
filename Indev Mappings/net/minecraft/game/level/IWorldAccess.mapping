@@ -1,0 +1,10 @@
+CLASS net/minecraft/a/a/d net/minecraft/game/level/IWorldAccess
+	METHOD a loadRenderers ()V
+	METHOD a markBlockAndNeighborsNeedsUpdate (III)V
+	METHOD a markBlockRangeNeedsUpdate (IIIIII)V
+	METHOD a playMusic (Ljava/lang/String;FFFF)V
+	METHOD a playSound (Ljava/lang/String;FFFFF)V
+	METHOD a spawnParticle (Ljava/lang/String;FFFFFF)V
+	METHOD a obtainEntitySkin (Lnet/minecraft/a/c/b;)V
+	METHOD b releaseEntitySkin (Lnet/minecraft/a/c/b;)V
+	METHOD h updateAllRenderers ()V

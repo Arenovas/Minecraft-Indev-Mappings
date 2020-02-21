@@ -1,0 +1,11 @@
+CLASS net/minecraft/a/c/d/a net/minecraft/game/entity/other/EntityArrow
+	FIELD O yTile I
+	FIELD P zTile I
+	FIELD Q inTile I
+	FIELD R inGround Z
+	FIELD S owner Lnet/minecraft/a/c/e;
+	FIELD T ticksInGround I
+	FIELD U ticksInAir I
+	FIELD a arrowShake I
+	FIELD b xTile I
+	METHOD a setArrowHeading (FFFFF)V

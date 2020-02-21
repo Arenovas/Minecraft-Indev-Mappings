@@ -1,0 +1,24 @@
+CLASS com/a/a/c com/nbt/NBTTagCompound
+	FIELD a tagMap Ljava/util/Map;
+	METHOD a hasKey (Ljava/lang/String;)Z
+	METHOD a setByte (Ljava/lang/String;B)V
+	METHOD a setFloat (Ljava/lang/String;F)V
+	METHOD a setInteger (Ljava/lang/String;I)V
+	METHOD a setLong (Ljava/lang/String;J)V
+	METHOD a setCompoundTag (Ljava/lang/String;Lcom/a/a/c;)V
+	METHOD a setTag (Ljava/lang/String;Lcom/a/a/j;)V
+	METHOD a setString (Ljava/lang/String;Ljava/lang/String;)V
+	METHOD a setShort (Ljava/lang/String;S)V
+	METHOD a setBoolean (Ljava/lang/String;Z)V
+	METHOD a setByteArray (Ljava/lang/String;[B)V
+	METHOD b emptyNBTMap ()Z
+	METHOD b getByte (Ljava/lang/String;)B
+	METHOD c getShort (Ljava/lang/String;)S
+	METHOD d getInteger (Ljava/lang/String;)I
+	METHOD e getLong (Ljava/lang/String;)J
+	METHOD f getFloat (Ljava/lang/String;)F
+	METHOD g getString (Ljava/lang/String;)Ljava/lang/String;
+	METHOD h getByteArray (Ljava/lang/String;)[B
+	METHOD i getCompoundTag (Ljava/lang/String;)Lcom/a/a/c;
+	METHOD j getTagList (Ljava/lang/String;)Lcom/a/a/f;
+	METHOD k getBoolean (Ljava/lang/String;)Z

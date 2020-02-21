@@ -1,0 +1,27 @@
+CLASS net/minecraft/a/a/h net/minecraft/game/level/WorldClient
+	FIELD a worldClientInt1 I
+	FIELD b worldClientList1 Ljava/util/List;
+	FIELD c worldObj Lnet/minecraft/a/a/g;
+	FIELD d worldClientInt2 I
+	FIELD e worldClientInt3 I
+	FIELD f worldClientInt4 I
+	FIELD g worldClientByteArray1 [B
+	FIELD h blocks [B
+	FIELD i worldClientIntArray1 [I
+	FIELD j worldClientList2 Ljava/util/List;
+	FIELD k worldClientList3 Ljava/util/List;
+	FIELD l worldClientList4 Ljava/util/List;
+	FIELD m worldClientList5 Ljava/util/List;
+	FIELD n worldClientIntArray2 [I
+	FIELD o worldClientByteArray2 [B
+	FIELD p worldBlockPositionType Lnet/minecraft/a/a/c;
+	FIELD q worldClientInt5 I
+	FIELD r worldClientInt6 I
+	METHOD a worldClientMethod7 ()V
+	METHOD a worldClientMethod3 (I)V
+	METHOD a worldClientMethod2 (IIII)V
+	METHOD a worldClientMethod5 (IIIIII)V
+	METHOD b worldClientMethod8 ()Ljava/lang/String;
+	METHOD b worldClientMethod4 (I)V
+	METHOD b worldClientMethod6 (IIIIII)V
+	METHOD c worldClientMethod1 ()[I

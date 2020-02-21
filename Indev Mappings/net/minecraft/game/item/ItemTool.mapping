@@ -1,0 +1,4 @@
+CLASS net/minecraft/a/b/g net/minecraft/game/item/ItemTool
+	FIELD as blocksEffectiveAgainst [Lnet/minecraft/a/a/b/x;
+	FIELD at efficiencyOnProperMaterial F
+	FIELD au damageVsEntity I
