@@ -1,0 +1,6 @@
+CLASS net/minecraft/client/f/e net/minecraft/client/particle/EntityPickupFX
+	FIELD Z entityToPickUp Lnet/minecraft/a/c/b;
+	FIELD aa entityPickingUp Lnet/minecraft/a/c/e;
+	FIELD ab age I
+	FIELD ac maxAge I
+	FIELD ad yOffs F

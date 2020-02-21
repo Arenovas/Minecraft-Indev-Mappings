@@ -1,0 +1,13 @@
+CLASS net/minecraft/client/d/a net/minecraft/client/player/PlayerController
+	FIELD a mc Lnet/minecraft/client/d;
+	FIELD b isInTestMode Z
+	METHOD a resetBlockRemoving ()V
+	METHOD a setPartialTime (F)V
+	METHOD a clickBlock (III)V
+	METHOD a sendBlockRemoving (IIII)V
+	METHOD a onWorldChange (Lnet/minecraft/a/a/g;)V
+	METHOD a blankPlayerFunction (Lnet/minecraft/a/c/e/a;)V
+	METHOD b getBlockReachDistance ()F
+	METHOD b sendBlockRemoved (III)Z
+	METHOD c updateController ()V
+	METHOD d shouldDrawHUD ()Z

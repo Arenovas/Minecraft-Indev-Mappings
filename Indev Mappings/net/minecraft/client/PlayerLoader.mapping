@@ -1,0 +1,2 @@
+CLASS net/minecraft/client/f net/minecraft/client/PlayerLoader
+	FIELD a mc Lnet/minecraft/client/d;

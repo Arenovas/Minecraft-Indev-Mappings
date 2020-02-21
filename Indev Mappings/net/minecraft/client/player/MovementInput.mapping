@@ -1,0 +1,7 @@
+CLASS net/minecraft/client/g/b net/minecraft/client/player/MovementInput
+	FIELD a moveStrafe F
+	FIELD b moveForward F
+	FIELD c jump Z
+	METHOD a updatePlayerMoveState ()V
+	METHOD a checkKeyForMovementInput (IZ)V
+	METHOD b resetKeyState ()V

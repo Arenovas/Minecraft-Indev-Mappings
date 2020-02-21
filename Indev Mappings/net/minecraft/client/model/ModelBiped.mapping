@@ -1,0 +1,8 @@
+CLASS net/minecraft/client/b/h net/minecraft/client/model/ModelBiped
+	FIELD a bipedHead Lnet/minecraft/client/b/c;
+	FIELD b bipedHeadwear Lnet/minecraft/client/b/c;
+	FIELD c bipedBody Lnet/minecraft/client/b/c;
+	FIELD d bipedRightArm Lnet/minecraft/client/b/c;
+	FIELD e bipedLeftArm Lnet/minecraft/client/b/c;
+	FIELD f bipedRightLeg Lnet/minecraft/client/b/c;
+	FIELD g bipedLeftLeg Lnet/minecraft/client/b/c;

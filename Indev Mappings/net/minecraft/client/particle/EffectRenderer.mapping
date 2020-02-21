@@ -1,0 +1,13 @@
+CLASS net/minecraft/client/f/d net/minecraft/client/particle/EffectRenderer
+	FIELD a worldObj Lnet/minecraft/a/a/g;
+	FIELD b fxLayers [Ljava/util/List;
+	FIELD c renderer Lnet/minecraft/client/a/k;
+	FIELD d rand Ljava/util/Random;
+	METHOD a updateEffects ()V
+	METHOD a renderLitParticles (F)V
+	METHOD a addBlockDestroyEffects (III)V
+	METHOD a addBlockHitEffects (IIII)V
+	METHOD a clearEffects (Lnet/minecraft/a/a/g;)V
+	METHOD a renderParticles (Lnet/minecraft/a/c/b;F)V
+	METHOD a addEffect (Lnet/minecraft/client/f/k;)V
+	METHOD b getStatistics ()Ljava/lang/String;

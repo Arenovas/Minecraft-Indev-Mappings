@@ -1,0 +1,18 @@
+CLASS net/minecraft/client/f/k net/minecraft/client/particle/EntityFX
+	FIELD O motionZ1 F
+	FIELD P particleTextureIndex I
+	FIELD Q particleTextureJitterX F
+	FIELD R particleTextureJitterY F
+	FIELD S particleAge I
+	FIELD T particleMaxAge I
+	FIELD U particleScale F
+	FIELD V particleGravity F
+	FIELD W particleRed F
+	FIELD X particleGreen F
+	FIELD Y particleBlue F
+	FIELD a motionX1 F
+	FIELD b motionY1 F
+	METHOD a renderParticle (Lnet/minecraft/client/a/d;FFFFFF)V
+	METHOD c getFXLayer ()I
+	METHOD c multiplyVelocity (F)Lnet/minecraft/client/f/k;
+	METHOD d multipleParticleScaleBy (F)Lnet/minecraft/client/f/k;

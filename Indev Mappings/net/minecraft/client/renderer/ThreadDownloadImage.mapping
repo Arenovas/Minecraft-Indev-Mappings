@@ -1,0 +1,4 @@
+CLASS net/minecraft/client/a/j net/minecraft/client/renderer/ThreadDownloadImage
+	FIELD a location Ljava/lang/String;
+	FIELD b buffer Lnet/minecraft/client/a/c;
+	FIELD c imageData Lnet/minecraft/client/a/i;

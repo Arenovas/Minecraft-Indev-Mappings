@@ -1,0 +1,2 @@
+CLASS net/minecraft/client/f/j net/minecraft/client/particle/EntitySmokeFX
+	FIELD Z smokeParticleScale F

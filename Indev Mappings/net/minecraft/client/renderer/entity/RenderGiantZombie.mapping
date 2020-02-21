@@ -1,0 +1,2 @@
+CLASS net/minecraft/client/a/a/l net/minecraft/client/renderer/entity/RenderGiantZombie
+	FIELD e scale F

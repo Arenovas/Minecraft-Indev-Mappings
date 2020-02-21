@@ -1,0 +1,12 @@
+CLASS net/minecraft/a/d/a net/minecraft/client/renderer/Vec3D
+	FIELD a xCoord F
+	FIELD b yCoord F
+	FIELD c zCoord F
+	METHOD a normalize ()Lnet/minecraft/a/d/a;
+	METHOD a addVector (FFF)Lnet/minecraft/a/d/a;
+	METHOD a subtract (Lnet/minecraft/a/d/a;)Lnet/minecraft/a/d/a;
+	METHOD a getIntermediateWithXValue (Lnet/minecraft/a/d/a;F)Lnet/minecraft/a/d/a;
+	METHOD b distance (Lnet/minecraft/a/d/a;)F
+	METHOD b getIntermediateWithYValue (Lnet/minecraft/a/d/a;F)Lnet/minecraft/a/d/a;
+	METHOD c squareDistanceTo (Lnet/minecraft/a/d/a;)F
+	METHOD c getIntermediateWithZValue (Lnet/minecraft/a/d/a;F)Lnet/minecraft/a/d/a;

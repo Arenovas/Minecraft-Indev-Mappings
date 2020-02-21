@@ -1,0 +1,5 @@
+CLASS net/minecraft/client/a/c/d net/minecraft/client/renderer/block/TextureLavaFX
+	FIELD e red [F
+	FIELD f green [F
+	FIELD g blue [F
+	FIELD h alpha [F

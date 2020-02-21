@@ -1,0 +1,4 @@
+CLASS net/minecraft/client/g/a net/minecraft/client/player/EntityPlayerSP
+	FIELD a movementInput Lnet/minecraft/client/g/b;
+	FIELD an mc Lnet/minecraft/client/d;
+	METHOD h_ displayGUIInventory ()V

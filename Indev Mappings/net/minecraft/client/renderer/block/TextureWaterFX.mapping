@@ -1,0 +1,6 @@
+CLASS net/minecraft/client/a/c/f net/minecraft/client/renderer/block/TextureWaterFX
+	FIELD e red [F
+	FIELD f green [F
+	FIELD g blue [F
+	FIELD h alpha [F
+	FIELD i tickCounter I

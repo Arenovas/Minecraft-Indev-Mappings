@@ -1,0 +1,8 @@
+CLASS net/minecraft/client/b/k net/minecraft/client/model/ModelCreeper
+	FIELD a head Lnet/minecraft/client/b/c;
+	FIELD b unusedCreeperHeadwear Lnet/minecraft/client/b/c;
+	FIELD c body Lnet/minecraft/client/b/c;
+	FIELD d leg1 Lnet/minecraft/client/b/c;
+	FIELD e leg2 Lnet/minecraft/client/b/c;
+	FIELD f leg3 Lnet/minecraft/client/b/c;
+	FIELD g leg4 Lnet/minecraft/client/b/c;

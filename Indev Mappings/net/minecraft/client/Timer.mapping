@@ -1,0 +1,11 @@
+CLASS net/minecraft/client/g net/minecraft/client/Timer
+	FIELD a ticksPerSecond F
+	FIELD b elapsedTicks I
+	FIELD c renderPartialTicks F
+	FIELD d lastHRTime D
+	FIELD e timerSpeed F
+	FIELD f elapsedPartialTicks F
+	FIELD g lastSyncSysClock J
+	FIELD h lastSyncHRClock J
+	FIELD i timeSyncAdjustment D
+	METHOD a updateTimer ()V

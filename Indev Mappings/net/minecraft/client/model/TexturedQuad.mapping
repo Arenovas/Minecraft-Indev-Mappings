@@ -1,0 +1,2 @@
+CLASS net/minecraft/client/b/i net/minecraft/client/model/TexturedQuad
+	FIELD a vertexPositions [Lnet/minecraft/client/b/j;

@@ -1,0 +1,5 @@
+CLASS net/minecraft/client/a/i net/minecraft/client/renderer/ThreadDownloadImageData
+	FIELD a image Ljava/awt/image/BufferedImage;
+	FIELD b referenceCount I
+	FIELD c textureName I
+	FIELD d textureSetupComplete Z

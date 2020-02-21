@@ -1,0 +1,2 @@
+CLASS net/minecraft/client/a/l net/minecraft/client/renderer/ChunkDistanceComparator
+	FIELD a entityplayer Lnet/minecraft/a/c/e/a;
