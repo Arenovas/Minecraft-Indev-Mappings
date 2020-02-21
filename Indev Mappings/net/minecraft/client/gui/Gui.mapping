@@ -1,0 +1,7 @@
+CLASS net/minecraft/client/c/k net/minecraft/client/gui/Gui
+	FIELD h zLevel F
+	METHOD a drawRect (IIIII)V
+	METHOD a drawGradientRect (IIIIII)V
+	METHOD a drawCenteredString (Lnet/minecraft/client/c/j;Ljava/lang/String;III)V
+	METHOD b drawTexturedModalRect (IIIIII)V
+	METHOD b drawString (Lnet/minecraft/client/c/j;Ljava/lang/String;III)V

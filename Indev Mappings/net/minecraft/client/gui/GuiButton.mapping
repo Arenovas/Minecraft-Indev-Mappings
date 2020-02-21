@@ -1,0 +1,11 @@
+CLASS net/minecraft/client/c/r net/minecraft/client/gui/GuiButton
+	FIELD a displayString Ljava/lang/String;
+	FIELD b id I
+	FIELD c enabled Z
+	FIELD d enabled2 Z
+	FIELD e width I
+	FIELD f height I
+	FIELD g xPosition I
+	FIELD i yPosition I
+	METHOD a mousePressed (II)Z
+	METHOD a drawButton (Lnet/minecraft/client/d;II)V

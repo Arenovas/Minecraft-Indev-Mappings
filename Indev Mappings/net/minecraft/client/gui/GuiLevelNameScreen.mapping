@@ -1,0 +1,6 @@
+CLASS net/minecraft/client/c/p net/minecraft/client/gui/GuiLevelNameScreen
+	FIELD a parent Lnet/minecraft/client/c/i;
+	FIELD i title Ljava/lang/String;
+	FIELD j id I
+	FIELD k name Ljava/lang/String;
+	FIELD l counter I

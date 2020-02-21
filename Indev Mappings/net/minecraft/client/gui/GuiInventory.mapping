@@ -1,0 +1,5 @@
+CLASS net/minecraft/client/c/a/f net/minecraft/client/gui/GuiInventory
+	FIELD k inventoryCrafting Lnet/minecraft/client/c/a/a;
+	FIELD l iInventory Lnet/minecraft/a/b;
+	FIELD m xSize_lo F
+	FIELD n ySize_lo F

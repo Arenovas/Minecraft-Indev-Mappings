@@ -1,0 +1,4 @@
+CLASS net/minecraft/client/c/a/i net/minecraft/client/gui/GuiChest
+	FIELD k upperChestInventory Lnet/minecraft/a/b;
+	FIELD l lowerChestInventory Lnet/minecraft/a/b;
+	FIELD m inventoryRows I

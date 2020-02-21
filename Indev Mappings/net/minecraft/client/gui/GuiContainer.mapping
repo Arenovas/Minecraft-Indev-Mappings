@@ -1,0 +1,9 @@
+CLASS net/minecraft/client/c/a/j net/minecraft/client/gui/GuiContainer
+	FIELD a xSize I
+	FIELD i ySize I
+	FIELD j inventorySlots Ljava/util/List;
+	FIELD k itemRenderer Lnet/minecraft/client/a/a/e;
+	FIELD l itemStack Lnet/minecraft/a/b/k;
+	METHOD d drawGuiContainerBackgroundLayer ()V
+	METHOD d_ guiCraftingItemsCheck ()V
+	METHOD e_ drawGuiContainerForegroundLayer ()V

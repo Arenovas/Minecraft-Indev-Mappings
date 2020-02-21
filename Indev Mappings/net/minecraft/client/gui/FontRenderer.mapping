@@ -1,0 +1,9 @@
+CLASS net/minecraft/client/c/j net/minecraft/client/gui/FontRenderer
+	FIELD a charWidth [I
+	FIELD b fontTextureName I
+	FIELD c fontDisplayLists I
+	FIELD d buffer Ljava/nio/IntBuffer;
+	METHOD a getStringWidth (Ljava/lang/String;)I
+	METHOD a drawStringWithShadow (Ljava/lang/String;III)V
+	METHOD a renderString (Ljava/lang/String;IIIZ)V
+	METHOD b drawString (Ljava/lang/String;III)V

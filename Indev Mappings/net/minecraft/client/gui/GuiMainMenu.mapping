@@ -1,0 +1,4 @@
+CLASS net/minecraft/client/r net/minecraft/client/gui/GuiMainMenu
+	FIELD a updateCounter F
+	FIELD i splashes [Ljava/lang/String;
+	FIELD j currentSplash Ljava/lang/String;

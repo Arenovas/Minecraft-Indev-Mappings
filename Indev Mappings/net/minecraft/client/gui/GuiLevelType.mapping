@@ -1,0 +1,11 @@
+CLASS net/minecraft/client/c/n net/minecraft/client/gui/GuiLevelType
+	FIELD a prevGui Lnet/minecraft/client/c/i;
+	FIELD i worldType [Ljava/lang/String;
+	FIELD j worldShape [Ljava/lang/String;
+	FIELD k worldSize [Ljava/lang/String;
+	FIELD l worldTheme [Ljava/lang/String;
+	FIELD m selectedWorldType I
+	FIELD n selectedWorldShape I
+	FIELD o selectedWorldSize I
+	FIELD p selectedWorldTheme I
+	METHOD e worldOptions ()V
