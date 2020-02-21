@@ -1,0 +1,9 @@
+CLASS net/minecraft/a/a/b/m net/minecraft/game/block/BlockFluidFlowing
+	FIELD aD stillId1 I
+	FIELD aE movingId1 I
+	FIELD aF rand Ljava/util/Random;
+	FIELD aG liquidIntArray [I
+	METHOD a liquidSpread (Lnet/minecraft/a/a/g;IIIIII)Z
+	METHOD b liquidSpread2 (Lnet/minecraft/a/a/g;IIIIII)Z
+	METHOD h extinguishFireLava (Lnet/minecraft/a/a/g;III)Z
+	METHOD i flow (Lnet/minecraft/a/a/g;III)Z

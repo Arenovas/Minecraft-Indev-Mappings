@@ -1,0 +1,2 @@
+CLASS net/minecraft/a/a/b/a net/minecraft/game/block/BlockChest
+	FIELD a random Ljava/util/Random;

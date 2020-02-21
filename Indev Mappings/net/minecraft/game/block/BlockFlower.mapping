@@ -1,0 +1,4 @@
+CLASS net/minecraft/a/a/b/ad net/minecraft/game/block/BlockFlower
+	METHOD b canThisPlantGrowOnThisBlockID (I)Z
+	METHOD e canBlockStay (Lnet/minecraft/a/a/g;III)Z
+	METHOD h checkFlowerChange (Lnet/minecraft/a/a/g;III)V

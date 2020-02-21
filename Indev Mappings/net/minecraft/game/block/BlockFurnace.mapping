@@ -1,0 +1,3 @@
+CLASS net/minecraft/a/a/b/s net/minecraft/game/block/BlockFurnace
+	FIELD a isActive Z
+	METHOD e setDefaultDirection (Lnet/minecraft/a/a/g;III)V

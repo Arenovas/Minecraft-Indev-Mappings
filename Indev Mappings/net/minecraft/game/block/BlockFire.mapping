@@ -1,0 +1,11 @@
+CLASS net/minecraft/a/a/b/ah net/minecraft/game/block/BlockFire
+	FIELD a chanceToEncourageFire [I
+	FIELD b abilityToCatchFire [I
+	METHOD a tryToCatchBlockOnFire (Lnet/minecraft/a/a/g;IIIILjava/util/Random;)V
+	METHOD b getChanceOfNeighborsEncouragingFire (I)Z
+	METHOD c setBurnRate (III)V
+	METHOD e canBlockCatchFire (Lnet/minecraft/a/a/g;III)Z
+	METHOD e getChanceToEncourageFire (Lnet/minecraft/a/a/g;IIII)I
+	METHOD h fireSpread (Lnet/minecraft/a/a/g;III)V
+	METHOD i canNeighborCatchFire (Lnet/minecraft/a/a/g;III)Z
+	METHOD j fireCheck (Lnet/minecraft/a/a/g;III)Z

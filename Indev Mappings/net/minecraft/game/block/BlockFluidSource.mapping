@@ -1,0 +1,2 @@
+CLASS net/minecraft/a/a/b/ai net/minecraft/game/block/BlockFluidSource
+	FIELD a liquidInt I
