@@ -1,0 +1,2943 @@
+diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTBase.java minecraft/com/nbt/NBTBase.java
+--- minecraft_unpatched/com/nbt/NBTBase.java	2020-02-22 17:59:58.087849500 -0800
++++ minecraft/com/nbt/NBTBase.java	2020-02-19 22:33:28.492608700 -0800
+@@ -2,6 +2,7 @@
+ 
+ import java.io.DataInput;
+ import java.io.DataOutput;
++import java.io.IOException;
+ 
+ public abstract class NBTBase {
+     private String key;
+@@ -10,9 +11,9 @@
+         this.key = null;
+     }
+     
+-    abstract void writeTagContents(final DataOutput dataOutput);
++    abstract void writeTagContents(final DataOutput dataOutput) throws IOException;
+     
+-    abstract void readTagContents(final DataInput dataInput);
++    abstract void readTagContents(final DataInput dataInput) throws IOException;
+     
+     public abstract byte getType();
+     
+@@ -28,7 +29,7 @@
+         return this;
+     }
+     
+-    public static NBTBase readTag(final DataInput dataInput) {
++    public static NBTBase readTag(final DataInput dataInput) throws IOException {
+         final byte byte1;
+         if ((byte1 = dataInput.readByte()) == 0) {
+             return new NBTTagEnd();
+@@ -41,7 +42,7 @@
+         return tagOfType;
+     }
+     
+-    public static void writeTag(final NBTBase nbtBase, final DataOutput dataOutput) {
++    public static void writeTag(final NBTBase nbtBase, final DataOutput dataOutput) throws IOException {
+         dataOutput.writeByte(nbtBase.getType());
+         if (nbtBase.getType() == 0) {
+             return;
+diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagByte.java minecraft/com/nbt/NBTTagByte.java
+--- minecraft_unpatched/com/nbt/NBTTagByte.java	2020-02-22 17:59:59.393815200 -0800
++++ minecraft/com/nbt/NBTTagByte.java	2020-02-19 22:34:05.547498400 -0800
+@@ -2,6 +2,7 @@
+ 
+ import java.io.DataInput;
+ import java.io.DataOutput;
++import java.io.IOException;
+ 
+ public final class NBTTagByte extends NBTBase {
+     public byte byteValue;
+@@ -14,12 +15,12 @@
+     }
+     
+     @Override
+-    final void writeTagContents(final DataOutput dataOutput) {
++    final void writeTagContents(final DataOutput dataOutput) throws IOException {
+         dataOutput.writeByte(this.byteValue);
+     }
+     
+     @Override
+-    final void readTagContents(final DataInput dataInput) {
++    final void readTagContents(final DataInput dataInput) throws IOException {
+         this.byteValue = dataInput.readByte();
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagByteArray.java minecraft/com/nbt/NBTTagByteArray.java
+--- minecraft_unpatched/com/nbt/NBTTagByteArray.java	2020-02-22 17:59:58.427113600 -0800
++++ minecraft/com/nbt/NBTTagByteArray.java	2020-02-19 22:34:12.113906000 -0800
+@@ -2,6 +2,7 @@
+ 
+ import java.io.DataInput;
+ import java.io.DataOutput;
++import java.io.IOException;
+ 
+ public final class NBTTagByteArray extends NBTBase {
+     public byte[] byteArray;
+@@ -14,13 +15,13 @@
+     }
+     
+     @Override
+-    final void writeTagContents(final DataOutput dataOutput) {
++    final void writeTagContents(final DataOutput dataOutput) throws IOException {
+         dataOutput.writeInt(this.byteArray.length);
+         dataOutput.write(this.byteArray);
+     }
+     
+     @Override
+-    final void readTagContents(final DataInput dataInput) {
++    final void readTagContents(final DataInput dataInput) throws IOException {
+         dataInput.readFully(this.byteArray = new byte[dataInput.readInt()]);
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagCompound.java minecraft/com/nbt/NBTTagCompound.java
+--- minecraft_unpatched/com/nbt/NBTTagCompound.java	2020-02-22 17:59:58.556568800 -0800
++++ minecraft/com/nbt/NBTTagCompound.java	2020-02-19 22:37:52.450936400 -0800
+@@ -3,6 +3,7 @@
+ import java.io.DataInput;
+ import java.util.Iterator;
+ import java.io.DataOutput;
++import java.io.IOException;
+ import java.util.HashMap;
+ import java.util.Map;
+ 
+@@ -14,7 +15,7 @@
+     }
+     
+     @Override
+-    final void writeTagContents(final DataOutput dataOutput) {
++    final void writeTagContents(final DataOutput dataOutput) throws IOException {
+         final Iterator<NBTBase> iterator = this.tagMap.values().iterator();
+         while (iterator.hasNext()) {
+             NBTBase.writeTag(iterator.next(), dataOutput);
+@@ -23,7 +24,7 @@
+     }
+     
+     @Override
+-    final void readTagContents(final DataInput dataInput) {
++    final void readTagContents(final DataInput dataInput) throws IOException {
+         this.tagMap.clear();
+         NBTBase tag;
+         while ((tag = NBTBase.readTag(dataInput)).getType() != 0) {
+@@ -84,63 +85,63 @@
+         if (!this.tagMap.containsKey(string)) {
+             return 0;
+         }
+-        return this.tagMap.get(string).byteValue;
++        return ((NBTTagByte)this.tagMap.get(string)).byteValue;
+     }
+     
+     public final short getShort(final String string) {
+         if (!this.tagMap.containsKey(string)) {
+             return 0;
+         }
+-        return this.tagMap.get(string).shortValue;
++        return ((NBTTagShort)this.tagMap.get(string)).shortValue;
+     }
+     
+     public final int getInteger(final String string) {
+         if (!this.tagMap.containsKey(string)) {
+             return 0;
+         }
+-        return this.tagMap.get(string).intValue;
++        return ((NBTTagInt)this.tagMap.get(string)).intValue;
+     }
+     
+     public final long getLong(final String string) {
+         if (!this.tagMap.containsKey(string)) {
+             return 0L;
+         }
+-        return this.tagMap.get(string).longValue;
++        return ((NBTTagLong)this.tagMap.get(string)).longValue;
+     }
+     
+     public final float getFloat(final String string) {
+         if (!this.tagMap.containsKey(string)) {
+             return 0.0f;
+         }
+-        return this.tagMap.get(string).floatValue;
++        return ((NBTTagFloat)this.tagMap.get(string)).floatValue;
+     }
+     
+     public final String getString(final String string) {
+         if (!this.tagMap.containsKey(string)) {
+             return "";
+         }
+-        return this.tagMap.get(string).stringValue;
++        return ((NBTTagString)this.tagMap.get(string)).stringValue;
+     }
+     
+     public final byte[] getByteArray(final String string) {
+         if (!this.tagMap.containsKey(string)) {
+             return new byte[0];
+         }
+-        return this.tagMap.get(string).byteArray;
++        return ((NBTTagByteArray)this.tagMap.get(string)).byteArray;
+     }
+     
+     public final NBTTagCompound getCompoundTag(final String string) {
+         if (!this.tagMap.containsKey(string)) {
+             return new NBTTagCompound();
+         }
+-        return this.tagMap.get(string);
++        return ((NBTTagCompound)this.tagMap.get(string));
+     }
+     
+     public final NBTTagList getTagList(final String string) {
+         if (!this.tagMap.containsKey(string)) {
+             return new NBTTagList();
+         }
+-        return this.tagMap.get(string);
++        return ((NBTTagList)this.tagMap.get(string));
+     }
+     
+     public final boolean getBoolean(final String string) {
+diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagDouble.java minecraft/com/nbt/NBTTagDouble.java
+--- minecraft_unpatched/com/nbt/NBTTagDouble.java	2020-02-22 17:59:59.608086600 -0800
++++ minecraft/com/nbt/NBTTagDouble.java	2020-02-19 22:34:19.260451000 -0800
+@@ -2,17 +2,18 @@
+ 
+ import java.io.DataInput;
+ import java.io.DataOutput;
++import java.io.IOException;
+ 
+ public final class NBTTagDouble extends NBTBase {
+     private double doubleValue;
+     
+     @Override
+-    final void writeTagContents(final DataOutput dataOutput) {
++    final void writeTagContents(final DataOutput dataOutput) throws IOException {
+         dataOutput.writeDouble(this.doubleValue);
+     }
+     
+     @Override
+-    final void readTagContents(final DataInput dataInput) {
++    final void readTagContents(final DataInput dataInput) throws IOException {
+         this.doubleValue = dataInput.readDouble();
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagFloat.java minecraft/com/nbt/NBTTagFloat.java
+--- minecraft_unpatched/com/nbt/NBTTagFloat.java	2020-02-22 17:59:58.211353800 -0800
++++ minecraft/com/nbt/NBTTagFloat.java	2020-02-19 22:34:27.866957600 -0800
+@@ -2,6 +2,7 @@
+ 
+ import java.io.DataInput;
+ import java.io.DataOutput;
++import java.io.IOException;
+ 
+ public final class NBTTagFloat extends NBTBase {
+     public float floatValue;
+@@ -14,12 +15,12 @@
+     }
+     
+     @Override
+-    final void writeTagContents(final DataOutput dataOutput) {
++    final void writeTagContents(final DataOutput dataOutput) throws IOException {
+         dataOutput.writeFloat(this.floatValue);
+     }
+     
+     @Override
+-    final void readTagContents(final DataInput dataInput) {
++    final void readTagContents(final DataInput dataInput) throws IOException {
+         this.floatValue = dataInput.readFloat();
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagInt.java minecraft/com/nbt/NBTTagInt.java
+--- minecraft_unpatched/com/nbt/NBTTagInt.java	2020-02-22 17:59:59.402247500 -0800
++++ minecraft/com/nbt/NBTTagInt.java	2020-02-19 22:34:33.913608600 -0800
+@@ -2,6 +2,7 @@
+ 
+ import java.io.DataInput;
+ import java.io.DataOutput;
++import java.io.IOException;
+ 
+ public final class NBTTagInt extends NBTBase {
+     public int intValue;
+@@ -14,12 +15,12 @@
+     }
+     
+     @Override
+-    final void writeTagContents(final DataOutput dataOutput) {
++    final void writeTagContents(final DataOutput dataOutput) throws IOException {
+         dataOutput.writeInt(this.intValue);
+     }
+     
+     @Override
+-    final void readTagContents(final DataInput dataInput) {
++    final void readTagContents(final DataInput dataInput) throws IOException {
+         this.intValue = dataInput.readInt();
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagList.java minecraft/com/nbt/NBTTagList.java
+--- minecraft_unpatched/com/nbt/NBTTagList.java	2020-02-22 17:59:59.257910700 -0800
++++ minecraft/com/nbt/NBTTagList.java	2020-02-20 01:20:49.344577000 -0800
+@@ -2,6 +2,7 @@
+ 
+ import java.io.DataInput;
+ import java.io.DataOutput;
++import java.io.IOException;
+ import java.util.ArrayList;
+ import java.util.List;
+ 
+@@ -14,9 +15,9 @@
+     }
+     
+     @Override
+-    final void writeTagContents(final DataOutput dataOutput) {
++    final void writeTagContents(final DataOutput dataOutput) throws IOException {
+         if (this.tagList.size() > 0) {
+-            this.tagType = this.tagList.get(0).getType();
++            this.tagType = ((NBTBase) this.tagList.get(0)).getType();
+         }
+         else {
+             this.tagType = 1;
+@@ -29,7 +30,7 @@
+     }
+     
+     @Override
+-    final void readTagContents(final DataInput dataInput) {
++    final void readTagContents(final DataInput dataInput) throws IOException {
+         this.tagType = dataInput.readByte();
+         final int int1 = dataInput.readInt();
+         this.tagList = new ArrayList();
+@@ -108,7 +109,7 @@
+     }
+     
+     public final NBTBase tagAt(final int integer) {
+-        return this.tagList.get(integer);
++        return (NBTBase) this.tagList.get(integer);
+     }
+     
+     public final int tagCount() {
+diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagLong.java minecraft/com/nbt/NBTTagLong.java
+--- minecraft_unpatched/com/nbt/NBTTagLong.java	2020-02-22 17:59:58.545656400 -0800
++++ minecraft/com/nbt/NBTTagLong.java	2020-02-19 22:34:58.994174600 -0800
+@@ -2,6 +2,7 @@
+ 
+ import java.io.DataInput;
+ import java.io.DataOutput;
++import java.io.IOException;
+ 
+ public final class NBTTagLong extends NBTBase {
+     public long longValue;
+@@ -14,12 +15,12 @@
+     }
+     
+     @Override
+-    final void writeTagContents(final DataOutput dataOutput) {
++    final void writeTagContents(final DataOutput dataOutput) throws IOException {
+         dataOutput.writeLong(this.longValue);
+     }
+     
+     @Override
+-    final void readTagContents(final DataInput dataInput) {
++    final void readTagContents(final DataInput dataInput) throws IOException {
+         this.longValue = dataInput.readLong();
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagShort.java minecraft/com/nbt/NBTTagShort.java
+--- minecraft_unpatched/com/nbt/NBTTagShort.java	2020-02-22 17:59:56.582988500 -0800
++++ minecraft/com/nbt/NBTTagShort.java	2020-02-19 22:35:05.475340400 -0800
+@@ -2,6 +2,7 @@
+ 
+ import java.io.DataInput;
+ import java.io.DataOutput;
++import java.io.IOException;
+ 
+ public final class NBTTagShort extends NBTBase {
+     public short shortValue;
+@@ -14,12 +15,12 @@
+     }
+     
+     @Override
+-    final void writeTagContents(final DataOutput dataOutput) {
++    final void writeTagContents(final DataOutput dataOutput) throws IOException {
+         dataOutput.writeShort(this.shortValue);
+     }
+     
+     @Override
+-    final void readTagContents(final DataInput dataInput) {
++    final void readTagContents(final DataInput dataInput) throws IOException {
+         this.shortValue = dataInput.readShort();
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagString.java minecraft/com/nbt/NBTTagString.java
+--- minecraft_unpatched/com/nbt/NBTTagString.java	2020-02-22 17:59:58.832839500 -0800
++++ minecraft/com/nbt/NBTTagString.java	2020-02-19 22:35:17.424943900 -0800
+@@ -2,6 +2,8 @@
+ 
+ import java.io.DataInput;
+ import java.io.DataOutput;
++import java.io.IOException;
++import java.io.UnsupportedEncodingException;
+ 
+ public final class NBTTagString extends NBTBase {
+     public String stringValue;
+@@ -14,14 +16,14 @@
+     }
+     
+     @Override
+-    final void writeTagContents(final DataOutput dataOutput) {
++    final void writeTagContents(final DataOutput dataOutput) throws IOException {
+         final byte[] bytes = this.stringValue.getBytes("UTF-8");
+         dataOutput.writeShort(bytes.length);
+         dataOutput.write(bytes);
+     }
+     
+     @Override
+-    final void readTagContents(final DataInput dataInput) {
++    final void readTagContents(final DataInput dataInput) throws IOException {
+         final byte[] array = new byte[dataInput.readShort()];
+         dataInput.readFully(array);
+         this.stringValue = new String(array, "UTF-8");
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/FontRenderer.java minecraft/net/minecraft/client/gui/FontRenderer.java
+--- minecraft_unpatched/net/minecraft/client/gui/FontRenderer.java	2020-02-22 17:59:59.111591300 -0800
++++ minecraft/net/minecraft/client/gui/FontRenderer.java	2020-02-20 18:13:11.916818600 -0800
+@@ -16,79 +16,82 @@
+     private int fontDisplayLists;
+     private IntBuffer buffer;
+     
+-    public FontRenderer(final GameSettings q, final String string, final RenderEngine k) {
+-        this.charWidth = new int[256];
++	public FontRenderer(GameSettings var1, String var2, RenderEngine var3) {
++	    this.charWidth = new int[256];
+         this.fontTextureName = 0;
+         this.buffer = BufferUtils.createIntBuffer(1024);
+-        BufferedImage read;
+-        try {
+-            read = ImageIO.read(RenderEngine.class.getResourceAsStream(string));
+-        }
+-        catch (IOException ex) {
+-            throw new RuntimeException(ex);
+-        }
+-        final int width = read.getWidth();
+-        int i = read.getHeight();
+-        final int[] array = new int[width * i];
+-        read.getRGB(0, 0, width, i, array, 0, width);
+-        for (int j = 0; j < 128; ++j) {
+-            i = j % 16;
+-            final int n = j / 16;
+-            int n2 = 0;
+-            for (int n3 = 0; n2 < 8 && n3 == 0; ++n2) {
+-                final int n4 = (i << 3) + n2;
+-                for (int n3 = 1, n5 = 0; n5 < 8 && n3 != 0; ++n5) {
+-                    final int n6 = ((n << 3) + n5) * width;
+-                    final int n7;
+-                    if ((n7 = (array[n4 + n6] & 0xFF)) > 128) {
+-                        n3 = 0;
+-                    }
+-                }
+-            }
+-            if (j == 32) {
+-                n2 = 4;
+-            }
+-            this.charWidth[j] = n2;
+-        }
+-        this.fontTextureName = k.getTexture(string);
+-        this.fontDisplayLists = GL11.glGenLists(288);
+-        final Tessellator instance = Tessellator.instance;
+-        for (i = 0; i < 256; ++i) {
+-            GL11.glNewList(this.fontDisplayLists + i, 4864);
+-            instance.startDrawingQuads();
+-            final int n = i % 16 << 3;
+-            final int n2 = i / 16 << 3;
+-            instance.addVertexWithUV(0.0f, 7.99f, 0.0f, n / 128.0f, (n2 + 7.99f) / 128.0f);
+-            instance.addVertexWithUV(7.99f, 7.99f, 0.0f, (n + 7.99f) / 128.0f, (n2 + 7.99f) / 128.0f);
+-            instance.addVertexWithUV(7.99f, 0.0f, 0.0f, (n + 7.99f) / 128.0f, n2 / 128.0f);
+-            instance.addVertexWithUV(0.0f, 0.0f, 0.0f, n / 128.0f, n2 / 128.0f);
+-            instance.draw();
+-            GL11.glTranslatef((float)this.charWidth[i], 0.0f, 0.0f);
+-            GL11.glEndList();
+-        }
+-        for (i = 0; i < 32; ++i) {
+-            final int n = (i & 0x8) << 3;
+-            int n2 = (i & 0x1) * 191 + n;
+-            int n8 = ((i & 0x2) >> 1) * 191 + n;
+-            int n4 = ((i & 0x4) >> 2) * 191 + n;
+-            final boolean b = i >= 16;
+-            if (q.anaglyph) {
+-                final int n6 = (n4 * 30 + n8 * 59 + n2 * 11) / 100;
+-                final int n7 = (n4 * 30 + n8 * 70) / 100;
+-                final int n9 = (n4 * 30 + n2 * 70) / 100;
+-                n4 = n6;
+-                n8 = n7;
+-                n2 = n9;
+-            }
+-            i += 2;
+-            if (b) {
+-                n4 /= 4;
+-                n8 /= 4;
+-                n2 /= 4;
+-            }
+-            GL11.glColor4f(n4 / 255.0f, n8 / 255.0f, n2 / 255.0f, 1.0f);
+-        }
+-    }
++		BufferedImage var4;
++		try {
++			var4 = ImageIO.read(RenderEngine.class.getResourceAsStream(var2));
++		} catch (IOException var15) {
++			throw new RuntimeException(var15);
++		}
++		int var5 = var4.getWidth();
++		int var6 = var4.getHeight();
++		int[] var7 = new int[var5 * var6];
++		var4.getRGB(0, 0, var5, var6, var7, 0, var5);
++		int var8;
++		int var9;
++		int var11;
++		int var13;
++		for(int var17 = 0; var17 < 128; ++var17) {
++			var6 = var17 % 16;
++			var8 = var17 / 16;
++			var9 = 0;
++			for(boolean var10 = false; var9 < 8 && !var10; ++var9) {
++				var11 = (var6 << 3) + var9;
++				var10 = true;
++				for(int var12 = 0; var12 < 8 && var10; ++var12) {
++					var13 = ((var8 << 3) + var12) * var5;
++					if ((var7[var11 + var13] & 255) > 128) {
++						var10 = false;
++					}
++				}
++			}
++			if (var17 == 32) {
++				var9 = 4;
++			}
++			this.charWidth[var17] = var9;
++		}
++		this.fontTextureName = var3.getTexture(var2);
++		this.fontDisplayLists = GL11.glGenLists(288);
++		Tessellator var18 = Tessellator.instance;
++		for(var6 = 0; var6 < 256; ++var6) {
++			GL11.glNewList(this.fontDisplayLists + var6, 4864);
++			var18.startDrawingQuads();
++			var8 = var6 % 16 << 3;
++			var9 = var6 / 16 << 3;
++			var18.addVertexWithUV(0.0F, 7.99F, 0.0F, (float)var8 / 128.0F, ((float)var9 + 7.99F) / 128.0F);
++			var18.addVertexWithUV(7.99F, 7.99F, 0.0F, ((float)var8 + 7.99F) / 128.0F, ((float)var9 + 7.99F) / 128.0F);
++			var18.addVertexWithUV(7.99F, 0.0F, 0.0F, ((float)var8 + 7.99F) / 128.0F, (float)var9 / 128.0F);
++			var18.addVertexWithUV(0.0F, 0.0F, 0.0F, (float)var8 / 128.0F, (float)var9 / 128.0F);
++			var18.draw();
++			GL11.glTranslatef((float)this.charWidth[var6], 0.0F, 0.0F);
++			GL11.glEndList();
++		}
++		for(var6 = 0; var6 < 32; ++var6) {
++			var8 = (var6 & 8) << 3;
++			var9 = (var6 & 1) * 191 + var8;
++			int var19 = ((var6 & 2) >> 1) * 191 + var8;
++				var11 = ((var6 & 4) >> 2) * 191 + var8;
++			boolean var20 = var6 >= 16;
++			if (var1.anaglyph) {
++				var13 = (var11 * 30 + var19 * 59 + var9 * 11) / 100;
++				int var14 = (var11 * 30 + var19 * 70) / 100;
++				int var16 = (var11 * 30 + var9 * 70) / 100;
++				var11 = var13;
++				var19 = var14;
++				var9 = var16;
++			}
++			var6 += 2;
++			if (var20) {
++				var11 /= 4;
++				var19 /= 4;
++				var9 /= 4;
++			}
++			GL11.glColor4f((float)var11 / 255.0F, (float)var19 / 255.0F, (float)var9 / 255.0F, 1.0F);
++		}
++	}
+     
+     public final void drawStringWithShadow(final String string, final int integer2, final int integer3, final int integer4) {
+         this.renderString(string, integer2 + 1, integer3 + 1, integer4, true);
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiContainer.java minecraft/net/minecraft/client/gui/GuiContainer.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiContainer.java	2020-02-22 17:59:58.919639800 -0800
++++ minecraft/net/minecraft/client/gui/GuiContainer.java	2020-02-20 15:51:33.146242500 -0800
+@@ -40,7 +40,7 @@
+         GL11.glEnable(2977);
+         for (int i = 0; i < this.inventorySlots.size(); ++i) {
+             final Slot slot2;
+-            final Slot slot = slot2 = this.inventorySlots.get(i);
++            final Slot slot = slot2 = (Slot) this.inventorySlots.get(i);
+             final IInventory inventory = slot2.inventory;
+             final int slotIndex = slot2.slotIndex;
+             final int xPos = slot2.xPos;
+@@ -88,124 +88,105 @@
+     protected abstract void drawGuiContainerBackgroundLayer();
+     
+     @Override
+-    protected final void drawSlotInventory(final int integer1, final int integer2, final int integer3) {
+-        if (integer3 == 0 || integer3 == 1) {
+-            int n = integer2;
+-            int i = 0;
++    public final void drawSlotInventory(int i, int i2, int i3) {
++        Slot gVar;
++        int i4;
++        int i5 = 1;
++        if (i3 == 0 || i3 == 1) {
++            int i6 = 0;
+             while (true) {
+-                while (i < this.inventorySlots.size()) {
+-                    final Slot slot;
+-                    if ((slot = this.inventorySlots.get(i)).isAtCursorPos(integer1, n)) {
+-                        final Slot slot3;
+-                        final Slot slot2 = slot3 = slot;
+-                        final Slot slot4 = slot3;
+-                        if (slot2 != null) {
+-                            final Slot slot5 = slot4;
+-                            final ItemStack stackInSlot;
+-                            if ((stackInSlot = slot5.inventory.getStackInSlot(slot5.slotIndex)) != null || this.itemStack != null) {
+-                                if (stackInSlot != null && this.itemStack == null) {
+-                                    n = ((integer3 == 0) ? stackInSlot.stackSize : ((stackInSlot.stackSize + 1) / 2));
+-                                    this.itemStack = slot4.inventory.decrStackSize(slot4.slotIndex, n);
+-                                    if (stackInSlot.stackSize == 0) {
+-                                        slot4.putStack(null);
+-                                    }
+-                                    slot4.onPickupFromSlot();
+-                                    return;
++                int i7 = i6;
++                if (i7 >= this.inventorySlots.size()) {
++                    gVar = null;
++                    break;
++                }
++                Slot gVar2 = (Slot) this.inventorySlots.get(i7);
++                if (gVar2.isAtCursorPos(i, i2)) {
++                    gVar = gVar2;
++                    break;
++                }
++                i6 = i7 + 1;
++            }
++            if (gVar != null) {
++                ItemStack a = gVar.inventory.getStackInSlot(gVar.slotIndex);
++                if (a != null || this.itemStack != null) {
++                    if (a != null && this.itemStack == null) {
++                        this.itemStack = gVar.inventory.decrStackSize(gVar.slotIndex, i3 == 0 ? a.stackSize : (a.stackSize + 1) / 2);
++                        if (a.stackSize == 0) {
++                            gVar.putStack((ItemStack) null);
++                        }
++                        gVar.onPickupFromSlot();
++                    } else if (a == null && this.itemStack != null && gVar.isItemValid(this.itemStack)) {
++                        int i8 = i3 == 0 ? this.itemStack.stackSize : 1;
++                        if (i8 > gVar.inventory.getInventoryStackLimit()) {
++                            i8 = gVar.inventory.getInventoryStackLimit();
++                        }
++                        gVar.putStack(this.itemStack.splitStack(i8));
++                        if (this.itemStack.stackSize == 0) {
++                            this.itemStack = null;
++                        }
++                    } else if (a != null && this.itemStack != null) {
++                        if (gVar.isItemValid(this.itemStack)) {
++                            if (a.itemID != this.itemStack.itemID) {
++                                if (this.itemStack.stackSize <= gVar.inventory.getInventoryStackLimit()) {
++                                    gVar.putStack(this.itemStack);
++                                    this.itemStack = a;
+                                 }
+-                                if (stackInSlot == null && this.itemStack != null && slot4.isItemValid(this.itemStack)) {
+-                                    if ((n = ((integer3 == 0) ? this.itemStack.stackSize : 1)) > slot4.inventory.getInventoryStackLimit()) {
+-                                        n = slot4.inventory.getInventoryStackLimit();
++                            } else if (a.itemID != this.itemStack.itemID) {
++                            } else {
++                                if (i3 == 0) {
++                                    int i9 = this.itemStack.stackSize;
++                                    if (i9 > gVar.inventory.getInventoryStackLimit() - a.stackSize) {
++                                        i9 = gVar.inventory.getInventoryStackLimit() - a.stackSize;
++                                    }
++                                    if (i9 > this.itemStack.getItem().getItemStackLimit() - a.stackSize) {
++                                        i9 = this.itemStack.getItem().getItemStackLimit() - a.stackSize;
+                                     }
+-                                    slot4.putStack(this.itemStack.splitStack(n));
++                                    this.itemStack.splitStack(i9);
+                                     if (this.itemStack.stackSize == 0) {
+                                         this.itemStack = null;
+                                     }
+-                                    return;
+-                                }
+-                                if (stackInSlot != null && this.itemStack != null) {
+-                                    if (slot4.isItemValid(this.itemStack)) {
+-                                        if (stackInSlot.itemID != this.itemStack.itemID) {
+-                                            if (this.itemStack.stackSize <= slot4.inventory.getInventoryStackLimit()) {
+-                                                final ItemStack itemStack = stackInSlot;
+-                                                slot4.putStack(this.itemStack);
+-                                                this.itemStack = itemStack;
+-                                            }
+-                                        }
+-                                        else if (stackInSlot.itemID == this.itemStack.itemID) {
+-                                            if (integer3 == 0) {
+-                                                if ((n = this.itemStack.stackSize) > slot4.inventory.getInventoryStackLimit() - stackInSlot.stackSize) {
+-                                                    n = slot4.inventory.getInventoryStackLimit() - stackInSlot.stackSize;
+-                                                }
+-                                                if (n > this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize) {
+-                                                    n = this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize;
+-                                                }
+-                                                this.itemStack.splitStack(n);
+-                                                if (this.itemStack.stackSize == 0) {
+-                                                    this.itemStack = null;
+-                                                }
+-                                                final ItemStack itemStack2 = stackInSlot;
+-                                                itemStack2.stackSize += n;
+-                                                return;
+-                                            }
+-                                            if (integer3 == 1) {
+-                                                n = 1;
+-                                                if (1 > slot4.inventory.getInventoryStackLimit() - stackInSlot.stackSize) {
+-                                                    n = slot4.inventory.getInventoryStackLimit() - stackInSlot.stackSize;
+-                                                }
+-                                                if (n > this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize) {
+-                                                    n = this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize;
+-                                                }
+-                                                this.itemStack.splitStack(n);
+-                                                if (this.itemStack.stackSize == 0) {
+-                                                    this.itemStack = null;
+-                                                }
+-                                                final ItemStack itemStack3 = stackInSlot;
+-                                                itemStack3.stackSize += n;
+-                                            }
+-                                        }
+-                                    }
+-                                    else if (stackInSlot.itemID == this.itemStack.itemID && this.itemStack.getItem().getItemStackLimit() > 1 && (n = stackInSlot.stackSize) > 0 && n + this.itemStack.stackSize <= this.itemStack.getItem().getItemStackLimit()) {
+-                                        final ItemStack itemStack4 = this.itemStack;
+-                                        itemStack4.stackSize += n;
+-                                        stackInSlot.splitStack(n);
+-                                        if (stackInSlot.stackSize == 0) {
+-                                            slot4.putStack(null);
+-                                        }
+-                                        slot4.onPickupFromSlot();
++                                    a.stackSize = i9 + a.stackSize;
++                                } else if (i3 == 1) {
++                                    if (1 > gVar.inventory.getInventoryStackLimit() - a.stackSize) {
++                                        i5 = gVar.inventory.getInventoryStackLimit() - a.stackSize;
++                                    }
++                                    if (i5 > this.itemStack.getItem().getItemStackLimit() - a.stackSize) {
++                                        i5 = this.itemStack.getItem().getItemStackLimit() - a.stackSize;
++                                    }
++                                    this.itemStack.splitStack(i5);
++                                    if (this.itemStack.stackSize == 0) {
++                                        this.itemStack = null;
+                                     }
++                                    a.stackSize += i5;
+                                 }
+                             }
+-                            return;
+-                        }
+-                        if (this.itemStack == null) {
+-                            return;
+-                        }
+-                        final int n2 = (this.width - this.xSize) / 2;
+-                        n = (this.height - this.ySize) / 2;
+-                        if (integer1 >= n2 && integer2 >= n && integer1 < n2 + this.xSize && integer2 < n + this.xSize) {
+-                            return;
+-                        }
+-                        final EntityPlayerSP thePlayer = this.mc.thePlayer;
+-                        if (integer3 == 0) {
+-                            thePlayer.dropPlayerItem(this.itemStack);
+-                            this.itemStack = null;
+-                        }
+-                        if (integer3 != 1) {
+-                            return;
++                        } else if (a.itemID == this.itemStack.itemID && this.itemStack.getItem().getItemStackLimit() > 1 && (i4 = a.stackSize) > 0 && this.itemStack.stackSize + i4 <= this.itemStack.getItem().getItemStackLimit()) {
++                            this.itemStack.stackSize += i4;
++                            a.splitStack(i4);
++                            if (a.stackSize == 0) {
++                                gVar.putStack((ItemStack) null);
++                            }
++                            gVar.onPickupFromSlot();
+                         }
+-                        thePlayer.dropPlayerItem(this.itemStack.splitStack(1));
++                    }
++                }
++            } else if (this.itemStack != null) {
++                int i10 = (this.width - this.xSize) / 2;
++                int i11 = (this.height - this.ySize) / 2;
++                if (i < i10 || i2 < i11 || i >= i10 + this.xSize || i2 >= this.xSize + i11) {
++                    EntityPlayerSP aVar = this.mc.thePlayer;
++                    if (i3 == 0) {
++                        aVar.dropPlayerItem(this.itemStack);
++                        this.itemStack = null;
++                    }
++                    if (i3 == 1) {
++                        aVar.dropPlayerItem(this.itemStack.splitStack(1));
+                         if (this.itemStack.stackSize == 0) {
+                             this.itemStack = null;
+                         }
+-                        return;
+-                    }
+-                    else {
+-                        ++i;
+                     }
+                 }
+-                Slot slot3;
+-                final Slot slot2 = slot3 = null;
+-                continue;
+             }
+         }
+     }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiControls.java minecraft/net/minecraft/client/gui/GuiControls.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiControls.java	2020-02-22 17:59:58.892855800 -0800
++++ minecraft/net/minecraft/client/gui/GuiControls.java	2020-02-20 15:31:21.300722500 -0800
+@@ -40,7 +40,7 @@
+     protected final void keyTyped(final char character, final int integer) {
+         if (this.buttonId >= 0) {
+             this.options.setKeyBinding(this.buttonId, integer);
+-            this.controlList.get(this.buttonId).displayString = this.options.getOptionDisplayString(this.buttonId);
++            ((GuiButton)this.controlList.get(this.buttonId)).displayString = this.options.getOptionDisplayString(this.buttonId);
+             this.buttonId = -1;
+             return;
+         }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiGameOver.java minecraft/net/minecraft/client/gui/GuiGameOver.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiGameOver.java	2020-02-22 17:59:57.096842500 -0800
++++ minecraft/net/minecraft/client/gui/GuiGameOver.java	2020-02-20 15:31:30.050918600 -0800
+@@ -9,7 +9,7 @@
+         this.controlList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 72, "Generate new level..."));
+         this.controlList.add(new GuiButton(2, this.width / 2 - 100, this.height / 4 + 96, "Load level.."));
+         if (this.mc.session == null) {
+-            this.controlList.get(1).enabled = false;
++        	((GuiButton)this.controlList.get(1)).enabled = false;
+         }
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiIngame.java minecraft/net/minecraft/client/gui/GuiIngame.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiIngame.java	2020-02-22 17:59:57.404362800 -0800
++++ minecraft/net/minecraft/client/gui/GuiIngame.java	2020-02-21 20:34:18.241700800 -0800
+@@ -162,7 +162,7 @@
+     public final void addChatMessage() {
+         ++this.updateCounter;
+         for (int i = 0; i < this.chatMessageList.size(); ++i) {
+-            final ChatLine chatLine = this.chatMessageList.get(i);
++            final ChatLine chatLine = (ChatLine) this.chatMessageList.get(i);
+             ++chatLine.updateCounter;
+         }
+     }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiIngameMenu.java minecraft/net/minecraft/client/gui/GuiIngameMenu.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiIngameMenu.java	2020-02-22 17:59:59.383896500 -0800
++++ minecraft/net/minecraft/client/gui/GuiIngameMenu.java	2020-02-20 15:31:38.363841500 -0800
+@@ -10,8 +10,8 @@
+         this.controlList.add(new GuiButton(3, this.width / 2 - 100, this.height / 4 + 72, "Load level.."));
+         this.controlList.add(new GuiButton(4, this.width / 2 - 100, this.height / 4 + 120, "Back to game"));
+         if (this.mc.session == null) {
+-            this.controlList.get(2).enabled = false;
+-            this.controlList.get(3).enabled = false;
++        	((GuiButton)this.controlList.get(2)).enabled = false;
++        	((GuiButton)this.controlList.get(3)).enabled = false;
+         }
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiLevelDialog.java minecraft/net/minecraft/client/gui/GuiLevelDialog.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiLevelDialog.java	2020-02-22 17:59:56.519004700 -0800
++++ minecraft/net/minecraft/client/gui/GuiLevelDialog.java	2020-02-20 14:46:27.661897700 -0800
+@@ -35,7 +35,7 @@
+             }
+         }
+         finally {
+-            GuiLoadLevelScreen.unknown(this.screen, false);
++        	boolean unused2 = this.screen.frozen = false;
+         }
+     }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiLevelLoading.java minecraft/net/minecraft/client/gui/GuiLevelLoading.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiLevelLoading.java	2020-02-22 17:59:58.968743900 -0800
++++ minecraft/net/minecraft/client/gui/GuiLevelLoading.java	2020-02-20 14:45:04.490613900 -0800
+@@ -114,7 +114,7 @@
+     public GuiLevelLoading() {
+     }
+     
+-    public static NBTTagCompound writeLevelTags(InputStream var_0_0F) {
++    public static NBTTagCompound writeLevelTags(InputStream var_0_0F) throws IOException {
+         var_0_0F = new DataInputStream(new GZIPInputStream(var_0_0F));
+         try {
+             final NBTBase tag;
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiLevelNameScreen.java minecraft/net/minecraft/client/gui/GuiLevelNameScreen.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiLevelNameScreen.java	2020-02-22 17:59:57.329963000 -0800
++++ minecraft/net/minecraft/client/gui/GuiLevelNameScreen.java	2020-02-20 15:31:53.894508100 -0800
+@@ -26,7 +26,7 @@
+         Keyboard.enableRepeatEvents(true);
+         this.controlList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, "Save"));
+         this.controlList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 144, "Cancel"));
+-        this.controlList.get(0).enabled = (this.name.trim().length() > 1);
++        ((GuiButton)this.controlList.get(0)).enabled = (this.name.trim().length() > 1);
+     }
+     
+     @Override
+@@ -62,7 +62,7 @@
+         if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.:-_'*!\"#%/()=+?[]{}<>".indexOf(character) >= 0 && this.name.length() < 64) {
+             this.name += character;
+         }
+-        this.controlList.get(0).enabled = (this.name.trim().length() > 1);
++        ((GuiButton)this.controlList.get(0)).enabled = (this.name.trim().length() > 1);
+     }
+     
+     @Override
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiLevelType.java minecraft/net/minecraft/client/gui/GuiLevelType.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiLevelType.java	2020-02-22 17:59:58.695943800 -0800
++++ minecraft/net/minecraft/client/gui/GuiLevelType.java	2020-02-21 17:53:16.552854700 -0800
+@@ -36,10 +36,10 @@
+     }
+     
+     private void worldOptions() {
+-        this.controlList.get(0).displayString = "Type: " + this.worldType[this.selectedWorldType];
+-        this.controlList.get(1).displayString = "Shape: " + this.worldShape[this.selectedWorldShape];
+-        this.controlList.get(2).displayString = "Size: " + this.worldSize[this.selectedWorldSize];
+-        this.controlList.get(3).displayString = "Theme: " + this.worldTheme[this.selectedWorldTheme];
++    	((GuiButton)this.controlList.get(0)).displayString = "Type: " + this.worldType[this.selectedWorldType];
++    	((GuiButton)this.controlList.get(1)).displayString = "Shape: " + this.worldShape[this.selectedWorldShape];
++    	((GuiButton)this.controlList.get(2)).displayString = "Size: " + this.worldSize[this.selectedWorldSize];
++    	((GuiButton)this.controlList.get(3)).displayString = "Theme: " + this.worldTheme[this.selectedWorldTheme];
+     }
+     
+     @Override
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiLoadLevelScreen.java minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiLoadLevelScreen.java	2020-02-22 17:59:57.724282400 -0800
++++ minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java	2020-02-20 15:33:41.799429500 -0800
+@@ -17,11 +17,11 @@
+     private GuiScreen parent;
+     private boolean finished;
+     private boolean loaded;
+-    private String[] levels;
++    private String levels;
+     private String status;
+     protected String title;
+-    private boolean frozen;
+-    private File selectedFile;
++    boolean frozen;
++    File selectedFile;
+     
+     public GuiLoadLevelScreen(final GuiScreen i) {
+         this.finished = false;
+@@ -48,13 +48,13 @@
+     public void run() {
+         try {
+             this.status = "Getting level list..";
+-            this.levels = new BufferedReader(new InputStreamReader(new URL("http://" + this.mc.minecraftUri + "/listmaps.jsp?user=" + this.mc.session.username).openConnection().getInputStream())).readLine().split(";");
+-            if (this.levels.length >= 5) {
++            this.levels = "Load From Button";
++            if (this.levels.length() >= 5) {
+                 this.setLevels(this.levels);
+                 this.loaded = true;
+                 return;
+             }
+-            this.status = this.levels[0];
++            this.status = this.levels;
+             this.finished = true;
+         }
+         catch (Exception ex) {
+@@ -64,13 +64,13 @@
+         }
+     }
+     
+-    protected void setLevels(final String[] arr) {
++    protected void setLevels(final String levels2) {
+         for (int i = 0; i < 5; ++i) {
+-            ((GuiButton)this.controlList.get(i)).enabled = !arr[i].equals("-");
+-            ((GuiButton)this.controlList.get(i)).displayString = arr[i];
++            ((GuiButton)this.controlList.get(i)).enabled = !levels2.equals("-");
++            ((GuiButton)this.controlList.get(i)).displayString = levels2;
+             ((GuiButton)this.controlList.get(i)).enabled2 = true;
+         }
+-        this.controlList.get(5).enabled2 = true;
++        ((GuiButton)this.controlList.get(5)).enabled2 = true;
+     }
+     
+     @Override
+@@ -82,7 +82,7 @@
+         }
+         this.controlList.add(new GuiButton(5, this.width / 2 - 100, this.height / 6 + 120 + 12, "Load file..."));
+         this.controlList.add(new GuiButton(6, this.width / 2 - 100, this.height / 6 + 168, "Cancel"));
+-        this.controlList.get(5).enabled2 = false;
++        ((GuiButton)this.controlList.get(5)).enabled2 = false;
+     }
+     
+     @Override
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiMainMenu.java minecraft/net/minecraft/client/gui/GuiMainMenu.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiMainMenu.java	2020-02-22 17:59:57.259034200 -0800
++++ minecraft/net/minecraft/client/gui/GuiMainMenu.java	2020-02-20 15:32:27.943295900 -0800
+@@ -31,9 +31,9 @@
+         this.controlList.add(new GuiButton(2, this.width / 2 - 100, this.height / 4 + 72, "Load level.."));
+         this.controlList.add(new GuiButton(3, this.width / 2 - 100, this.height / 4 + 96, "Play tutorial level"));
+         this.controlList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, "Options..."));
+-        this.controlList.get(2).enabled = false;
++        ((GuiButton)this.controlList.get(2)).enabled = false;
+         if (this.mc.session == null) {
+-            this.controlList.get(1).enabled = false;
++        	((GuiButton)this.controlList.get(1)).enabled = false;
+         }
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiSaveLevelScreen.java minecraft/net/minecraft/client/gui/GuiSaveLevelScreen.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiSaveLevelScreen.java	2020-02-22 17:59:57.125611200 -0800
++++ minecraft/net/minecraft/client/gui/GuiSaveLevelScreen.java	2020-02-20 15:33:49.040830600 -0800
+@@ -22,16 +22,16 @@
+     @Override
+     public final void initGui() {
+         super.initGui();
+-        this.controlList.get(5).displayString = "Save file...";
++        ((GuiButton)this.controlList.get(5)).displayString = "Save file...";
+     }
+     
+     @Override
+-    protected final void setLevels(final String[] arr) {
++    protected final void setLevels(final String arr) {
+         for (int i = 0; i < 5; ++i) {
+-            ((GuiButton)this.controlList.get(i)).displayString = arr[i];
++            ((GuiButton)this.controlList.get(i)).displayString = arr;
+             ((GuiButton)this.controlList.get(i)).enabled2 = true;
+         }
+-        this.controlList.get(5).enabled2 = true;
++        ((GuiButton)this.controlList.get(5)).enabled2 = true;
+     }
+     
+     @Override
+@@ -48,6 +48,6 @@
+     
+     @Override
+     protected final void openLevel(final int integer) {
+-        this.mc.displayGuiScreen(new GuiLevelNameScreen(this, this.controlList.get(integer).displayString, integer));
++        this.mc.displayGuiScreen(new GuiLevelNameScreen(this, ((GuiButton)this.controlList.get(integer)).displayString, integer));
+     }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiScreen.java minecraft/net/minecraft/client/gui/GuiScreen.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiScreen.java	2020-02-22 17:59:57.504555300 -0800
++++ minecraft/net/minecraft/client/gui/GuiScreen.java	2020-02-20 14:45:29.074716000 -0800
+@@ -38,7 +38,7 @@
+         if (integer3 == 0) {
+             GuiButton r;
+             for (integer3 = 0; integer3 < this.controlList.size(); ++integer3) {
+-                if ((r = this.controlList.get(integer3)).mousePressed(integer1, integer2)) {
++                if ((r = (GuiButton) this.controlList.get(integer3)).mousePressed(integer1, integer2)) {
+                     this.mc.sndManager.playSoundFX("random.click", 1.0f, 1.0f);
+                     this.actionPerformed(r);
+                 }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/SlotArmor.java minecraft/net/minecraft/client/gui/SlotArmor.java
+--- minecraft_unpatched/net/minecraft/client/gui/SlotArmor.java	2020-02-22 17:59:58.661225200 -0800
++++ minecraft/net/minecraft/client/gui/SlotArmor.java	2020-02-20 14:45:38.313692700 -0800
+@@ -8,8 +8,8 @@
+     private /* synthetic */ int armorType;
+     
+     SlotArmor(final GuiInventory f, final GuiContainer j, final IInventory b, final int integer4, final int integer5, final int integer6, final int integer7) {
+-        this.armorType = integer7;
+         super(j, b, integer4, 8, integer6);
++    	this.armorType = integer7;
+     }
+     
+     @Override
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/Minecraft.java minecraft/net/minecraft/client/Minecraft.java
+--- minecraft_unpatched/net/minecraft/client/Minecraft.java	2020-02-22 17:59:56.294812500 -0800
++++ minecraft/net/minecraft/client/Minecraft.java	2020-02-21 20:34:54.603009300 -0800
+@@ -103,7 +103,7 @@
+     private String server;
+     private TextureWaterFX textureWaterFX;
+     private TextureLavaFX textureLavaFX;
+-    volatile boolean running;
++    public volatile boolean running;
+     public String debug;
+     public boolean isTakingScreenshot;
+     private int prevFrameTime;
+@@ -760,7 +760,7 @@
+     public final void generateLevel(int integer1, final int integer2, int integer3, int integer4) {
+         this.setLevel(null);
+         System.gc();
+-        final String string = (this.session != null) ? this.session.username : "anonymous";
++        final String string = "anonymous";
+         final LevelGenerator levelGenerator;
+         (levelGenerator = new LevelGenerator(this.loadingScreen)).islandGen = (integer3 == 1);
+         levelGenerator.floatingGen = (integer3 == 2);
+@@ -785,11 +785,7 @@
+         }
+         try {
+             final BufferedReader bufferedReader;
+-            Integer.parseInt((bufferedReader = new BufferedReader(new InputStreamReader(new URL(this.mcApplet.getDocumentBase() + "?n=" + this.session.username + "&i=" + this.session.sessionId).openStream()))).readLine());
+-            bufferedReader.close();
+-            if (this.mcApplet.getDocumentBase().toString().startsWith("http://www.minecraft.net/") || this.mcApplet.getDocumentBase().toString().startsWith("http://minecraft.net/")) {
+-                this.theWorld = g;
+-            }
++            this.theWorld = g;
+         }
+         catch (Throwable t) {}
+         if (g != null) {
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/MinecraftApplet.java minecraft/net/minecraft/client/MinecraftApplet.java
+--- minecraft_unpatched/net/minecraft/client/MinecraftApplet.java	2020-02-22 17:59:58.129512900 -0800
++++ minecraft/net/minecraft/client/MinecraftApplet.java	2020-02-20 15:34:02.047774100 -0800
+@@ -29,7 +29,7 @@
+             final Minecraft mc = this.mc;
+             mc.minecraftUri = sb.append(mc.minecraftUri).append(":").append(this.getDocumentBase().getPort()).toString();
+         }
+-        if (this.getParameter("username") != null && this.getParameter("sessionid") != null) {
++        if (this.getParameter("username") == null && this.getParameter("sessionid") == null) {
+             this.mc.session = new SessionData(this.getParameter("username"), this.getParameter("sessionid"));
+             if (this.getParameter("mppass") != null) {
+                 this.getParameter("mppass");
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/OSValidator.java minecraft/net/minecraft/client/OSValidator.java
+--- minecraft_unpatched/net/minecraft/client/OSValidator.java	2020-02-22 17:59:57.493643200 -0800
++++ minecraft/net/minecraft/client/OSValidator.java	2020-02-20 14:43:26.320819100 -0800
+@@ -1,7 +1,9 @@
+ package net.minecraft.client;
+ 
+ final class OSValidator {
+-    static {
++    public static int[] osValues;
++
++	static {
+         osValues = new int[OS.values().length];
+         try {
+             OSValidator.osValues[OS.linux.ordinal()] = 1;
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/particle/EffectRenderer.java minecraft/net/minecraft/client/particle/EffectRenderer.java
+--- minecraft_unpatched/net/minecraft/client/particle/EffectRenderer.java	2020-02-22 17:59:59.615526400 -0800
++++ minecraft/net/minecraft/client/particle/EffectRenderer.java	2020-02-20 14:46:43.808248000 -0800
+@@ -37,7 +37,7 @@
+         for (int i = 0; i < 3; ++i) {
+             for (int j = 0; j < this.fxLayers[i].size(); ++j) {
+                 final EntityFX entityFX;
+-                (entityFX = this.fxLayers[i].get(j)).onEntityUpdate();
++                (entityFX = (EntityFX) this.fxLayers[i].get(j)).onEntityUpdate();
+                 if (entityFX.isDead) {
+                     this.fxLayers[i].remove(j--);
+                 }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/player/EntityPlayerSP.java minecraft/net/minecraft/client/player/EntityPlayerSP.java
+--- minecraft_unpatched/net/minecraft/client/player/EntityPlayerSP.java	2020-02-22 17:59:59.217735200 -0800
++++ minecraft/net/minecraft/client/player/EntityPlayerSP.java	2020-02-20 15:36:36.874754900 -0800
+@@ -28,7 +28,7 @@
+         super(g);
+         this.mc = d;
+         if (l != null) {
+-            this.skinUrl = "http://www.minecraft.net/skin/" + l.username + ".png";
++            this.skinUrl = "http://mcresources.modification-station.net/skinapi.php?user=" + l.username + ".png";
+         }
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/player/PlayerControllerMP.java minecraft/net/minecraft/client/player/PlayerControllerMP.java
+--- minecraft_unpatched/net/minecraft/client/player/PlayerControllerMP.java	2020-02-22 17:59:57.194058200 -0800
++++ minecraft/net/minecraft/client/player/PlayerControllerMP.java	2020-02-20 14:46:51.776893100 -0800
+@@ -2,13 +2,20 @@
+ 
+ import net.minecraft.game.level.World;
+ import net.minecraft.game.item.ItemStack;
++import net.minecraft.client.Minecraft;
+ import net.minecraft.client.SessionData;
+ import net.minecraft.game.block.Block;
+ import net.minecraft.game.entity.player.EntityPlayer;
+ import net.minecraft.game.level.MobSpawner;
+ 
+ public final class PlayerControllerMP extends PlayerController {
+-    private MobSpawner mobSpawner;
++    public PlayerControllerMP(Minecraft d)
++	{
++		super(d);
++		// TODO Auto-generated constructor stub
++	}
++
++	private MobSpawner mobSpawner;
+     
+     @Override
+     public final void blankPlayerFunction(final EntityPlayer a) {
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ChunkDistanceComparator.java minecraft/net/minecraft/client/renderer/ChunkDistanceComparator.java
+--- minecraft_unpatched/net/minecraft/client/renderer/ChunkDistanceComparator.java	2020-02-22 17:59:56.039869500 -0800
++++ minecraft/net/minecraft/client/renderer/ChunkDistanceComparator.java	2020-02-20 14:47:12.495779100 -0800
+@@ -10,4 +10,8 @@
+     public ChunkDistanceComparator(final EntityPlayer a) {
+         this.entityplayer = a;
+     }
++    
++    public final int compare(Object obj, Object obj2) {
++        return ((WorldRenderer) obj).distanceToEntitySquared((EntityLiving) this.entityplayer) < ((WorldRenderer) obj2).distanceToEntitySquared((EntityLiving) this.entityplayer) ? -1 : 1;
++    }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderArrow.java minecraft/net/minecraft/client/renderer/entity/RenderArrow.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderArrow.java	2020-02-22 17:59:59.287175000 -0800
++++ minecraft/net/minecraft/client/renderer/entity/RenderArrow.java	2020-02-20 14:50:20.714677600 -0800
+@@ -7,4 +7,54 @@
+ import net.minecraft.game.entity.Entity;
+ 
+ public final class RenderArrow extends Render {
++    public final void doRender(Entity bVar, float f, float f2, float f3, float f4, float f5) {
++        EntityArrow aVar = (EntityArrow) bVar;
++        loadTexture("/item/arrows.png");
++        GL11.glPushMatrix();
++        GL11.glTranslatef(f, f2, f3);
++        GL11.glRotatef((aVar.prevRotationYaw + ((aVar.rotationYaw - aVar.prevRotationYaw) * f5)) - 90.0f, 0.0f, 1.0f, 0.0f);
++        GL11.glRotatef(aVar.prevRotationPitch + ((aVar.rotationPitch - aVar.prevRotationPitch) * f5), 0.0f, 0.0f, 1.0f);
++        Tessellator dVar = Tessellator.instance;
++        GL11.glEnable(2977);
++        float f6 = ((float) aVar.arrowShake) - f5;
++        if (f6 > 0.0f) {
++            GL11.glRotatef(f6 * (-MathHelper.sin(3.0f * f6)), 0.0f, 0.0f, 1.0f);
++        }
++        GL11.glRotatef(45.0f, 1.0f, 0.0f, 0.0f);
++        GL11.glScalef(0.05625f, 0.05625f, 0.05625f);
++        GL11.glTranslatef(-4.0f, 0.0f, 0.0f);
++        GL11.glNormal3f(0.05625f, 0.0f, 0.0f);
++        dVar.startDrawingQuads();
++        dVar.addVertexWithUV(-7.0f, -2.0f, -2.0f, 0.0f, 0.15625f);
++        dVar.addVertexWithUV(-7.0f, -2.0f, 2.0f, 0.15625f, 0.15625f);
++        dVar.addVertexWithUV(-7.0f, 2.0f, 2.0f, 0.15625f, 0.3125f);
++        dVar.addVertexWithUV(-7.0f, 2.0f, -2.0f, 0.0f, 0.3125f);
++        dVar.draw();
++        GL11.glNormal3f(-0.05625f, 0.0f, 0.0f);
++        dVar.startDrawingQuads();
++        dVar.addVertexWithUV(-7.0f, 2.0f, -2.0f, 0.0f, 0.15625f);
++        dVar.addVertexWithUV(-7.0f, 2.0f, 2.0f, 0.15625f, 0.15625f);
++        dVar.addVertexWithUV(-7.0f, -2.0f, 2.0f, 0.15625f, 0.3125f);
++        dVar.addVertexWithUV(-7.0f, -2.0f, -2.0f, 0.0f, 0.3125f);
++        dVar.draw();
++        int i = 0;
++        while (true) {
++            int i2 = i;
++            if (i2 < 4) {
++                GL11.glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
++                GL11.glNormal3f(0.0f, 0.0f, 0.05625f);
++                dVar.startDrawingQuads();
++                dVar.addVertexWithUV(-8.0f, -2.0f, 0.0f, 0.0f, 0.0f);
++                dVar.addVertexWithUV(8.0f, -2.0f, 0.0f, 0.5f, 0.0f);
++                dVar.addVertexWithUV(8.0f, 2.0f, 0.0f, 0.5f, 0.15625f);
++                dVar.addVertexWithUV(-8.0f, 2.0f, 0.0f, 0.0f, 0.15625f);
++                dVar.draw();
++                i = i2 + 1;
++            } else {
++                GL11.glDisable(2977);
++                GL11.glPopMatrix();
++                return;
++            }
++        }
++    }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderCreeper.java minecraft/net/minecraft/client/renderer/entity/RenderCreeper.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderCreeper.java	2020-02-22 17:59:59.633382500 -0800
++++ minecraft/net/minecraft/client/renderer/entity/RenderCreeper.java	2020-02-20 18:19:24.280282400 -0800
+@@ -11,4 +11,37 @@
+     public RenderCreeper() {
+         super(new ModelCreeper(), 0.5f);
+     }
++    
++    public final int getColorMultiplier(EntityLiving eVar, float f, float f2) {
++        int i = 255;
++        int i2 = 0;
++        float c = ((EntityCreeper) eVar).setCreeperFlashTime(f2);
++        if (((int) (10.0f * c)) % 2 == 0) {
++            return 0;
++        }
++        int i3 = (int) (c * 0.2f * 255.0f);
++        if (i3 >= 0) {
++            i2 = i3;
++        }
++        if (i2 <= 255) {
++            i = i2;
++        }
++        return (i << 24) | 16711680 | 65280 | 255;
++    }
++
++    public final void preRenderCallback(EntityLiving eVar, float f) {
++        float f2 = 0.0f;
++        float c = ((EntityCreeper) eVar).setCreeperFlashTime(f);
++        float a = (MathHelper.sin(100.0f * c) * c * 0.01f) + 1.0f;
++        if (c >= 0.0f) {
++            f2 = c;
++        }
++        if (f2 > 1.0f) {
++            f2 = 1.0f;
++        }
++        float f3 = f2 * f2;
++        float f4 = f3 * f3;
++        float f5 = ((0.4f * f4) + 1.0f) * a;
++        GL11.glScalef(f5, ((f4 * 0.1f) + 1.0f) / a, f5);
++    }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderGiantZombie.java minecraft/net/minecraft/client/renderer/entity/RenderGiantZombie.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderGiantZombie.java	2020-02-22 17:59:57.034346700 -0800
++++ minecraft/net/minecraft/client/renderer/entity/RenderGiantZombie.java	2020-02-20 14:51:50.823704600 -0800
+@@ -11,4 +11,8 @@
+         super(l, 3.0f);
+         this.scale = 6.0f;
+     }
++    
++    public final void preRenderCallback(EntityLiving eVar, float f) {
++        GL11.glScalef(this.scale, this.scale, this.scale);
++    }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderItem.java minecraft/net/minecraft/client/renderer/entity/RenderItem.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderItem.java	2020-02-22 17:59:58.610632100 -0800
++++ minecraft/net/minecraft/client/renderer/entity/RenderItem.java	2020-02-20 14:52:30.938231700 -0800
+@@ -112,4 +112,81 @@
+         d.addVertex((float)(integer2 + integer4), (float)integer3, 0.0f);
+         d.draw();
+     }
++    
++    public final void doRenderItem(EntityItem bVar, float f, float f2, float f3, float f4, float f5) {
++        EntityItem bVar2 = (EntityItem) bVar;
++        this.random.setSeed(187);
++        ItemStack kVar = bVar2.item;
++        GL11.glPushMatrix();
++        float a = 0.1f + (MathHelper.sin(((((float) bVar2.age) + f5) / 10.0f) + bVar2.hoverStart) * 0.1f);
++        float f6 = 57.295776f * (((((float) bVar2.age) + f5) / 20.0f) + bVar2.hoverStart);
++        int i = 1;
++        if (bVar2.item.stackSize > 1) {
++            i = 2;
++        }
++        if (bVar2.item.stackSize > 5) {
++            i = 3;
++        }
++        int i2 = bVar2.item.stackSize > 20 ? 4 : i;
++        GL11.glTranslatef(f, f2 + a, f3);
++        GL11.glEnable(2977);
++        if (kVar.itemID >= 256 || Block.blocksList[kVar.itemID].getRenderType() != 0) {
++            GL11.glScalef(0.5f, 0.5f, 0.5f);
++            int b = kVar.getItem().getIconFromDamage();
++            if (kVar.itemID < 256) {
++                loadTexture("/terrain.png");
++            } else {
++                loadTexture("/gui/items.png");
++            }
++            Tessellator dVar = Tessellator.instance;
++            float f7 = ((float) ((b % 16) << 4)) / 256.0f;
++            float f8 = ((float) (((b % 16) << 4) + 16)) / 256.0f;
++            float f9 = ((float) ((b / 16) << 4)) / 256.0f;
++            float f10 = ((float) (((b / 16) << 4) + 16)) / 256.0f;
++            int i3 = 0;
++            while (true) {
++                int i4 = i3;
++                if (i4 >= i2) {
++                    break;
++                }
++                GL11.glPushMatrix();
++                if (i4 > 0) {
++                    GL11.glTranslatef(((this.random.nextFloat() * 2.0f) - 1.0f) * 0.3f, ((this.random.nextFloat() * 2.0f) - 1.0f) * 0.3f, ((this.random.nextFloat() * 2.0f) - 1.0f) * 0.3f);
++                }
++                GL11.glRotatef(180.0f - this.renderManager.playerViewY, 0.0f, 1.0f, 0.0f);
++                dVar.startDrawingQuads();
++                Tessellator.setNormal(0.0f, 1.0f, 0.0f);
++                dVar.addVertexWithUV(-0.5f, -0.25f, 0.0f, f7, f10);
++                dVar.addVertexWithUV(0.5f, -0.25f, 0.0f, f8, f10);
++                dVar.addVertexWithUV(0.5f, 0.75f, 0.0f, f8, f9);
++                dVar.addVertexWithUV(-0.5f, 0.75f, 0.0f, f7, f9);
++                dVar.draw();
++                GL11.glPopMatrix();
++                i3 = i4 + 1;
++            }
++        } else {
++            GL11.glRotatef(f6, 0.0f, 1.0f, 0.0f);
++            loadTexture("/terrain.png");
++            float f11 = 0.25f;
++            if (!Block.blocksList[kVar.itemID].renderAsNormalBlock() && kVar.itemID != Block.stairSingle.blockID) {
++                f11 = 0.5f;
++            }
++            GL11.glScalef(f11, f11, f11);
++            for (int i5 = 0; i5 < i2; i5++) {
++                GL11.glPushMatrix();
++                if (i5 > 0) {
++                    GL11.glTranslatef((((this.random.nextFloat() * 2.0f) - 1.0f) * 0.2f) / f11, (((this.random.nextFloat() * 2.0f) - 1.0f) * 0.2f) / f11, (((this.random.nextFloat() * 2.0f) - 1.0f) * 0.2f) / f11);
++                }
++                this.renderBlocks.renderBlockOnInventory(Block.blocksList[kVar.itemID]);
++                GL11.glPopMatrix();
++            }
++        }
++        GL11.glDisable(2977);
++        GL11.glPopMatrix();
++    }
++
++	public void doRender(Entity p0, float p1, float p2, float p3, float p4, float p5)
++	{
++		this.doRenderItem((EntityItem)p0, p1, p2, p3, p4, p5);
++	}
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderLiving.java minecraft/net/minecraft/client/renderer/entity/RenderLiving.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderLiving.java	2020-02-22 17:59:57.850762000 -0800
++++ minecraft/net/minecraft/client/renderer/entity/RenderLiving.java	2020-02-20 17:52:51.858750700 -0800
+@@ -8,7 +8,7 @@
+ 
+ public class RenderLiving extends Render {
+     protected ModelBase mainModel;
+-    private ModelBase renderPassModel;
++    protected ModelBase renderPassModel;
+     
+     public RenderLiving(final ModelBase l, final float float2) {
+         this.mainModel = l;
+@@ -114,4 +114,9 @@
+     
+     protected void preRenderCallback(final EntityLiving e, final float float2) {
+     }
++    
++    public void doRender(Entity entity, float d, float d1, float d2, float f, float f1)
++    {
++		doRender((EntityLiving)entity, d, d1, d2, f, f1);
++    }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderManager.java minecraft/net/minecraft/client/renderer/entity/RenderManager.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderManager.java	2020-02-22 17:59:56.275468600 -0800
++++ minecraft/net/minecraft/client/renderer/entity/RenderManager.java	2020-02-20 17:28:04.122216500 -0800
+@@ -62,8 +62,8 @@
+     public final Render getEntityRenderObject(final Entity b) {
+         final Class<? extends Entity> class1 = b.getClass();
+         Render render;
+-        if ((render = this.entityRenderMap.get(class1)) == null && class1 != Entity.class) {
+-            render = this.entityRenderMap.get(class1.getSuperclass());
++        if ((render = (Render) this.entityRenderMap.get(class1)) == null && class1 != Entity.class) {
++            render = (Render) this.entityRenderMap.get(class1.getSuperclass());
+             this.entityRenderMap.put(class1, render);
+         }
+         return render;
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPainting.java minecraft/net/minecraft/client/renderer/entity/RenderPainting.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPainting.java	2020-02-22 17:59:58.951881300 -0800
++++ minecraft/net/minecraft/client/renderer/entity/RenderPainting.java	2020-02-20 17:53:55.180568000 -0800
+@@ -13,4 +13,100 @@
+     public RenderPainting() {
+         this.rand = new Random();
+     }
++    
++    public final void doRender(Entity bVar, float f, float f2, float f3, float f4, float f5) {
++        EntityPainting aVar = (EntityPainting) bVar;
++        this.rand.setSeed(187);
++        GL11.glPushMatrix();
++        GL11.glTranslatef(f, f2, f3);
++        GL11.glRotatef(f4, 0.0f, 1.0f, 0.0f);
++        GL11.glEnable(2977);
++        loadTexture("/art/kz.png");
++        EnumArt dVar = aVar.art;
++        GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
++        int i = dVar.sizeX;
++        int i2 = dVar.sizeY;
++        int i3 = dVar.offsetX;
++        int i4 = dVar.offsetY;
++        float f6 = ((float) (-i)) / 2.0f;
++        float f7 = ((float) (-i2)) / 2.0f;
++        int i5 = 0;
++        while (true) {
++            int i6 = i5;
++            if (i6 < i / 16) {
++                int i7 = 0;
++                while (true) {
++                    int i8 = i7;
++                    if (i8 >= i2 / 16) {
++                        break;
++                    }
++                    float f8 = f6 + ((float) ((i6 + 1) << 4));
++                    float f9 = f6 + ((float) (i6 << 4));
++                    float f10 = f7 + ((float) ((i8 + 1) << 4));
++                    float f11 = f7 + ((float) (i8 << 4));
++                    float f12 = (f8 + f9) / 2.0f;
++                    int i9 = (int) aVar.posX;
++                    int i10 = (int) ((((f10 + f11) / 2.0f) / 16.0f) + aVar.posY);
++                    int i11 = (int) aVar.posZ;
++                    if (aVar.direction == 0) {
++                        i9 = (int) (aVar.posX + (f12 / 16.0f));
++                    }
++                    if (aVar.direction == 1) {
++                        i11 = (int) (aVar.posZ - (f12 / 16.0f));
++                    }
++                    if (aVar.direction == 2) {
++                        i9 = (int) (aVar.posX - (f12 / 16.0f));
++                    }
++                    if (aVar.direction == 3) {
++                        i11 = (int) (aVar.posZ + (f12 / 16.0f));
++                    }
++                    float c = this.renderManager.worldObj.getLightBrightness(i9, i10, i11);
++                    GL11.glColor3f(c, c, c);
++                    float f13 = ((float) ((i3 + i) - (i6 << 4))) / 256.0f;
++                    float f14 = ((float) ((i3 + i) - ((i6 + 1) << 4))) / 256.0f;
++                    float f15 = ((float) ((i4 + i2) - (i8 << 4))) / 256.0f;
++                    float f16 = ((float) ((i4 + i2) - ((i8 + 1) << 4))) / 256.0f;
++                    Tessellator dVar2 = Tessellator.instance;
++                    dVar2.startDrawingQuads();
++                    Tessellator.setNormal(0.0f, 0.0f, -1.0f);
++                    dVar2.addVertexWithUV(f8, f11, -0.5f, f14, f15);
++                    dVar2.addVertexWithUV(f9, f11, -0.5f, f13, f15);
++                    dVar2.addVertexWithUV(f9, f10, -0.5f, f13, f16);
++                    dVar2.addVertexWithUV(f8, f10, -0.5f, f14, f16);
++                    Tessellator.setNormal(0.0f, 0.0f, 1.0f);
++                    dVar2.addVertexWithUV(f8, f10, 0.5f, 0.75f, 0.0f);
++                    dVar2.addVertexWithUV(f9, f10, 0.5f, 0.8125f, 0.0f);
++                    dVar2.addVertexWithUV(f9, f11, 0.5f, 0.8125f, 0.0625f);
++                    dVar2.addVertexWithUV(f8, f11, 0.5f, 0.75f, 0.0625f);
++                    Tessellator.setNormal(0.0f, -1.0f, 0.0f);
++                    dVar2.addVertexWithUV(f8, f10, -0.5f, 0.75f, 0.001953125f);
++                    dVar2.addVertexWithUV(f9, f10, -0.5f, 0.8125f, 0.001953125f);
++                    dVar2.addVertexWithUV(f9, f10, 0.5f, 0.8125f, 0.001953125f);
++                    dVar2.addVertexWithUV(f8, f10, 0.5f, 0.75f, 0.001953125f);
++                    Tessellator.setNormal(0.0f, 1.0f, 0.0f);
++                    dVar2.addVertexWithUV(f8, f11, 0.5f, 0.75f, 0.001953125f);
++                    dVar2.addVertexWithUV(f9, f11, 0.5f, 0.8125f, 0.001953125f);
++                    dVar2.addVertexWithUV(f9, f11, -0.5f, 0.8125f, 0.001953125f);
++                    dVar2.addVertexWithUV(f8, f11, -0.5f, 0.75f, 0.001953125f);
++                    Tessellator.setNormal(-1.0f, 0.0f, 0.0f);
++                    dVar2.addVertexWithUV(f8, f10, 0.5f, 0.7519531f, 0.0f);
++                    dVar2.addVertexWithUV(f8, f11, 0.5f, 0.7519531f, 0.0625f);
++                    dVar2.addVertexWithUV(f8, f11, -0.5f, 0.7519531f, 0.0625f);
++                    dVar2.addVertexWithUV(f8, f10, -0.5f, 0.7519531f, 0.0f);
++                    Tessellator.setNormal(1.0f, 0.0f, 0.0f);
++                    dVar2.addVertexWithUV(f9, f10, -0.5f, 0.7519531f, 0.0f);
++                    dVar2.addVertexWithUV(f9, f11, -0.5f, 0.7519531f, 0.0625f);
++                    dVar2.addVertexWithUV(f9, f11, 0.5f, 0.7519531f, 0.0625f);
++                    dVar2.addVertexWithUV(f9, f10, 0.5f, 0.7519531f, 0.0f);
++                    dVar2.draw();
++                    i7 = i8 + 1;
++                }
++                i5 = i6 + 1;
++            } else {
++                GL11.glDisable(2977);
++                GL11.glPopMatrix();
++                return;
++            }
++        }
++    }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPlayer.java minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPlayer.java	2020-02-22 17:59:59.241047200 -0800
++++ minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java	2020-02-20 17:58:34.015281400 -0800
+@@ -1,13 +1,18 @@
+ package net.minecraft.client.renderer.entity;
+ 
++import net.minecraft.game.MathHelper;
+ import net.minecraft.game.entity.Entity;
+ import net.minecraft.game.item.Item;
+ import net.minecraft.game.item.ItemStack;
+ import net.minecraft.game.item.ItemArmor;
+ import net.minecraft.game.entity.EntityLiving;
+ import net.minecraft.game.entity.player.EntityPlayer;
++
++import org.lwjgl.opengl.GL11;
++
+ import net.minecraft.client.model.ModelBase;
+ import net.minecraft.client.model.ModelBiped;
++import net.minecraft.client.model.ModelRenderer;
+ 
+ public final class RenderPlayer extends RenderLiving {
+     private ModelBiped modelBipedMain;
+@@ -26,10 +31,117 @@
+         super.doRender(a, float2, float3 - a.yOffset, float4, float5, float6);
+     }
+     
++    public void doRender(final EntityLiving e, float float2, float float3, float float4, float float5, float float6) {
++        GL11.glPushMatrix();
++        GL11.glDisable(2884);
++        try {
++            float5 = e.prevRenderYawOffset + (e.renderYawOffset - e.prevRenderYawOffset) * float6;
++            final float n = e.prevRotationYaw + (e.rotationYaw - e.prevRotationYaw) * float6;
++            final float n2 = e.prevRotationPitch + (e.rotationPitch - e.prevRotationPitch) * float6;
++            GL11.glTranslatef(float2, float3, float4);
++            float2 = e.ticksExisted + float6;
++            GL11.glRotatef(180.0f - float5, 0.0f, 1.0f, 0.0f);
++            if (e.deathTime > 0) {
++                if ((float3 = MathHelper.sqrt_float(float3 = (e.deathTime + float6 - 1.0f) / 20.0f * 1.6f)) > 1.0f) {
++                    float3 = 1.0f;
++                }
++                GL11.glRotatef(float3 * this.getDeathMaxRotation(e), 0.0f, 0.0f, 1.0f);
++            }
++            GL11.glScalef(-0.0625f, -0.0625f, 0.0625f);
++            this.preRenderCallback(e, float6);
++            GL11.glTranslatef(0.0f, 0.0f, 0.0f);
++            GL11.glEnable(2977);
++            float3 = e.newPosZ + (e.newRotationYaw - e.newPosZ) * float6;
++            float4 = e.newRotationPitch - e.newRotationYaw * (1.0f - float6);
++            if (float3 > 1.0f) {
++                float3 = 1.0f;
++            }
++            this.loadDownloadableImageTexture(e.skinUrl, e.addToPlayerScore());
++            GL11.glEnable(3008);
++            this.mainModel.render(float4, float3, float2, n - float5, n2, 1.0f);
++            for (int i = 0; i < 4; ++i) {
++                if (this.shouldRenderPass(e, i)) {
++                    this.renderPassModel.render(float4, float3, float2, n - float5, n2, 1.0f);
++                    GL11.glDisable(3042);
++                    GL11.glEnable(3008);
++                }
++            }
++            float entityBrightness = e.getEntityBrightness(float6);
++            final int colorMultiplier;
++            if ((colorMultiplier = this.getColorMultiplier(e, entityBrightness, float6)) >>> 24 > 0 || e.hurtTime > 0 || e.deathTime > 0) {
++                GL11.glDisable(3553);
++                GL11.glDisable(3008);
++                GL11.glEnable(3042);
++                GL11.glBlendFunc(770, 771);
++                GL11.glDepthFunc(514);
++                if (e.hurtTime > 0 || e.deathTime > 0) {
++                    GL11.glColor4f(entityBrightness, 0.0f, 0.0f, 0.4f);
++                    this.mainModel.render(float4, float3, float2, n - float5, n2, 1.0f);
++                    for (int j = 0; j < 4; ++j) {
++                        if (this.shouldRenderPass(e, j)) {
++                            GL11.glColor4f(entityBrightness, 0.0f, 0.0f, 0.4f);
++                            this.renderPassModel.render(float4, float3, float2, n - float5, n2, 1.0f);
++                        }
++                    }
++                }
++                if (colorMultiplier >>> 24 > 0) {
++                    final float n3 = (colorMultiplier >> 16 & 0xFF) / 255.0f;
++                    entityBrightness = (colorMultiplier >> 8 & 0xFF) / 255.0f;
++                    final float n4 = (colorMultiplier & 0xFF) / 255.0f;
++                    float6 = (colorMultiplier >>> 24) / 255.0f;
++                    GL11.glColor4f(n3, entityBrightness, n4, float6);
++                    this.mainModel.render(float4, float3, float2, n - float5, n2, 1.0f);
++                    for (int k = 0; k < 4; ++k) {
++                        if (this.shouldRenderPass(e, k)) {
++                            GL11.glColor4f(n3, entityBrightness, n4, float6);
++                            this.renderPassModel.render(float4, float3, float2, n - float5, n2, 1.0f);
++                        }
++                    }
++                }
++                GL11.glDepthFunc(515);
++                GL11.glDisable(3042);
++                GL11.glEnable(3008);
++                GL11.glEnable(3553);
++            }
++            GL11.glDisable(2977);
++        }
++        catch (Exception ex) {
++            ex.printStackTrace();
++        }
++        GL11.glEnable(2884);
++        GL11.glPopMatrix();
++    }
++    
+     public final void drawFirstPersonHand() {
+         this.modelBipedMain.bipedRightArm.render(1.0f);
+     }
+     
++    public final boolean shouldRenderPass(EntityLiving eVar, int i) {
++        boolean z = false;
++        ItemStack kVar = ((EntityPlayer) eVar).inventory.armorInventory[3 - i];
++        if (kVar != null) {
++            Item a = kVar.getItem();
++            if (a instanceof ItemArmor) {
++                loadTexture("/armor/" + armorFilenamePrefix[((ItemArmor) a).armorType] + "_" + (i == 2 ? 2 : 1) + ".png");
++                ModelBiped hVar = i == 2 ? this.modelArmor : this.modelArmorChestplate;
++                hVar.bipedHead.showModel = i == 0;
++                hVar.bipedHeadwear.showModel = i == 0;
++                hVar.bipedBody.showModel = i == 1 || i == 2;
++                hVar.bipedLeftArm.showModel = i == 1;
++                hVar.bipedRightArm.showModel = i == 1;
++                hVar.bipedLeftLeg.showModel = i == 2 || i == 3;
++                ModelRenderer cVar = hVar.bipedRightLeg;
++                if (i == 2 || i == 3) {
++                    z = true;
++                }
++                cVar.showModel = z;
++                setRenderPassModel((ModelBase) hVar);
++                return true;
++            }
++        }
++        return false;
++    }
++    
+     static {
+         armorFilenamePrefix = new String[] { "cloth", "chain", "iron", "diamond", "gold" };
+     }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSheep.java minecraft/net/minecraft/client/renderer/entity/RenderSheep.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSheep.java	2020-02-22 17:59:59.129943000 -0800
++++ minecraft/net/minecraft/client/renderer/entity/RenderSheep.java	2020-02-20 14:58:07.100835900 -0800
+@@ -9,4 +9,10 @@
+         super(l1, 0.7f);
+         this.setRenderPassModel(l2);
+     }
++    
++    public final boolean shouldRenderPass(EntityLiving eVar, int i) {
++        EntitySheep bVar = (EntitySheep) eVar;
++        loadTexture("/mob/sheep_fur.png");
++        return i == 0 && !bVar.sheared;
++    }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSpider.java minecraft/net/minecraft/client/renderer/entity/RenderSpider.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSpider.java	2020-02-22 17:59:57.967817000 -0800
++++ minecraft/net/minecraft/client/renderer/entity/RenderSpider.java	2020-02-20 14:59:06.290789400 -0800
+@@ -11,4 +11,21 @@
+         super(new ModelSpider(), 1.0f);
+         this.setRenderPassModel(new ModelSpider());
+     }
++    
++    public final float getDeathMaxRotation(EntityLiving eVar) {
++        return 180.0f;
++    }
++
++    public final boolean shouldRenderPass(EntityLiving eVar, int i) {
++        EntitySpider bVar = (EntitySpider) eVar;
++        if (i != 0 || i != 0) {
++            return false;
++        }
++        loadTexture("/mob/spider_eyes.png");
++        GL11.glEnable(3042);
++        GL11.glDisable(3008);
++        GL11.glBlendFunc(770, 771);
++        GL11.glColor4f(1.0f, 1.0f, 1.0f, (1.0f - bVar.getEntityBrightness(1.0f)) * 0.5f);
++        return true;
++    }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderTNTPrimed.java minecraft/net/minecraft/client/renderer/entity/RenderTNTPrimed.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderTNTPrimed.java	2020-02-22 17:59:57.366666300 -0800
++++ minecraft/net/minecraft/client/renderer/entity/RenderTNTPrimed.java	2020-02-20 14:59:22.247273600 -0800
+@@ -13,4 +13,39 @@
+         this.blockRenderer = new RenderBlocks();
+         this.shadowSize = 0.5f;
+     }
++    
++    public final void doRender(Entity bVar, float f, float f2, float f3, float f4, float f5) {
++        float f6 = 0.0f;
++        EntityTNT aVar = (EntityTNT) bVar;
++        GL11.glPushMatrix();
++        GL11.glTranslatef(f, f2, f3);
++        if ((((float) aVar.fuse) - f5) + 1.0f < 10.0f) {
++            float f7 = 1.0f - (((((float) aVar.fuse) - f5) + 1.0f) / 10.0f);
++            if (f7 >= 0.0f) {
++                f6 = f7;
++            }
++            if (f6 > 1.0f) {
++                f6 = 1.0f;
++            }
++            float f8 = f6 * f6;
++            float f9 = (f8 * f8 * 0.3f) + 1.0f;
++            GL11.glScalef(f9, f9, f9);
++        }
++        float f10 = (1.0f - (((((float) aVar.fuse) - f5) + 1.0f) / 100.0f)) * 0.8f;
++        loadTexture("/terrain.png");
++        this.blockRenderer.renderBlockOnInventory(Block.tnt);
++        if ((aVar.fuse / 5) % 2 == 0) {
++            GL11.glDisable(3553);
++            GL11.glDisable(2896);
++            GL11.glEnable(3042);
++            GL11.glBlendFunc(770, 772);
++            GL11.glColor4f(1.0f, 1.0f, 1.0f, f10);
++            this.blockRenderer.renderBlockOnInventory(Block.tnt);
++            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
++            GL11.glDisable(3042);
++            GL11.glEnable(2896);
++            GL11.glEnable(3553);
++        }
++        GL11.glPopMatrix();
++    }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/EntityRenderer.java minecraft/net/minecraft/client/renderer/EntityRenderer.java
+--- minecraft_unpatched/net/minecraft/client/renderer/EntityRenderer.java	2020-02-22 17:59:58.221768800 -0800
++++ minecraft/net/minecraft/client/renderer/EntityRenderer.java	2020-02-20 14:47:45.190805400 -0800
+@@ -345,7 +345,7 @@
+         for (int i = 0; i < entitiesWithinAABBExcludingEntity.size(); ++i) {
+             final Entity pointedEntity;
+             final MovingObjectPosition calculateIntercept;
+-            if ((pointedEntity = entitiesWithinAABBExcludingEntity.get(i)).canBeCollidedWith() && (calculateIntercept = pointedEntity.boundingBox.expand(0.1f, 0.1f, 0.1f).calculateIntercept(orientCamera2, addVector)) != null && ((distance = orientCamera2.distance(calculateIntercept.hitVec)) < n5 || n5 == 0.0f)) {
++            if ((pointedEntity = (Entity) entitiesWithinAABBExcludingEntity.get(i)).canBeCollidedWith() && (calculateIntercept = pointedEntity.boundingBox.expand(0.1f, 0.1f, 0.1f).calculateIntercept(orientCamera2, addVector)) != null && ((distance = orientCamera2.distance(calculateIntercept.hitVec)) < n5 || n5 == 0.0f)) {
+                 this.pointedEntity = pointedEntity;
+                 n5 = distance;
+             }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ImageBufferDownload.java minecraft/net/minecraft/client/renderer/ImageBufferDownload.java
+--- minecraft_unpatched/net/minecraft/client/renderer/ImageBufferDownload.java	2020-02-22 17:59:56.246203600 -0800
++++ minecraft/net/minecraft/client/renderer/ImageBufferDownload.java	2020-02-20 14:47:56.346217700 -0800
+@@ -44,20 +44,6 @@
+                 }
+                 ++integer2;
+                 continue;
+-                boolean b = false;
+-                if (b) {
+-                    return;
+-                }
+-                int[] imageData;
+-                int n5;
+-                for (integer1 = 32; integer1 < 64; ++integer1) {
+-                    for (integer2 = 0; integer2 < 32; ++integer2) {
+-                        imageData = this.imageData;
+-                        n5 = integer1 + integer2 * this.imageWidth;
+-                        imageData[n5] &= 0xFFFFFF;
+-                    }
+-                }
+-                return;
+             }
+             final boolean b = false;
+             continue Label_0076;
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/RenderEngine.java minecraft/net/minecraft/client/renderer/RenderEngine.java
+--- minecraft_unpatched/net/minecraft/client/renderer/RenderEngine.java	2020-02-22 17:59:56.696076500 -0800
++++ minecraft/net/minecraft/client/renderer/RenderEngine.java	2020-02-20 14:48:46.213745000 -0800
+@@ -41,7 +41,7 @@
+     
+     public final int getTexture(final String string) {
+         final Integer n;
+-        if ((n = this.textureMap.get(string)) != null) {
++        if ((n = (Integer) this.textureMap.get(string)) != null) {
+             return n;
+         }
+         try {
+@@ -121,7 +121,7 @@
+     
+     public final int getTextureForDownloadableImage(final String string1, final String string2) {
+         final ThreadDownloadImageData threadDownloadImageData;
+-        if ((threadDownloadImageData = this.urlToImageDataMap.get(string1)) != null && threadDownloadImageData.image != null && !threadDownloadImageData.textureSetupComplete) {
++        if ((threadDownloadImageData = (ThreadDownloadImageData) this.urlToImageDataMap.get(string1)) != null && threadDownloadImageData.image != null && !threadDownloadImageData.textureSetupComplete) {
+             if (threadDownloadImageData.textureName < 0) {
+                 final ThreadDownloadImageData threadDownloadImageData2 = threadDownloadImageData;
+                 final BufferedImage image = threadDownloadImageData.image;
+@@ -145,7 +145,7 @@
+     
+     public final ThreadDownloadImageData obtainImageData(final String string, final ImageBufferDownload c) {
+         final ThreadDownloadImageData threadDownloadImageData;
+-        if ((threadDownloadImageData = this.urlToImageDataMap.get(string)) == null) {
++        if ((threadDownloadImageData = (ThreadDownloadImageData) this.urlToImageDataMap.get(string)) == null) {
+             this.urlToImageDataMap.put(string, new ThreadDownloadImageData(string, c));
+         }
+         else {
+@@ -157,7 +157,7 @@
+     
+     public final void releaseImageData(final String string) {
+         final ThreadDownloadImageData threadDownloadImageData;
+-        if ((threadDownloadImageData = this.urlToImageDataMap.get(string)) != null) {
++        if ((threadDownloadImageData = (ThreadDownloadImageData) this.urlToImageDataMap.get(string)) != null) {
+             final ThreadDownloadImageData threadDownloadImageData2 = threadDownloadImageData;
+             --threadDownloadImageData2.referenceCount;
+             if (threadDownloadImageData.referenceCount == 0) {
+@@ -182,7 +182,7 @@
+     public final void updateDynamicTextures() {
+         for (int i = 0; i < this.textureList.size(); ++i) {
+             final TextureFX textureFX;
+-            (textureFX = this.textureList.get(i)).anaglyphEnabled = this.options.anaglyph;
++            (textureFX = (TextureFX) this.textureList.get(i)).anaglyphEnabled = this.options.anaglyph;
+             textureFX.onTick();
+             this.imageData.clear();
+             this.imageData.put(textureFX.imageData);
+@@ -191,7 +191,7 @@
+         }
+         for (int i = 0; i < this.textureList.size(); ++i) {
+             final TextureFX textureFX2;
+-            if ((textureFX2 = this.textureList.get(i)).textureId > 0) {
++            if ((textureFX2 = (TextureFX) this.textureList.get(i)).textureId > 0) {
+                 this.imageData.clear();
+                 this.imageData.put(textureFX2.imageData);
+                 this.imageData.position(0).limit(textureFX2.imageData.length);
+@@ -202,35 +202,36 @@
+     }
+     
+     public final void refreshTextures() {
+-        for (final int n : this.textureNameToImageMap.keySet()) {
+-            this.setupTexture((BufferedImage)this.textureNameToImageMap.get(n), n);
++        Iterator var1 = this.textureNameToImageMap.keySet().iterator();
++        int var2;
++        BufferedImage var3;
++        while(var1.hasNext()) {
++           var2 = (Integer)var1.next();
++           var3 = (BufferedImage)this.textureNameToImageMap.get(var2);
++           this.setupTexture(var3, var2);
++        }
++        for(var1 = this.urlToImageDataMap.values().iterator(); var1.hasNext(); ((ThreadDownloadImageData)var1.next()).textureSetupComplete = false) {
++        }
++        var1 = this.textureMap.keySet().iterator();
++        while(var1.hasNext()) {
++           String var5 = (String)var1.next();
++           try {
++              if (var5.startsWith("##")) {
++                 var3 = unwrapImageByColumns(ImageIO.read(RenderEngine.class.getResourceAsStream(var5.substring(2))));
++              } else if (var5.startsWith("%%")) {
++                 this.clampTexture = true;
++                 var3 = ImageIO.read(RenderEngine.class.getResourceAsStream(var5.substring(2)));
++                 this.clampTexture = false;
++              } else {
++                 var3 = ImageIO.read(RenderEngine.class.getResourceAsStream(var5));
++              }
++              var2 = (Integer)this.textureMap.get(var5);
++              this.setupTexture(var3, var2);
++           } catch (IOException var4) {
++              var4.printStackTrace();
++           }
+         }
+-        final Iterator<ThreadDownloadImageData> iterator2 = this.urlToImageDataMap.values().iterator();
+-        while (iterator2.hasNext()) {
+-            iterator2.next().textureSetupComplete = false;
+-        }
+-        for (final String s : this.textureMap.keySet()) {
+-            try {
+-                BufferedImage bufferedImage;
+-                if (s.startsWith("##")) {
+-                    bufferedImage = unwrapImageByColumns(ImageIO.read(RenderEngine.class.getResourceAsStream(s.substring(2))));
+-                }
+-                else if (s.startsWith("%%")) {
+-                    this.clampTexture = true;
+-                    bufferedImage = ImageIO.read(RenderEngine.class.getResourceAsStream(s.substring(2)));
+-                    this.clampTexture = false;
+-                }
+-                else {
+-                    bufferedImage = ImageIO.read(RenderEngine.class.getResourceAsStream(s));
+-                }
+-                final int n = (int)this.textureMap.get(s);
+-                this.setupTexture(bufferedImage, n);
+-            }
+-            catch (IOException ex) {
+-                ex.printStackTrace();
+-            }
+-        }
+-    }
++     }
+     
+     public static void bindTexture(final int integer) {
+         if (integer < 0) {
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/RenderGlobal.java minecraft/net/minecraft/client/renderer/RenderGlobal.java
+--- minecraft_unpatched/net/minecraft/client/renderer/RenderGlobal.java	2020-02-22 17:59:59.096712600 -0800
++++ minecraft/net/minecraft/client/renderer/RenderGlobal.java	2020-02-20 15:44:08.873730600 -0800
+@@ -165,62 +165,74 @@
+         this.markBlocksForUpdate(0, 0, 0, this.worldObj.width, this.worldObj.height, this.worldObj.length);
+     }
+     
+-    public final void renderEntities(final Vec3D a, final ICamera e, final float float3) {
+-        final BlockMap blockMap = this.worldObj.blockMap;
+-        RenderManager.instance.cacheActiveRenderInfo(this.worldObj, this.renderEngine, this.mc.thePlayer, float3);
++    public final void renderEntities(Vec3D aVar, ICamera eVar, float f) {
++        boolean z;
++        BlockMap iVar = this.worldObj.blockMap;
++        RenderManager.instance.cacheActiveRenderInfo(this.worldObj, this.renderEngine, this.mc.thePlayer, f);
+         this.countEntitiesTotal = 0;
+         this.countEntitiesRendered = 0;
+         this.countEntitiesHidden = 0;
+-        for (int i = 0; i < blockMap.width; ++i) {
+-            for (int j = 0; j < blockMap.depth; ++j) {
+-                for (int k = 0; k < blockMap.height; ++k) {
+-                    final List list;
+-                    if ((list = blockMap.entityGrid[(k * blockMap.depth + j) * blockMap.width + i]).size() != 0) {
+-                        int l = (i << 3) + 4;
+-                        final int n = (j << 3) + 4;
+-                        final int n2 = (k << 3) + 4;
+-                        this.countEntitiesTotal += list.size();
+-                        final float n3 = (float)l;
+-                        final float n4 = (float)n;
+-                        float n5 = (float)n2;
+-                        float n6 = n4;
+-                        float n7 = n3;
+-                        boolean b;
+-                        if (n7 < 0.0f || n6 < 0.0f || n5 < 0.0f || n7 >= this.worldObj.width || n6 >= this.worldObj.height || n5 >= this.worldObj.length) {
+-                            b = true;
+-                        }
+-                        else {
+-                            final int n8 = (int)(n7 / 16.0f);
+-                            final int n9 = (int)(n6 / 16.0f);
+-                            final int n10 = (int)(n5 / 16.0f);
+-                            b = (this.worldRenderers[(n10 * this.renderChunksTall + n9) * this.renderChunksWide + n8].isInFrustrum && this.worldRenderers[(n10 * this.renderChunksTall + n9) * this.renderChunksWide + n8].isVisible);
++        int i = 0;
++        while (true) {
++            int i2 = i;
++            if (i2 < iVar.width) {
++                int i3 = 0;
++                while (true) {
++                    int i4 = i3;
++                    if (i4 >= iVar.depth) {
++                        break;
++                    }
++                    int i5 = 0;
++                    while (true) {
++                        int i6 = i5;
++                        if (i6 >= iVar.height) {
++                            break;
+                         }
+-                        if (b) {
+-                            for (l = 0; l < list.size(); ++l) {
+-                                final EntityLiving b2;
+-                                final Entity entity;
+-                                n6 = (entity = (b2 = (EntityLiving)list.get(l))).posX - a.xCoord;
+-                                n5 = entity.posY - a.yCoord;
+-                                n7 = entity.posZ - a.zCoord;
+-                                n6 = n6 * n6 + n5 * n5 + n7 * n7;
+-                                final Entity entity2 = entity;
+-                                final float n11 = n6;
+-                                final AxisAlignedBB boundingBox;
+-                                n6 = (boundingBox = entity2.boundingBox).maxX - boundingBox.minX;
+-                                n5 = boundingBox.maxY - boundingBox.minY;
+-                                n7 = boundingBox.maxZ - boundingBox.minZ;
+-                                n7 = (n7 = (n6 + n5 + n7) / 3.0f) * 64.0f;
+-                                if (n11 < n7 * n7 && e.isBoundingBoxInFrustrum(b2.boundingBox) && (b2 != this.worldObj.player || this.mc.gameSettings.thirdPersonView)) {
+-                                    ++this.countEntitiesRendered;
+-                                    RenderManager.instance.renderEntity(b2, float3);
++                        List list = iVar.entityGrid[(((iVar.depth * i6) + i4) * iVar.width) + i2];
++                        if (list.size() != 0) {
++                            this.countEntitiesTotal += list.size();
++                            float f2 = (float) ((i2 << 3) + 4);
++                            float f3 = (float) ((i4 << 3) + 4);
++                            float f4 = (float) ((i6 << 3) + 4);
++                            if (f2 < 0.0f || f3 < 0.0f || f4 < 0.0f || f2 >= ((float) this.worldObj.width) || f3 >= ((float) this.worldObj.length) || f4 >= ((float) this.worldObj.height)) {
++                                z = true;
++                            } else {
++                                int i7 = (int) (f2 / 16.0f);
++                                int i8 = (int) (f3 / 16.0f);
++                                int i9 = (int) (f4 / 16.0f);
++                                z = this.worldRenderers[(((this.renderChunksTall * i9) + i8) * this.renderChunksWide) + i7].isInFrustrum && this.worldRenderers[i7 + ((i8 + (i9 * this.renderChunksTall)) * this.renderChunksWide)].isVisible;
++                            }
++                            if (z) {
++                                int i10 = 0;
++                                while (true) {
++                                    int i11 = i10;
++                                    if (i11 >= list.size()) {
++                                        break;
++                                    }
++                                    Entity bVar = (Entity) list.get(i11);
++                                    float f5 = bVar.posX - aVar.xCoord;
++                                    float f6 = bVar.posY - aVar.yCoord;
++                                    float f7 = bVar.posZ - aVar.zCoord;
++                                    float f8 = (f5 * f5) + (f6 * f6) + (f7 * f7);
++                                    AxisAlignedBB bVar2 = bVar.boundingBox;
++                                    float f9 = (((bVar2.maxZ - bVar2.minZ) + ((bVar2.maxX - bVar2.minX) + (bVar2.maxY - bVar2.minY))) / 3.0f) * 64.0f;
++                                    if ((f8 < f9 * f9) && eVar.isBoundingBoxInFrustrum(bVar.boundingBox) && (bVar != this.worldObj.player || this.mc.gameSettings.thirdPersonView)) {
++                                        this.countEntitiesRendered++;
++                                        RenderManager.instance.renderEntity(bVar, f);
++                                    }
++                                    i10 = i11 + 1;
+                                 }
++                            } else {
++                                this.countEntitiesHidden += list.size();
+                             }
+                         }
+-                        else {
+-                            this.countEntitiesHidden += list.size();
+-                        }
++                        i5 = i6 + 1;
+                     }
++                    i3 = i4 + 1;
+                 }
++                i = i2 + 1;
++            } else {
++                return;
+             }
+         }
+     }
+@@ -531,7 +543,7 @@
+         final int n = this.worldRenderersToUpdate.size() - 1;
+         for (int size = this.worldRenderersToUpdate.size(), i = 0; i < size; ++i) {
+             final WorldRenderer worldRenderer;
+-            if ((worldRenderer = this.worldRenderersToUpdate.get(n - i)).distanceToEntitySquared(a) > 2500.0f && i > 4) {
++            if ((worldRenderer = (WorldRenderer) this.worldRenderersToUpdate.get(n - i)).distanceToEntitySquared(a) > 2500.0f && i > 4) {
+                 return;
+             }
+             this.worldRenderersToUpdate.remove(worldRenderer);
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/RenderSorter.java minecraft/net/minecraft/client/renderer/RenderSorter.java
+--- minecraft_unpatched/net/minecraft/client/renderer/RenderSorter.java	2020-02-22 17:59:59.518310300 -0800
++++ minecraft/net/minecraft/client/renderer/RenderSorter.java	2020-02-20 14:49:25.931723800 -0800
+@@ -10,4 +10,15 @@
+     public RenderSorter(final EntityPlayer a) {
+         this.baseEntity = a;
+     }
++    
++    public final int compare(Object obj, Object obj2) {
++        WorldRenderer hVar = (WorldRenderer) obj;
++        WorldRenderer hVar2 = (WorldRenderer) obj2;
++        boolean z = hVar.isInFrustrum;
++        boolean z2 = hVar2.isInFrustrum;
++        if (!z || z2) {
++            return ((!z2 || z) && hVar.distanceToEntitySquared((EntityLiving) this.baseEntity) < hVar2.distanceToEntitySquared((EntityLiving) this.baseEntity)) ? 1 : -1;
++        }
++        return 1;
++    }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/sound/SoundPool.java minecraft/net/minecraft/client/sound/SoundPool.java
+--- minecraft_unpatched/net/minecraft/client/sound/SoundPool.java	2020-02-22 17:59:57.951449500 -0800
++++ minecraft/net/minecraft/client/sound/SoundPool.java	2020-02-20 14:59:50.316004300 -0800
+@@ -28,7 +28,7 @@
+                 this.nameToSoundPoolEntriesMapping.put(string, new ArrayList());
+             }
+             final SoundPoolEntry soundPoolEntry = new SoundPoolEntry(string2, file.toURI().toURL());
+-            this.nameToSoundPoolEntriesMapping.get(string).add(soundPoolEntry);
++            ((ArrayList) this.nameToSoundPoolEntriesMapping.get(string)).add(soundPoolEntry);
+             ++this.numberOfSoundPoolEntries;
+             return soundPoolEntry;
+         }
+@@ -41,7 +41,7 @@
+     
+     public final SoundPoolEntry getRandomSoundFromSoundPool(final String string) {
+         final List<SoundPoolEntry> list;
+-        if ((list = this.nameToSoundPoolEntriesMapping.get(string)) == null) {
++        if ((list = (List<SoundPoolEntry>) this.nameToSoundPoolEntriesMapping.get(string)) == null) {
+             return null;
+         }
+         return list.get(this.rand.nextInt(list.size()));
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/ThreadDownloadResources.java minecraft/net/minecraft/client/ThreadDownloadResources.java
+--- minecraft_unpatched/net/minecraft/client/ThreadDownloadResources.java	2020-02-22 17:59:56.835451300 -0800
++++ minecraft/net/minecraft/client/ThreadDownloadResources.java	2020-02-20 15:36:06.663745000 -0800
+@@ -11,6 +11,7 @@
+ import java.net.URL;
+ import java.util.ArrayList;
+ import java.io.File;
++import java.io.FileNotFoundException;
+ 
+ public final class ThreadDownloadResources extends Thread {
+     private File resourcesFolder;
+@@ -32,7 +33,7 @@
+     public final void run() {
+         try {
+             final ArrayList<String> list = new ArrayList<String>();
+-            final URL url = new URL("http://www.minecraft.net/resources/");
++            final URL url = new URL("https://betacraft.pl/resources/");
+             final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+             String line;
+             while ((line = bufferedReader.readLine()) != null) {
+@@ -89,7 +90,7 @@
+         }
+     }
+     
+-    private void downloadResource(final URL url, final File file) {
++    private void downloadResource(final URL url, final File file) throws IOException {
+         final byte[] array = new byte[4096];
+         final DataInputStream dataInputStream = new DataInputStream(url.openStream());
+         final DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(file));
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/ThreadSleepForever.java minecraft/net/minecraft/client/ThreadSleepForever.java
+--- minecraft_unpatched/net/minecraft/client/ThreadSleepForever.java	2020-02-22 17:59:59.347687100 -0800
++++ minecraft/net/minecraft/client/ThreadSleepForever.java	2020-02-20 14:43:42.193050200 -0800
+@@ -18,7 +18,6 @@
+             catch (InterruptedException ex) {
+                 continue;
+             }
+-            break;
+         }
+     }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/block/BlockFarmland.java minecraft/net/minecraft/game/block/BlockFarmland.java
+--- minecraft_unpatched/net/minecraft/game/block/BlockFarmland.java	2020-02-22 17:59:59.510870400 -0800
++++ minecraft/net/minecraft/game/block/BlockFarmland.java	2020-02-21 00:36:29.392627400 -0800
+@@ -40,63 +40,53 @@
+     }
+     
+     @Override
+-    public final void updateTick(final World g, final int integer2, final int integer3, final int integer4, final Random random) {
++    public final void updateTick(World gVar, int i, int i2, int i3, Random random) {
++        boolean z;
++        boolean z2 = true;
+         if (random.nextInt(5) == 0) {
+-            int n = integer4;
+-            int n2 = integer3;
+-            int n3 = integer2;
+-            int i = n3 - 4;
+-        Label_0105:
++            int i4 = i - 4;
++            loop0:
+             while (true) {
+-            Label_0220_Outer:
+-                while (i <= n3 + 4) {
+-                    for (int j = n2; j <= n2 + 1; ++j) {
+-                        for (int k = n - 4; k <= n + 4; ++k) {
+-                            if (g.getBlockMaterial(i, j, k) == Material.water) {
+-                                final boolean b = true;
+-                                break Label_0105;
+-                            }
++                int i5 = i4;
++                if (i5 > i + 4) {
++                    z = false;
++                    break;
++                }
++                for (int i6 = i2; i6 <= i2 + 1; i6++) {
++                    for (int i7 = i3 - 4; i7 <= i3 + 4; i7++) {
++                        if (gVar.getBlockMaterial(i5, i6, i7) == Material.water) {
++                            z = true;
++                            break loop0;
+                         }
+                     }
+-                    ++i;
+-                    continue Label_0220_Outer;
+-                    boolean b = false;
+-                    if (b) {
+-                        g.setBlockMetadataWithNotify(integer2, integer3, integer4, 7);
+-                        return;
+-                    }
+-                    final byte blockMetadata;
+-                    if ((blockMetadata = g.getBlockMetadata(integer2, integer3, integer4)) > 0) {
+-                        g.setBlockMetadataWithNotify(integer2, integer3, integer4, blockMetadata - 1);
+-                        return;
+-                    }
+-                    n = integer4;
+-                    n2 = integer3;
+-                    int j;
+-                    n3 = (j = integer2);
+-                Label_0220:
+-                    while (true) {
+-                        while (j <= n3) {
+-                            for (int k = n; k <= n; ++k) {
+-                                if (g.getBlockId(j, n2 + 1, k) == Block.crops.blockID) {
+-                                    final boolean b2 = true;
+-                                    break Label_0220;
+-                                }
+-                            }
+-                            ++j;
+-                            continue Label_0220_Outer;
+-                            boolean b2 = false;
+-                            if (!b2) {
+-                                g.setBlockWithNotify(integer2, integer3, integer4, Block.dirt.blockID);
+-                            }
+-                            return;
+-                        }
+-                        final boolean b2 = false;
+-                        continue Label_0220;
++                }
++                i4 = i5 + 1;
++            }
++            if (z) {
++                gVar.setBlockMetadataWithNotify(i, i2, i3, 7);
++                return;
++            }
++            byte e = gVar.getBlockMetadata(i, i2, i3);
++            if (e > 0) {
++                gVar.setBlockMetadataWithNotify(i, i2, i3, e - 1);
++                return;
++            }
++            int i8 = i;
++            loop3:
++            while (true) {
++                if (i8 > i) {
++                    z2 = false;
++                    break;
++                }
++                for (int i9 = i3; i9 <= i3; i9++) {
++                    if (gVar.getBlockId(i8, i2 + 1, i9) == Block.crops.blockID) {
++                        break loop3;
+                     }
+                 }
+-                final boolean b = false;
+-                continue Label_0105;
++                i8++;
++            }
++            if (!z2) {
++                gVar.setBlockWithNotify(i, i2, i3, Block.dirt.blockID);
+             }
+         }
+     }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/EntityLiving.java minecraft/net/minecraft/game/entity/EntityLiving.java
+--- minecraft_unpatched/net/minecraft/game/entity/EntityLiving.java	2020-02-22 17:59:55.803277900 -0800
++++ minecraft/net/minecraft/game/entity/EntityLiving.java	2020-02-20 15:00:10.955494100 -0800
+@@ -412,7 +412,7 @@
+         if ((entitiesWithinAABBExcludingEntity = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.2f, 0.0f, 0.2f))) != null && entitiesWithinAABBExcludingEntity.size() > 0) {
+             for (int i = 0; i < entitiesWithinAABBExcludingEntity.size(); ++i) {
+                 final Entity entity;
+-                if ((entity = entitiesWithinAABBExcludingEntity.get(i)).canBePushed()) {
++                if ((entity = (Entity) entitiesWithinAABBExcludingEntity.get(i)).canBePushed()) {
+                     entity.applyEntityCollision(this);
+                 }
+             }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/monster/EntityCreeper.java minecraft/net/minecraft/game/entity/monster/EntityCreeper.java
+--- minecraft_unpatched/net/minecraft/game/entity/monster/EntityCreeper.java	2020-02-22 17:59:56.825035800 -0800
++++ minecraft/net/minecraft/game/entity/monster/EntityCreeper.java	2020-02-20 18:19:16.865827600 -0800
+@@ -64,7 +64,7 @@
+         }
+     }
+     
+-    public final float c(final float float1) {
++    public final float setCreeperFlashTime(final float float1) {
+         return (this.lastActiveTime + (this.timeSinceIgnited - this.lastActiveTime) * float1) / (this.fuseTime - 2);
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/other/EntityArrow.java minecraft/net/minecraft/game/entity/other/EntityArrow.java
+--- minecraft_unpatched/net/minecraft/game/entity/other/EntityArrow.java	2020-02-22 17:59:56.371196800 -0800
++++ minecraft/net/minecraft/game/entity/other/EntityArrow.java	2020-02-20 15:00:31.530504800 -0800
+@@ -107,7 +107,7 @@
+             final Entity entity;
+             final MovingObjectPosition calculateIntercept;
+             final float distance;
+-            if ((entity = entitiesWithinAABBExcludingEntity.get(i)).canBeCollidedWith() && (entity != this.owner || this.ticksInAir >= 5) && (calculateIntercept = entity.boundingBox.expand(0.3f, 0.3f, 0.3f).calculateIntercept(a1, a2)) != null && ((distance = a1.distance(calculateIntercept.hitVec)) < n || n == 0.0f)) {
++            if ((entity = (Entity) entitiesWithinAABBExcludingEntity.get(i)).canBeCollidedWith() && (entity != this.owner || this.ticksInAir >= 5) && (calculateIntercept = entity.boundingBox.expand(0.3f, 0.3f, 0.3f).calculateIntercept(a1, a2)) != null && ((distance = a1.distance(calculateIntercept.hitVec)) < n || n == 0.0f)) {
+                 b = entity;
+                 n = distance;
+             }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/Pathfinder.java minecraft/net/minecraft/game/entity/Pathfinder.java
+--- minecraft_unpatched/net/minecraft/game/entity/Pathfinder.java	2020-02-22 17:59:56.109805400 -0800
++++ minecraft/net/minecraft/game/entity/Pathfinder.java	2020-02-20 15:00:17.756612600 -0800
+@@ -134,7 +134,7 @@
+     private final PathPoint openPoint(final int integer1, final int integer2, final int integer3) {
+         final int n = integer1 | integer2 << 10 | integer3 << 20;
+         PathPoint pathPoint;
+-        if ((pathPoint = this.pointMap.get(n)) == null) {
++        if ((pathPoint = (PathPoint) this.pointMap.get(n)) == null) {
+             pathPoint = new PathPoint(integer1, integer2, integer3);
+             this.pointMap.put(n, pathPoint);
+         }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/player/EntityPlayer.java minecraft/net/minecraft/game/entity/player/EntityPlayer.java
+--- minecraft_unpatched/net/minecraft/game/entity/player/EntityPlayer.java	2020-02-22 17:59:57.881018100 -0800
++++ minecraft/net/minecraft/game/entity/player/EntityPlayer.java	2020-02-21 17:24:00.903929300 -0800
+@@ -48,7 +48,7 @@
+         if (this.worldObj != null) {
+             this.worldObj.player = this;
+         }
+-        this.health = 20;
++        this.health = 200000;
+         this.deathTime = 0;
+     }
+     
+@@ -83,7 +83,7 @@
+         final List entitiesWithinAABBExcludingEntity;
+         if (this.health > 0 && (entitiesWithinAABBExcludingEntity = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.0f, 0.0f, 1.0f))) != null) {
+             for (int j = 0; j < entitiesWithinAABBExcludingEntity.size(); ++j) {
+-                entitiesWithinAABBExcludingEntity.get(j).onCollideWithPlayer(this);
++                ((Entity) entitiesWithinAABBExcludingEntity.get(j)).onCollideWithPlayer(this);
+             }
+         }
+     }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/player/InventoryPlayer.java minecraft/net/minecraft/game/entity/player/InventoryPlayer.java
+--- minecraft_unpatched/net/minecraft/game/entity/player/InventoryPlayer.java	2020-02-22 17:59:58.415210000 -0800
++++ minecraft/net/minecraft/game/entity/player/InventoryPlayer.java	2020-02-20 15:48:10.997902200 -0800
+@@ -56,71 +56,50 @@
+         return true;
+     }
+     
+-    public final boolean storePartialItemStack(final ItemStack k) {
+-        Label_0335: {
+-            if (k.itemDamage == 0) {
+-                final int itemID = k.itemID;
+-                int stackSize = k.stackSize;
+-                final int n;
+-                int integer1 = n = itemID;
+-                int i = 0;
+-                while (true) {
+-                    while (i < this.mainInventory.length) {
+-                        if (this.mainInventory[i] != null && this.mainInventory[i].itemID == n && this.mainInventory[i].stackSize < this.mainInventory[i].getItem().getItemStackLimit() && this.mainInventory[i].stackSize < 64) {
+-                            final int n3;
+-                            final int n2 = n3 = i;
+-                            int storeItemStack = n3;
+-                            if (n2 < 0) {
+-                                storeItemStack = this.storeItemStack();
+-                            }
+-                            int stackSize2;
+-                            if (storeItemStack < 0) {
+-                                stackSize2 = stackSize;
+-                            }
+-                            else {
+-                                if (this.mainInventory[storeItemStack] == null) {
+-                                    this.mainInventory[storeItemStack] = new ItemStack(integer1, 0);
+-                                }
+-                                if ((integer1 = stackSize) > this.mainInventory[storeItemStack].getItem().getItemStackLimit() - this.mainInventory[storeItemStack].stackSize) {
+-                                    integer1 = this.mainInventory[storeItemStack].getItem().getItemStackLimit() - this.mainInventory[storeItemStack].stackSize;
+-                                }
+-                                if (integer1 > 64 - this.mainInventory[storeItemStack].stackSize) {
+-                                    integer1 = 64 - this.mainInventory[storeItemStack].stackSize;
+-                                }
+-                                if (integer1 == 0) {
+-                                    stackSize2 = stackSize;
+-                                }
+-                                else {
+-                                    stackSize -= integer1;
+-                                    final ItemStack itemStack = this.mainInventory[storeItemStack];
+-                                    itemStack.stackSize += integer1;
+-                                    this.mainInventory[storeItemStack].animationsToGo = 5;
+-                                    stackSize2 = stackSize;
+-                                }
+-                            }
+-                            k.stackSize = stackSize2;
+-                            if (k.stackSize == 0) {
+-                                return true;
+-                            }
+-                            break Label_0335;
+-                        }
+-                        else {
+-                            ++i;
+-                        }
++    public final boolean storePartialItemStack(ItemStack kVar) {
++        if (kVar.itemDamage == 0) {
++            int i = kVar.itemID;
++            int i2 = kVar.stackSize;
++            int i3 = 0;
++            while (true) {
++                if (i3 < this.mainInventory.length) {
++                    if (this.mainInventory[i3] != null && this.mainInventory[i3].itemID == i && this.mainInventory[i3].stackSize < this.mainInventory[i3].getItem().getItemStackLimit() && this.mainInventory[i3].stackSize < 64) {
++                        break;
+                     }
+-                    int n3;
+-                    final int n2 = n3 = -1;
+-                    continue;
++                    i3++;
++                } else {
++                    i3 = -1;
++                    break;
+                 }
+             }
++            int f = i3 < 0 ? storeItemStack() : i3;
++            if (f >= 0) {
++                if (this.mainInventory[f] == null) {
++                    this.mainInventory[f] = new ItemStack(i, 0);
++                }
++                int c = i2 > this.mainInventory[f].getItem().getItemStackLimit() - this.mainInventory[f].stackSize ? this.mainInventory[f].getItem().getItemStackLimit() - this.mainInventory[f].stackSize : i2;
++                if (c > 64 - this.mainInventory[f].stackSize) {
++                    c = 64 - this.mainInventory[f].stackSize;
++                }
++                if (c != 0) {
++                    i2 -= c;
++                    ItemStack kVar2 = this.mainInventory[f];
++                    kVar2.stackSize = c + kVar2.stackSize;
++                    this.mainInventory[f].animationsToGo = 5;
++                }
++            }
++            kVar.stackSize = i2;
++            if (kVar.stackSize == 0) {
++                return true;
++            }
+         }
+-        final int storeItemStack2;
+-        if ((storeItemStack2 = this.storeItemStack()) >= 0) {
+-            this.mainInventory[storeItemStack2] = k;
+-            this.mainInventory[storeItemStack2].animationsToGo = 5;
+-            return true;
++        int f2 = storeItemStack();
++        if (f2 < 0) {
++            return false;
+         }
+-        return false;
++        this.mainInventory[f2] = kVar;
++        this.mainInventory[f2].animationsToGo = 5;
++        return true;
+     }
+     
+     public final ItemStack decrStackSize(int integer1, final int integer2) {
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/item/Item.java minecraft/net/minecraft/game/item/Item.java
+--- minecraft_unpatched/net/minecraft/game/item/Item.java	2020-02-22 17:59:57.800169900 -0800
++++ minecraft/net/minecraft/game/item/Item.java	2020-02-20 15:00:50.782891500 -0800
+@@ -76,7 +76,7 @@
+     public final int shiftedIndex;
+     protected int maxStackSize;
+     protected int maxDamage;
+-    private int iconIndex;
++    protected int iconIndex;
+     
+     protected Item(final int integer) {
+         this.maxStackSize = 64;
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/BlockMap.java minecraft/net/minecraft/game/level/BlockMap.java
+--- minecraft_unpatched/net/minecraft/game/level/BlockMap.java	2020-02-22 17:59:58.986103000 -0800
++++ minecraft/net/minecraft/game/level/BlockMap.java	2020-02-20 15:01:33.689171400 -0800
+@@ -71,7 +71,7 @@
+                         final List list2 = this.entityGrid[(k * this.depth + j) * this.width + i];
+                         for (int l = 0; l < list2.size(); ++l) {
+                             final Entity entity;
+-                            if ((entity = list2.get(l)) != b) {
++                            if ((entity = (Entity) list2.get(l)) != b) {
+                                 final Entity entity2 = entity;
+                                 float n = float7;
+                                 float n2 = float6;
+@@ -115,7 +115,7 @@
+     public final void updateEntityList() {
+         for (int i = 0; i < this.all.size(); ++i) {
+             final Entity b;
+-            final Entity entity = b = this.all.get(i);
++            final Entity entity = b = (Entity) this.all.get(i);
+             entity.lastTickPosX = b.posX;
+             b.lastTickPosY = b.posY;
+             b.lastTickPosZ = b.posZ;
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/BlockMapSlot.java minecraft/net/minecraft/game/level/BlockMapSlot.java
+--- minecraft_unpatched/net/minecraft/game/level/BlockMapSlot.java	2020-02-22 17:59:57.568042600 -0800
++++ minecraft/net/minecraft/game/level/BlockMapSlot.java	2020-02-20 15:01:27.016307300 -0800
+@@ -3,12 +3,12 @@
+ import net.minecraft.game.entity.Entity;
+ 
+ final class BlockMapSlot {
+-    private int xSlot;
+-    private int ySlot;
+-    private int zSlot;
++    int xSlot;
++    int ySlot;
++    int zSlot;
+     private /* synthetic */ BlockMap blockMap;
+     
+-    private BlockMapSlot(final BlockMap i, final byte byte2) {
++    BlockMapSlot(final BlockMap i) {
+         this.blockMap = i;
+     }
+     
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/generator/LevelGenerator.java minecraft/net/minecraft/game/level/generator/LevelGenerator.java
+--- minecraft_unpatched/net/minecraft/game/level/generator/LevelGenerator.java	2020-02-22 17:59:57.590361900 -0800
++++ minecraft/net/minecraft/game/level/generator/LevelGenerator.java	2020-02-21 17:58:56.850377200 -0800
+@@ -296,13 +296,13 @@
+             if (this.levelType == 1) {
+                 i = Block.lavaStill.blockID;
+             }
+-            for (int j = 0; j < integer2; ++j) {
+-                this.flood(j, this.waterLevel - 1, 0, 0, i);
+-                this.flood(j, this.waterLevel - 1, integer3 - 1, 0, i);
+-            }
+-            for (int j = 0; j < integer3; ++j) {
+-                this.flood(integer2 - 1, this.waterLevel - 1, j, 0, i);
+-                this.flood(0, this.waterLevel - 1, j, 0, i);
++            for (int j1 = 0; j1 < integer2; ++j1) {
++                this.flood(j1, this.waterLevel - 1, 0, 0, i);
++                this.flood(j1, this.waterLevel - 1, integer3 - 1, 0, i);
++            }
++            for (int j11 = 0; j11 < integer3; ++j11) {
++                this.flood(integer2 - 1, this.waterLevel - 1, j11, 0, i);
++                this.flood(0, this.waterLevel - 1, j11, 0, i);
+             }
+         }
+         if (this.levelType == 0) {
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/LevelLoader.java minecraft/net/minecraft/game/level/LevelLoader.java
+--- minecraft_unpatched/net/minecraft/game/level/LevelLoader.java	2020-02-22 17:59:55.767069700 -0800
++++ minecraft/net/minecraft/game/level/LevelLoader.java	2020-02-20 15:30:42.729535000 -0800
+@@ -1,6 +1,7 @@
+ package net.minecraft.game.level;
+ 
+ import java.io.FilterOutputStream;
++import java.io.IOException;
+ import java.util.Iterator;
+ import java.io.DataOutput;
+ import java.io.DataOutputStream;
+@@ -35,17 +36,18 @@
+         this.guiLoading = b;
+     }
+     
+-    public final World load(InputStream var_1_29) {
++    public final World load(InputStream var_1_29) throws IOException {
+         if (this.guiLoading != null) {
+             this.guiLoading.setTitle("Loading level");
+         }
+         if (this.guiLoading != null) {
+             this.guiLoading.setText("Reading..");
+         }
+-        final NBTTagCompound compoundTag = ((NBTTagCompound)(var_1_29 = (InputStream)GuiLevelLoading.writeLevelTags(var_1_29))).getCompoundTag("About");
+-        final NBTTagCompound compoundTag2 = ((NBTTagCompound)var_1_29).getCompoundTag("Map");
+-        final NBTTagCompound compoundTag3 = ((NBTTagCompound)var_1_29).getCompoundTag("Environment");
+-        final NBTTagList tagList = ((NBTTagCompound)var_1_29).getTagList("Entities");
++		NBTTagCompound var13;
++        NBTTagCompound compoundTag = (var13 = GuiLevelLoading.writeLevelTags(var_1_29)).getCompoundTag("About");
++        NBTTagCompound compoundTag2 = var13.getCompoundTag("Map");
++        NBTTagCompound compoundTag3 = var13.getCompoundTag("Environment");
++        NBTTagList tagList = var13.getTagList("Entities");
+         int n = compoundTag2.getShort("Width");
+         int short1 = compoundTag2.getShort("Length");
+         final short short2 = compoundTag2.getShort("Height");
+@@ -98,7 +100,7 @@
+                 ex.printStackTrace();
+             }
+         }
+-        final NBTTagList tagList3 = ((NBTTagCompound)var_1_29).getTagList("TileEntities");
++        final NBTTagList tagList3 = var13.getTagList("TileEntities");
+         for (int j = 0; j < tagList3.tagCount(); ++j) {
+             try {
+                 final NBTTagCompound nbtTagCompound2;
+@@ -158,7 +160,7 @@
+         return null;
+     }
+     
+-    public final void save(final World g, OutputStream outputStream) {
++    public final void save(final World g, OutputStream outputStream) throws IOException {
+         if (this.guiLoading != null) {
+             this.guiLoading.setTitle("Saving level");
+         }
+@@ -194,28 +196,32 @@
+         if (this.guiLoading != null) {
+             this.guiLoading.setText("Preparing entities..");
+         }
+-        final NBTTagList i = new NBTTagList();
+-        for (final Entity entity : g.blockMap.all) {
+-            final NBTTagCompound nbtTagCompound = new NBTTagCompound();
+-            entity.writeToNBT(nbtTagCompound);
+-            if (!nbtTagCompound.emptyNBTMap()) {
+-                i.setTag(nbtTagCompound);
++		Iterator var7 = g.blockMap.all.iterator();	
++		final NBTTagList list2 = new NBTTagList();
++        while(var7.hasNext()) {
++		    Entity var8 = (Entity)var7.next();
++            final NBTTagCompound nbtCompound4 = new NBTTagCompound();
++            var8.writeToNBT(nbtCompound4);
++            if (!nbtCompound4.emptyNBTMap()) {
++                list2.setTag(nbtCompound4);
+             }
+         }
+-        final NBTTagList k = new NBTTagList();
+-        for (final int intValue : g.map.keySet()) {
+-            final NBTTagCompound nbtTagCompound2;
+-            (nbtTagCompound2 = new NBTTagCompound()).setInteger("Pos", intValue);
+-            ((TileEntity)g.map.get(intValue)).writeToNBT(nbtTagCompound2);
+-            k.setTag(nbtTagCompound2);
++        final NBTTagList list3 = new NBTTagList();
++        Iterator var17 = g.map.keySet().iterator();
++        while(var17.hasNext()) {
++            int var19 = (Integer)var17.next();
++            final NBTTagCompound nbtCompound5;
++            (nbtCompound5 = new NBTTagCompound()).setInteger("Pos", var19);
++            ((TileEntity)g.map.get(var19)).writeToNBT(nbtCompound5);
++            list3.setTag(nbtCompound5);
+         }
+         final NBTTagCompound nbtTagCompound3;
+         (nbtTagCompound3 = new NBTTagCompound()).setKey("MinecraftLevel");
+         nbtTagCompound3.setCompoundTag("About", c3);
+         nbtTagCompound3.setCompoundTag("Map", c2);
+         nbtTagCompound3.setCompoundTag("Environment", c);
+-        nbtTagCompound3.setTag("Entities", i);
+-        nbtTagCompound3.setTag("TileEntities", k);
++        nbtTagCompound3.setTag("Entities", list2);
++        nbtTagCompound3.setTag("TileEntities", list3);
+         if (this.guiLoading != null) {
+             this.guiLoading.setText("Writing..");
+         }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/World.java minecraft/net/minecraft/game/level/World.java
+--- minecraft_unpatched/net/minecraft/game/level/World.java	2020-02-22 17:59:59.136391700 -0800
++++ minecraft/net/minecraft/game/level/World.java	2020-02-21 20:41:16.567925100 -0800
+@@ -177,7 +177,7 @@
+             this.worldClient = new WorldClient(this);
+         }
+         for (integer2 = 0; integer2 < this.worldAccesses.size(); ++integer2) {
+-            this.worldAccesses.get(integer2).loadRenderers();
++            ((IWorldAccess) this.worldAccesses.get(integer2)).loadRenderers();
+         }
+         this.tickList.clear();
+         this.findSpawn();
+@@ -223,6 +223,7 @@
+                 this.ySpawn = ySpawn;
+                 this.zSpawn = zSpawn;
+                 this.rotSpawn = 180.0f;
++                return;
+             }
+         }
+     }
+@@ -313,7 +314,7 @@
+             this.worldClient.worldClientMethod5(integer1, integer2, integer3, integer1 + 1, integer2 + 1, integer3 + 1);
+         }
+         for (integer4 = 0; integer4 < this.worldAccesses.size(); ++integer4) {
+-            this.worldAccesses.get(integer4).markBlockAndNeighborsNeedsUpdate(integer1, integer2, integer3);
++            ((IWorldAccess) this.worldAccesses.get(integer4)).markBlockAndNeighborsNeedsUpdate(integer1, integer2, integer3);
+         }
+         return true;
+     }
+@@ -509,7 +510,7 @@
+         }
+         for (int i = 0; i < size; ++i) {
+             final NextTickListEntry nextTickListEntry;
+-            if ((nextTickListEntry = this.tickList.remove(0)).ticks > 0) {
++            if ((nextTickListEntry = (NextTickListEntry) this.tickList.remove(0)).ticks > 0) {
+                 final NextTickListEntry nextTickListEntry2 = nextTickListEntry;
+                 --nextTickListEntry2.ticks;
+                 this.tickList.add(nextTickListEntry);
+@@ -664,7 +665,7 @@
+     public final boolean checkIfAABBIsClear(final AxisAlignedBB b) {
+         final List entitiesWithinAABBExcludingEntity = this.blockMap.getEntitiesWithinAABBExcludingEntity(null, b);
+         for (int i = 0; i < entitiesWithinAABBExcludingEntity.size(); ++i) {
+-            if (entitiesWithinAABBExcludingEntity.get(i).preventEntitySpawning) {
++            if (((Entity)entitiesWithinAABBExcludingEntity.get(i)).preventEntitySpawning) {
+                 return false;
+             }
+         }
+@@ -772,7 +773,7 @@
+         }
+         this.dataByteArray[(integer2 * this.length + integer3) * this.width + integer1] = (byte)((this.dataByteArray[(integer2 * this.length + integer3) * this.width + integer1] & 0xF) + (integer4 << 4));
+         for (integer4 = 0; integer4 < this.worldAccesses.size(); ++integer4) {
+-            this.worldAccesses.get(integer4).markBlockAndNeighborsNeedsUpdate(integer1, integer2, integer3);
++            ((IWorldAccess) this.worldAccesses.get(integer4)).markBlockAndNeighborsNeedsUpdate(integer1, integer2, integer3);
+         }
+     }
+     
+@@ -1038,7 +1039,7 @@
+         final Vec3D a = new Vec3D(float2, float3, float4);
+         for (int n11 = 0; n11 < entities.size(); ++n11) {
+             final Entity entity2;
+-            final Entity entity = entity2 = entities.get(n11);
++            final Entity entity = entity2 = (Entity) entities.get(n11);
+             final float sqrt_float = float4;
+             float n12 = float3;
+             float float6 = float2;
+@@ -1124,7 +1125,7 @@
+     
+     public final Entity findSubclassOf(final Class class1) {
+         for (int i = 0; i < this.blockMap.all.size(); ++i) {
+-            final Entity entity = this.blockMap.all.get(i);
++            final Entity entity = (Entity) this.blockMap.all.get(i);
+             if (class1.isAssignableFrom(entity.getClass())) {
+                 return entity;
+             }
+@@ -1132,98 +1133,124 @@
+         return null;
+     }
+     
+-    public final int fluidFlowCheck(int integer1, int integer2, int integer3, final int integer4, final int integer5) {
+-        if (integer1 < 0 || integer2 < 0 || integer3 < 0 || integer1 >= this.width || integer2 >= this.height || integer3 >= this.length) {
+-            return -1;
+-        }
+-        final int n = integer1;
+-        final int n2 = integer3;
+-        int n3 = ((integer2 << 10) + integer3 << 10) + integer1;
+-        int i = 0;
+-        final int[] worldIntArray2 = this.worldIntArray2;
+-        final int n4 = 0;
+-        ++i;
+-        worldIntArray2[n4] = integer1 + (integer3 << 10);
+-        int n5 = -9999;
+-        if (integer4 == Block.waterStill.blockID || integer4 == Block.waterMoving.blockID) {
+-            n5 = Block.waterSource.blockID;
+-        }
+-        if (integer4 == Block.lavaStill.blockID || integer4 == Block.lavaMoving.blockID) {
+-            n5 = Block.lavaSource.blockID;
+-        }
+-        int n6;
+-        boolean b;
+-        do {
+-            b = false;
+-            int n7 = -1;
+-            n6 = 0;
+-            if (++World.worldShort == 30000) {
+-                Arrays.fill(this.blocksShortArray, (short)0);
+-                World.worldShort = 1;
+-            }
+-            while (i > 0) {
+-                int n8 = this.worldIntArray2[--i];
+-                if (this.blocksShortArray[n8] != World.worldShort) {
+-                    int n9;
+-                    for (integer1 = n8 % 1024, n9 *= (n9 = (integer3 = n8 / 1024) - n2); integer1 > 0 && this.blocksShortArray[n8 - 1] != World.worldShort && (this.blocks[(integer2 * this.length + integer3) * this.width + integer1 - 1] == integer4 || this.blocks[(integer2 * this.length + integer3) * this.width + integer1 - 1] == integer5); --integer1, --n8) {}
+-                    if (integer1 > 0 && this.blocks[(integer2 * this.length + integer3) * this.width + integer1 - 1] == n5) {
+-                        b = true;
++    public final int fluidFlowCheck(int var1, int var2, int var3, int var4, int var5) {
++        if (var1 >= 0 && var2 >= 0 && var3 >= 0 && var1 < this.width && var2 < this.height && var3 < this.length) {
++           int var6 = var1;
++           int var7 = var3;
++           int var8 = ((var2 << 10) + var3 << 10) + var1;
++           byte var9 = 0;
++           int var20 = var9 + 1;
++           this.worldIntArray2[0] = var1 + (var3 << 10);
++           int var11 = -9999;
++           if (var4 == Block.waterStill.blockID || var4 == Block.waterMoving.blockID) {
++              var11 = Block.waterSource.blockID;
++           }
++
++           if (var4 == Block.lavaStill.blockID || var4 == Block.lavaMoving.blockID) {
++              var11 = Block.lavaSource.blockID;
++           }
++
++           int var10;
++           boolean var12;
++           label170:
++           do {
++              var12 = false;
++              int var13 = -1;
++              var10 = 0;
++              if (++worldShort == 30000) {
++                 Arrays.fill(this.blocksShortArray, (short)0);
++                 worldShort = 1;
++              }
++
++              while(true) {
++                 int var14;
++                 do {
++                    if (var20 <= 0) {
++                       ++var2;
++                       int[] var21 = this.worldIntArray3;
++                       this.worldIntArray3 = this.worldIntArray2;
++                       this.worldIntArray2 = var21;
++                       var20 = var10;
++                       continue label170;
+                     }
+-                    int n10 = 0;
+-                    int n11 = 0;
+-                    int n12 = 0;
+-                    while (integer1 < this.width && this.blocksShortArray[n8] != World.worldShort && (this.blocks[(integer2 * this.length + integer3) * this.width + integer1] == integer4 || this.blocks[(integer2 * this.length + integer3) * this.width + integer1] == integer5)) {
+-                        if (integer3 > 0) {
+-                            byte b2;
+-                            if ((b2 = this.blocks[(integer2 * this.length + integer3 - 1) * this.width + integer1]) == n5) {
+-                                b = true;
+-                            }
+-                            if ((b2 = (byte)((this.blocksShortArray[n8 - 1024] != World.worldShort && (b2 == integer4 || b2 == integer5)) ? 1 : 0)) != 0 && n10 == 0) {
+-                                this.worldIntArray2[i++] = n8 - 1024;
+-                            }
+-                            n10 = b2;
+-                        }
+-                        if (integer3 < this.length - 1) {
+-                            byte b2;
+-                            if ((b2 = this.blocks[(integer2 * this.length + integer3 + 1) * this.width + integer1]) == n5) {
+-                                b = true;
+-                            }
+-                            if ((b2 = (byte)((this.blocksShortArray[n8 + 1024] != World.worldShort && (b2 == integer4 || b2 == integer5)) ? 1 : 0)) != 0 && n11 == 0) {
+-                                this.worldIntArray2[i++] = n8 + 1024;
+-                            }
+-                            n11 = b2;
+-                        }
+-                        if (integer2 < this.height - 1) {
+-                            byte b2;
+-                            if ((b2 = (byte)(((b2 = this.blocks[((integer2 + 1) * this.length + integer3) * this.width + integer1]) == integer4 || b2 == integer5) ? 1 : 0)) != 0 && n12 == 0) {
+-                                this.worldIntArray3[n6++] = n8;
+-                            }
+-                            n12 = b2;
+-                        }
+-                        int n13;
+-                        if ((n13 = (n13 *= (n13 = integer1 - n)) + n9) > n7) {
+-                            n7 = n13;
+-                            n3 = ((integer2 << 10) + integer3 << 10) + integer1;
+-                        }
+-                        this.blocksShortArray[n8++] = World.worldShort;
+-                        ++integer1;
++
++                    --var20;
++                    var14 = this.worldIntArray2[var20];
++                 } while(this.blocksShortArray[var14] == worldShort);
++
++                 var1 = var14 % 1024;
++
++                 int var15;
++                 for(var15 = (var15 = (var3 = var14 / 1024) - var7) * var15; var1 > 0 && this.blocksShortArray[var14 - 1] != worldShort && (this.blocks[(var2 * this.length + var3) * this.width + var1 - 1] == var4 || this.blocks[(var2 * this.length + var3) * this.width + var1 - 1] == var5); --var14) {
++                    --var1;
++                 }
++
++                 if (var1 > 0 && this.blocks[(var2 * this.length + var3) * this.width + var1 - 1] == var11) {
++                    var12 = true;
++                 }
++
++                 boolean var16 = false;
++                 boolean var17 = false;
++
++                 for(boolean var18 = false; var1 < this.width && this.blocksShortArray[var14] != worldShort && (this.blocks[(var2 * this.length + var3) * this.width + var1] == var4 || this.blocks[(var2 * this.length + var3) * this.width + var1] == var5); ++var1) {
++                    byte var19;
++                    boolean var22;
++                    if (var3 > 0) {
++                       if ((var19 = this.blocks[(var2 * this.length + var3 - 1) * this.width + var1]) == var11) {
++                          var12 = true;
++                       }
++
++                       if ((var22 = this.blocksShortArray[var14 - 1024] != worldShort && (var19 == var4 || var19 == var5)) && !var16) {
++                          this.worldIntArray2[var20++] = var14 - 1024;
++                       }
++
++                       var16 = var22;
+                     }
+-                    if (integer1 >= this.width || this.blocks[(integer2 * this.length + integer3) * this.width + integer1] != n5) {
+-                        continue;
++
++                    if (var3 < this.length - 1) {
++                       if ((var19 = this.blocks[(var2 * this.length + var3 + 1) * this.width + var1]) == var11) {
++                          var12 = true;
++                       }
++
++                       if ((var22 = this.blocksShortArray[var14 + 1024] != worldShort && (var19 == var4 || var19 == var5)) && !var17) {
++                          this.worldIntArray2[var20++] = var14 + 1024;
++                       }
++
++                       var17 = var22;
+                     }
+-                    b = true;
+-                }
+-            }
+-            ++integer2;
+-            final int[] worldIntArray3 = this.worldIntArray3;
+-            this.worldIntArray3 = this.worldIntArray2;
+-            this.worldIntArray2 = worldIntArray3;
+-        } while ((i = n6) > 0);
+-        if (b) {
+-            return -9999;
++
++                    if (var2 < this.height - 1) {
++                       if ((var22 = (var19 = this.blocks[((var2 + 1) * this.length + var3) * this.width + var1]) == var4 || var19 == var5) && !var18) {
++                          this.worldIntArray3[var10++] = var14;
++                       }
++
++                       var18 = var22;
++                    }
++
++                    int var23;
++                    if ((var23 = (var23 = var1 - var6) * var23 + var15) > var13) {
++                       var13 = var23;
++                       var8 = ((var2 << 10) + var3 << 10) + var1;
++                    }
++
++                    this.blocksShortArray[var14++] = worldShort;
++                 }
++
++                 if (var1 < this.width && this.blocks[(var2 * this.length + var3) * this.width + var1] == var11) {
++                    var12 = true;
++                 }
++              }
++           } while(var10 > 0);
++
++           if (var12) {
++              return -9999;
++           } else {
++              return var8;
++           }
++        } else {
++           return -1;
+         }
+-        return n3;
+-    }
++     }
+     
+     public final int unknownFluidMethod(int integer1, final int integer2, int integer3, final int integer4, final int integer5) {
+         if (integer1 < 0 || integer2 < 0 || integer3 < 0 || integer1 >= this.width || integer2 >= this.height || integer3 >= this.length) {
+@@ -1376,9 +1403,9 @@
+     public final TileEntity getBlockTileEntity(final int integer1, final int integer2, final int integer3) {
+         final int n = integer1 + (integer2 << 10) + (integer3 << 10 << 10);
+         TileEntity tileEntity;
+-        if ((tileEntity = this.map.get(n)) == null) {
++        if ((tileEntity = (TileEntity) this.map.get(n)) == null) {
+             ((BlockContainer)Block.blocksList[this.getBlockId(integer1, integer2, integer3)]).onBlockAdded(this, integer1, integer2, integer3);
+-            tileEntity = this.map.get(n);
++            tileEntity = (TileEntity) this.map.get(n);
+         }
+         return tileEntity;
+     }
+@@ -1407,9 +1434,9 @@
+     
+     public final void worldMethod() {
+         for (int i = 0; i < this.worldAccesses.size(); ++i) {
+-            final IWorldAccess worldAccess = this.worldAccesses.get(i);
++            final IWorldAccess worldAccess = (IWorldAccess) this.worldAccesses.get(i);
+             for (int j = 0; j < this.blockMap.all.size(); ++j) {
+-                worldAccess.releaseEntitySkin(this.blockMap.all.get(i));
++                worldAccess.releaseEntitySkin((Entity) this.blockMap.all.get(i));
+             }
+         }
+     }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/WorldClient.java minecraft/net/minecraft/game/level/WorldClient.java
+--- minecraft_unpatched/net/minecraft/game/level/WorldClient.java	2020-02-22 17:59:58.504489300 -0800
++++ minecraft/net/minecraft/game/level/WorldClient.java	2020-02-21 20:50:39.431557700 -0800
+@@ -46,7 +46,7 @@
+     
+     private int[] worldClientMethod1() {
+         if (this.worldClientList5.size() > 0) {
+-            return this.worldClientList5.remove(this.worldClientList5.size() - 1);
++            return (int[]) this.worldClientList5.remove(this.worldClientList5.size() - 1);
+         }
+         return new int[32768];
+     }
+@@ -164,7 +164,7 @@
+         }
+         int n = 5;
+         while (this.worldClientList2.size() > 0 && n-- > 0) {
+-            final WorldBlockPositionType worldBlockPositionType = this.worldClientList2.remove(0);
++            final WorldBlockPositionType worldBlockPositionType = (WorldBlockPositionType) this.worldClientList2.remove(0);
+             for (int i = 0; i < this.worldObj.worldAccesses.size(); ++i) {
+                 ((IWorldAccess)this.worldObj.worldAccesses.get(i)).markBlockRangeNeedsUpdate(worldBlockPositionType.posX, worldBlockPositionType.posY, worldBlockPositionType.posZ, worldBlockPositionType.acceptCountdown, worldBlockPositionType.blockID, worldBlockPositionType.metadata);
+             }
+@@ -175,11 +175,11 @@
+         }
+         for (int j = 0; j < 16; ++j) {
+             if (this.worldClientList3.size() > 0) {
+-                final WorldBlockPositionType worldBlockPositionType2 = this.worldClientList3.remove(0);
++                final WorldBlockPositionType worldBlockPositionType2 = (WorldBlockPositionType) this.worldClientList3.remove(0);
+                 this.worldClientMethod6(worldBlockPositionType2.posX, worldBlockPositionType2.posY, worldBlockPositionType2.posZ, worldBlockPositionType2.acceptCountdown, worldBlockPositionType2.blockID, worldBlockPositionType2.metadata);
+             }
+             if (this.worldClientList4.size() > 0) {
+-                final WorldBlockPositionType worldBlockPositionType3 = this.worldClientList4.remove(0);
++                final WorldBlockPositionType worldBlockPositionType3 = (WorldBlockPositionType) this.worldClientList4.remove(0);
+                 final int posX = worldBlockPositionType3.posX;
+                 final int posY = worldBlockPositionType3.posY;
+                 final int acceptCountdown = worldBlockPositionType3.acceptCountdown;
+@@ -216,7 +216,7 @@
+                     if (this.worldClientIntArray2 != null) {
+                         this.worldClientList5.add(this.worldClientIntArray2);
+                     }
+-                    this.worldClientIntArray2 = this.worldClientList1.remove(this.worldClientList1.size() - 1);
++                    this.worldClientIntArray2 = (int[]) this.worldClientList1.remove(this.worldClientList1.size() - 1);
+                     this.worldClientInt1 = this.worldClientIntArray2[this.worldClientIntArray2.length - 1];
+                 }
+                 if (this.worldClientInt1 > this.worldClientIntArray2.length - 32) {
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/recipe/CraftingManager.java minecraft/net/minecraft/game/recipe/CraftingManager.java
+--- minecraft_unpatched/net/minecraft/game/recipe/CraftingManager.java	2020-02-22 17:59:58.292201000 -0800
++++ minecraft/net/minecraft/game/recipe/CraftingManager.java	2020-02-21 12:49:47.619894100 -0800
+@@ -85,7 +85,7 @@
+         for (int l = 0; l < integer1 * integer2; ++l) {
+             final char char1 = s.charAt(l);
+             if (hashMap.containsKey(char1)) {
+-                arr2[l] = hashMap.get(char1);
++                arr2[l] = (int) hashMap.get(char1);
+             }
+             else {
+                 arr2[l] = -1;
+@@ -97,7 +97,7 @@
+     public final ItemStack findMatchingRecipe(final int[] arr) {
+         for (int i = 0; i < this.recipes.size(); ++i) {
+             final ShapelessRecipes shapelessRecipes;
+-            if ((shapelessRecipes = this.recipes.get(i)).matchRecipe(arr)) {
++            if ((shapelessRecipes = (ShapelessRecipes) this.recipes.get(i)).matchRecipe(arr)) {
+                 return shapelessRecipes.createResult();
+             }
+         }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/recipe/RecipeSorter.java minecraft/net/minecraft/game/recipe/RecipeSorter.java
+--- minecraft_unpatched/net/minecraft/game/recipe/RecipeSorter.java	2020-02-22 17:59:56.982763800 -0800
++++ minecraft/net/minecraft/game/recipe/RecipeSorter.java	2020-02-20 15:29:13.578855500 -0800
+@@ -5,4 +5,13 @@
+ final class RecipeSorter implements Comparator {
+     RecipeSorter(final CraftingManager f) {
+     }
++    
++    public final int compare(Object obj, Object obj2) {
++    	ShapelessRecipes cVar = (ShapelessRecipes) obj;
++    	ShapelessRecipes cVar2 = (ShapelessRecipes) obj2;
++        if (cVar2.getRecipeSize() < cVar.getRecipeSize()) {
++            return -1;
++        }
++        return cVar2.getRecipeSize() > cVar.getRecipeSize() ? 1 : 0;
++    }
+ }
+diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/recipe/ShapelessRecipes.java minecraft/net/minecraft/game/recipe/ShapelessRecipes.java
+--- minecraft_unpatched/net/minecraft/game/recipe/ShapelessRecipes.java	2020-02-22 17:59:58.750007700 -0800
++++ minecraft/net/minecraft/game/recipe/ShapelessRecipes.java	2020-02-20 15:29:13.602665700 -0800
+@@ -55,7 +55,7 @@
+         return new ItemStack(this.recipeOutput.itemID, this.recipeOutput.stackSize);
+     }
+     
+-    public final int b() {
++    public final int getRecipeSize() {
+         return this.width * this.height;
+     }
+ }
