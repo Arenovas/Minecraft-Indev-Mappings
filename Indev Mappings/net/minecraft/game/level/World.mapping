@@ -48,12 +48,12 @@ CLASS net/minecraft/a/a/g net/minecraft/game/level/World
 	METHOD a isSolid (FFFF)Z
 	METHOD a playSoundEffect (FFFLjava/lang/String;F)V
 	METHOD a playSoundAtPlayer (FFFLjava/lang/String;FF)V
-	METHOD a worldMethod5 (I)V
+	METHOD a updateChunkLight (I)V
 	METHOD a getHighestTile (II)I
 	METHOD a getBlockId (III)I
 	METHOD a setSpawnPos (IIIF)V
 	METHOD a setTileNoNeighborChange (IIII)Z
-	METHOD a worldMethod1 (IIIII)I
+	METHOD a fluidFlowCheck (IIIII)I
 	METHOD a swap (IIIIII)V
 	METHOD a setBlockTileEntity (IIILnet/minecraft/a/a/b/a/a;)V
 	METHOD a generate (III[B[B)V
@@ -73,7 +73,7 @@ CLASS net/minecraft/a/a/g net/minecraft/game/level/World
 	METHOD b getSkyColor (F)Lnet/minecraft/a/d/a;
 	METHOD b isBlockNormalCube (III)Z
 	METHOD b setBlockWithNotify (IIII)Z
-	METHOD b worldMethod2 (IIIII)I
+	METHOD b unknownFluidMethod (IIIII)I
 	METHOD b findSubclassOf (Ljava/lang/Class;)Lnet/minecraft/a/c/b;
 	METHOD b removeWorldAccess (Lnet/minecraft/a/a/d;)V
 	METHOD b releaseEntitySkin (Lnet/minecraft/a/c/b;)V
@@ -104,8 +104,8 @@ CLASS net/minecraft/a/a/g net/minecraft/game/level/World
 	METHOD h updateTile (IIII)V
 	METHOD i getPlayer ()Lnet/minecraft/a/c/b;
 	METHOD i removeBlockTileEntity (III)V
-	METHOD j worldMethod3 ()Ljava/lang/String;
+	METHOD j debugSkylightUpdates ()Ljava/lang/String;
 	METHOD j getBlockTileEntity (III)Lnet/minecraft/a/a/b/a/a;
-	METHOD k worldMethod4 ()V
+	METHOD k worldMethod ()V
 	METHOD k randomDisplayUpdates (III)V
 	METHOD l canBlockSeeTheSky (III)Z
