@@ -2227,15 +2227,6 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/Pathfin
 diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/player/EntityPlayer.java minecraft/net/minecraft/game/entity/player/EntityPlayer.java
 --- minecraft_unpatched/net/minecraft/game/entity/player/EntityPlayer.java	2020-02-22 17:59:57.881018100 -0800
 +++ minecraft/net/minecraft/game/entity/player/EntityPlayer.java	2020-02-21 17:24:00.903929300 -0800
-@@ -48,7 +48,7 @@
-         if (this.worldObj != null) {
-             this.worldObj.player = this;
-         }
--        this.health = 20;
-+        this.health = 200000;
-         this.deathTime = 0;
-     }
-     
 @@ -83,7 +83,7 @@
          final List entitiesWithinAABBExcludingEntity;
          if (this.health > 0 && (entitiesWithinAABBExcludingEntity = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.0f, 0.0f, 1.0f))) != null) {
