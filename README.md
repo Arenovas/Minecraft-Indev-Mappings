@@ -9,6 +9,7 @@ Simply open it up, select the Indev 02-23-2010 jar and then open the mappings us
 Once it's been loaded, export the source files. Then remove the Paulscode folder and /com/jcraft folder. After all that is done, apply the patch file.
 
 To use the patch file, make sure to install this program if using Windows: http://gnuwin32.sourceforge.net/packages/patch.htm
+Make sure to include the Gnuwin32\bin folder in the User Variables Path in Environment Variables for this to work.
 Then go and use this command in the command prompt to apply the patch file onto the source code: patch --binary -p1 -u -i "patchfile" -d "srcdir"
 
 If everything was done right then the source should have been patched and it should be ready to be modified!
