@@ -1,2 +1,0 @@
-CLASS net/minecraft/client/d/c net/minecraft/client/player/PlayerControllerMP
-	FIELD c mobSpawner Lnet/minecraft/a/a/b;

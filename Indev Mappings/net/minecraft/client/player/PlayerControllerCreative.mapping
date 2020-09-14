@@ -1,0 +1,2 @@
+CLASS net/minecraft/client/d/c net/minecraft/client/player/PlayerControllerCreative
+	FIELD c mobSpawner Lnet/minecraft/a/a/b;

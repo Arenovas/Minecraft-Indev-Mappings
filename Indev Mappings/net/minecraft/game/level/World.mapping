@@ -41,7 +41,7 @@ CLASS net/minecraft/a/a/g net/minecraft/game/level/World
 	FIELD w fogColor I
 	FIELD x cloudColor I
 	FIELD y player Lnet/minecraft/a/c/e;
-	FIELD z multiplayerWorld Z
+	FIELD z survivalWorld Z
 	METHOD a load ()V
 	METHOD a getStarBrightness (F)F
 	METHOD a isSolid (FFF)Z

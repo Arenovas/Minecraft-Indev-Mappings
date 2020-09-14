@@ -5,14 +5,14 @@ CLASS net/minecraft/client/a/f net/minecraft/client/renderer/RenderBlocks
 	METHOD a materialNotWater (III)F
 	METHOD a renderBlockOnInventory (Lnet/minecraft/a/a/b/x;)V
 	METHOD a renderBlockTorch (Lnet/minecraft/a/a/b/x;FFFFF)V
-	METHOD a renderStandardBlock (Lnet/minecraft/a/a/b/x;FFFI)V
+	METHOD a renderBlockBottom (Lnet/minecraft/a/a/b/x;FFFI)V
 	METHOD a renderBlockPlant (Lnet/minecraft/a/a/b/x;IFFF)V
 	METHOD a renderBlockAllFaces (Lnet/minecraft/a/a/b/x;III)V
 	METHOD a renderBlockUsingTexture (Lnet/minecraft/a/a/b/x;IIII)V
-	METHOD b renderStandardBlock1 (Lnet/minecraft/a/a/b/x;FFFI)V
+	METHOD b renderBlockTop (Lnet/minecraft/a/a/b/x;FFFI)V
 	METHOD b renderBlockCrops (Lnet/minecraft/a/a/b/x;IFFF)V
 	METHOD b renderBlockByRenderType (Lnet/minecraft/a/a/b/x;III)Z
-	METHOD b renderStandardBlock2 (Lnet/minecraft/a/a/b/x;IIII)V
-	METHOD c renderStandardBlock3 (Lnet/minecraft/a/a/b/x;IIII)V
-	METHOD d renderStandardBlock4 (Lnet/minecraft/a/a/b/x;IIII)V
-	METHOD e renderStandardBlock5 (Lnet/minecraft/a/a/b/x;IIII)V
+	METHOD b renderBlockNorth (Lnet/minecraft/a/a/b/x;IIII)V
+	METHOD c renderBlockSouth (Lnet/minecraft/a/a/b/x;IIII)V
+	METHOD d renderBlockWest (Lnet/minecraft/a/a/b/x;IIII)V
+	METHOD e renderBlockEast (Lnet/minecraft/a/a/b/x;IIII)V

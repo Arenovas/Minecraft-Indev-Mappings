@@ -17,11 +17,11 @@ CLASS net/minecraft/a/a/h net/minecraft/game/level/WorldClient
 	FIELD p worldBlockPositionType Lnet/minecraft/a/a/c;
 	FIELD q worldClientInt5 I
 	FIELD r worldClientInt6 I
-	METHOD a worldClientMethod7 ()V
+	METHOD a tick ()V
 	METHOD a updateSkylight (I)V
 	METHOD a worldClientMethod2 (IIII)V
 	METHOD a worldClientMethod5 (IIIIII)V
 	METHOD b skylightUpdates ()Ljava/lang/String;
 	METHOD b worldClientMethod4 (I)V
-	METHOD b worldClientMethod6 (IIIIII)V
+	METHOD b lightingSomething (IIIIII)V
 	METHOD c worldClientMethod1 ()[I

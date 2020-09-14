@@ -1,4 +1,4 @@
-CLASS net/minecraft/client/d/b net/minecraft/client/player/PlayerControllerSP
+CLASS net/minecraft/client/d/b net/minecraft/client/player/PlayerControllerSurvival
 	FIELD c curBlockX I
 	FIELD d curBlockY I
 	FIELD e curBlockZ I
