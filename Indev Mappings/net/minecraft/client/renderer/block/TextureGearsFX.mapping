@@ -1,5 +1,5 @@
 CLASS net/minecraft/client/a/c/c net/minecraft/client/renderer/block/TextureGearsFX
-	FIELD e gearsInt1 I
-	FIELD f gearsIntArray1 [I
-	FIELD g gearsIntArray2 [I
-	FIELD h gearsInt2 I
+	FIELD e gearFrames2 I
+	FIELD f gearColor [I
+	FIELD g gearMiddleColor [I
+	FIELD h gearFrames1 I

@@ -3,7 +3,10 @@ CLASS net/minecraft/a/c/e/b net/minecraft/game/entity/player/InventoryPlayer
 	FIELD b armorInventory [Lnet/minecraft/a/b/k;
 	FIELD c currentItem I
 	FIELD d player Lnet/minecraft/a/c/e/a;
+	METHOD <init> (Lnet/minecraft/a/c/e/a;)V
+		ARG 1 entityPlayer
 	METHOD a storePartialItemStack (Lnet/minecraft/a/b/k;)Z
+		ARG 1 itemStack
 	METHOD b getFirstEmptyStack (I)V
 	METHOD c consumeInventoryItem (I)Z
 	METHOD d getCurrentItem ()Lnet/minecraft/a/b/k;

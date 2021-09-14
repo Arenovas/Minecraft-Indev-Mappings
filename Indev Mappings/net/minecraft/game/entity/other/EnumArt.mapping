@@ -4,3 +4,9 @@ CLASS net/minecraft/a/c/d net/minecraft/game/entity/other/EnumArt
 	FIELD d sizeY I
 	FIELD e offsetX I
 	FIELD f offsetY I
+	METHOD <init> (Ljava/lang/String;ILjava/lang/String;IIII)V
+		ARG 3 title
+		ARG 4 sizeX
+		ARG 5 sizeY
+		ARG 6 offsetX
+		ARG 7 offsetY

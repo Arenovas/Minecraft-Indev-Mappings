@@ -1,2 +1,7 @@
 CLASS net/minecraft/a/a/b/ae net/minecraft/game/block/BlockBreakable
 	FIELD a localFlag Z
+	METHOD <init> (IILnet/minecraft/a/a/d/c;Z)V
+		ARG 1 blockID
+		ARG 2 textureSlot
+		ARG 3 material
+		ARG 4 localFlag

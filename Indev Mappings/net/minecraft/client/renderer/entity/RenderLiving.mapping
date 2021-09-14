@@ -1,8 +1,15 @@
 CLASS net/minecraft/client/a/a/j net/minecraft/client/renderer/entity/RenderLiving
 	FIELD d mainModel Lnet/minecraft/client/b/l;
 	FIELD e renderPassModel Lnet/minecraft/client/b/l;
+	METHOD <init> (Lnet/minecraft/client/b/l;F)V
+		ARG 1 modelBase
 	METHOD a getDeathMaxRotation (Lnet/minecraft/a/c/e;)F
+		ARG 1 entityLiving
 	METHOD a preRenderCallback (Lnet/minecraft/a/c/e;F)V
+		ARG 1 entityLiving
 	METHOD a getColorMultiplier (Lnet/minecraft/a/c/e;FF)I
+		ARG 1 entityLiving
 	METHOD a shouldRenderPass (Lnet/minecraft/a/c/e;I)Z
+		ARG 1 entityLiving
 	METHOD a setRenderPassModel (Lnet/minecraft/client/b/l;)V
+		ARG 1 modelBase

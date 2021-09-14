@@ -1,2 +1,5 @@
 CLASS net/minecraft/a/a/b/ac net/minecraft/game/block/BlockTorch
+	METHOD <init> (II)V
+		ARG 1 blockID
+		ARG 2 textureSlot
 	METHOD e dropTorchIfCantStay (Lnet/minecraft/a/a/g;III)Z

@@ -4,4 +4,5 @@ CLASS net/minecraft/a/c/c net/minecraft/game/entity/EntityCreature
 	FIELD b playerToAttack Lnet/minecraft/a/c/b;
 	METHOD a getBlockPathWeight (III)F
 	METHOD a attackEntity (Lnet/minecraft/a/c/b;F)V
+		ARG 1 entity
 	METHOD b findPlayerToAttack ()Lnet/minecraft/a/c/b;

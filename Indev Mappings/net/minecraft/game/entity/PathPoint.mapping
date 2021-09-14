@@ -9,5 +9,10 @@ CLASS net/minecraft/a/a/a/a net/minecraft/game/entity/PathPoint
 	FIELD h distanceToTarget F
 	FIELD i previous Lnet/minecraft/a/a/a/a;
 	FIELD j isFirst Z
+	METHOD <init> (III)V
+		ARG 1 xCoord
+		ARG 2 yCoord
+		ARG 3 zCoord
 	METHOD a isAssigned ()Z
 	METHOD a distanceTo (Lnet/minecraft/a/a/a/a;)F
+		ARG 1 pathPoint

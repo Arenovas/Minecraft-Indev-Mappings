@@ -12,7 +12,10 @@ CLASS net/minecraft/client/f/k net/minecraft/client/particle/EntityFX
 	FIELD Y particleBlue F
 	FIELD a motionX1 F
 	FIELD b motionY1 F
+	METHOD <init> (Lnet/minecraft/a/a/g;FFFFFF)V
+		ARG 1 world
 	METHOD a renderParticle (Lnet/minecraft/client/a/d;FFFFFF)V
+		ARG 1 tessellator
 	METHOD c getFXLayer ()I
 	METHOD c multiplyVelocity (F)Lnet/minecraft/client/f/k;
 	METHOD d multipleParticleScaleBy (F)Lnet/minecraft/client/f/k;

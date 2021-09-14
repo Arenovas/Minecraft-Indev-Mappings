@@ -1,2 +1,5 @@
 CLASS net/minecraft/a/a/b/ai net/minecraft/game/block/BlockFluidSource
-	FIELD a liquidInt I
+	FIELD a fluid I
+	METHOD <init> (II)V
+		ARG 1 blockID
+		ARG 2 fluidType

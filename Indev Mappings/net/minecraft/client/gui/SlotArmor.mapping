@@ -1,2 +1,4 @@
 CLASS net/minecraft/client/c/a/e net/minecraft/client/gui/SlotArmor
 	FIELD e armorType I
+	METHOD <init> (Lnet/minecraft/client/c/a/f;Lnet/minecraft/client/c/a/j;Lnet/minecraft/a/b;IIII)V
+		ARG 7 armorType

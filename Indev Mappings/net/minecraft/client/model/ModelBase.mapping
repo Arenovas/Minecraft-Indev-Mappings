@@ -1,3 +1,11 @@
 CLASS net/minecraft/client/b/l net/minecraft/client/model/ModelBase
 	METHOD a render (FFFFFF)V
+		ARG 1 limbAngle
+		ARG 2 animationSpeed
+		ARG 4 headYaw
+		ARG 5 headPitch
 	METHOD b setRotationAngles (FFFFFF)V
+		ARG 1 limbAngle
+		ARG 2 animationSpeed
+		ARG 4 headYaw
+		ARG 5 headPitch

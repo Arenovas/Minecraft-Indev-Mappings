@@ -2,6 +2,11 @@ CLASS net/minecraft/client/j net/minecraft/client/ThreadDownloadResources
 	FIELD a resourcesFolder Ljava/io/File;
 	FIELD b mc Lnet/minecraft/client/d;
 	FIELD c closing Z
+	METHOD <init> (Ljava/io/File;Lnet/minecraft/client/d;)V
+		ARG 1 file
+		ARG 2 minecraft
 	METHOD a closeMinecraft ()V
 	METHOD a downloadResource (Ljava/net/URL;Ljava/io/File;)V
 		ARG 1 url
+		ARG 2 file
+	METHOD run ()V

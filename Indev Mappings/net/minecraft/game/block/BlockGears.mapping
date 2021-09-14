@@ -1,1 +1,4 @@
 CLASS net/minecraft/a/a/b/k net/minecraft/game/block/BlockGears
+	METHOD <init> (II)V
+		ARG 1 blockID
+		ARG 2 textureSlot

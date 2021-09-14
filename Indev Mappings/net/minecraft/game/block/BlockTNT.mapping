@@ -1,1 +1,4 @@
 CLASS net/minecraft/a/a/b/h net/minecraft/game/block/BlockTNT
+	METHOD <init> (II)V
+		ARG 1 blockID
+		ARG 2 textureSlot

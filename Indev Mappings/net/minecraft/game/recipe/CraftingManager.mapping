@@ -3,4 +3,5 @@ CLASS net/minecraft/a/b/a/f net/minecraft/game/recipe/CraftingManager
 	FIELD b recipes Ljava/util/List;
 	METHOD a getInstance ()Lnet/minecraft/a/b/a/f;
 	METHOD a addRecipe (Lnet/minecraft/a/b/k;[Ljava/lang/Object;)V
+		ARG 1 itemStack
 	METHOD a findMatchingRecipe ([I)Lnet/minecraft/a/b/k;

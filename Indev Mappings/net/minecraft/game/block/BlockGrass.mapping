@@ -1,1 +1,3 @@
 CLASS net/minecraft/a/a/b/af net/minecraft/game/block/BlockGrass
+	METHOD <init> (I)V
+		ARG 1 blockID

@@ -5,6 +5,12 @@ CLASS net/minecraft/a/c/a net/minecraft/game/entity/other/EntityPainting
 	FIELD R zPosition I
 	FIELD a direction I
 	FIELD b art Lnet/minecraft/a/c/d;
+	METHOD <init> (Lnet/minecraft/a/a/g;IIII)V
+		ARG 1 world
+		ARG 2 xPosition
+		ARG 3 yPosition
+		ARG 4 zPosition
 	METHOD b setDirection (I)V
+		ARG 1 direction
 	METHOD c onValidSurface ()Z
 	METHOD c getArtSize (I)F

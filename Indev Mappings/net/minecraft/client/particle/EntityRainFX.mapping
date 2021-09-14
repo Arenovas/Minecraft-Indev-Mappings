@@ -1,1 +1,3 @@
 CLASS net/minecraft/client/f/i net/minecraft/client/particle/EntityRainFX
+	METHOD <init> (Lnet/minecraft/a/a/g;FFF)V
+		ARG 1 world

@@ -1,2 +1,6 @@
 CLASS net/minecraft/client/b net/minecraft/client/CanvasMinecraftApplet
 	FIELD a mcApplet Lnet/minecraft/client/MinecraftApplet;
+	METHOD <init> (Lnet/minecraft/client/MinecraftApplet;)V
+		ARG 1 minecraftApplet
+	METHOD addNotify ()V
+	METHOD removeNotify ()V

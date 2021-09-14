@@ -1,0 +1,9 @@
+CLASS net/minecraft/client/b/j net/minecraft/client/model/PositionTextureVertex
+	FIELD a vector3D Lnet/minecraft/a/d/a;
+	FIELD b texturePositionX F
+	FIELD c texturePositionY F
+	METHOD <init> (Lnet/minecraft/a/d/a;FF)V
+		ARG 1 vec3D
+	METHOD <init> (Lnet/minecraft/client/b/j;FF)V
+		ARG 1 positionTextureVertex
+	METHOD a setTexturePosition (FF)Lnet/minecraft/client/b/j;

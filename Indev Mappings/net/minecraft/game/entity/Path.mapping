@@ -4,7 +4,9 @@ CLASS net/minecraft/a/a/a/d net/minecraft/game/entity/Path
 	METHOD a clearPath ()V
 	METHOD a sortBack (I)V
 	METHOD a addPoint (Lnet/minecraft/a/a/a/a;)Lnet/minecraft/a/a/a/a;
+		ARG 1 pathPoint
 	METHOD a changeDistance (Lnet/minecraft/a/a/a/a;F)V
+		ARG 1 pathPoint
 	METHOD b dequeue ()Lnet/minecraft/a/a/a/a;
 	METHOD b sortForward (I)V
 	METHOD c isPathEmpty ()Z

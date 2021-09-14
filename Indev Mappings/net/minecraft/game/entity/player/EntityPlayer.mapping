@@ -6,9 +6,15 @@ CLASS net/minecraft/a/c/e/a net/minecraft/game/entity/player/EntityPlayer
 	FIELD a swingProgressInt I
 	FIELD b inventory Lnet/minecraft/a/c/e/b;
 	METHOD a displayGUIFurnace (Lnet/minecraft/a/a/b/a/b;)V
+		ARG 1 furnace
 	METHOD a canHarvestBlock (Lnet/minecraft/a/a/b/x;)Z
+		ARG 1 block
 	METHOD a dropPlayerItem (Lnet/minecraft/a/b/k;)V
+		ARG 1 itemStack
 	METHOD a dropPlayerItemWithRandomChoice (Lnet/minecraft/a/b/k;Z)V
+		ARG 1 itemStack
 	METHOD a displayGUIChest (Lnet/minecraft/a/b;)V
+		ARG 1 iInventory
 	METHOD a onItemPickup (Lnet/minecraft/a/c/b;)V
+		ARG 1 entity
 	METHOD g_ displayWorkbenchGUI ()V

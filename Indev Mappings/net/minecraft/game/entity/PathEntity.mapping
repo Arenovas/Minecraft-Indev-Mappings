@@ -1,6 +1,9 @@
 CLASS net/minecraft/a/a/a/b net/minecraft/game/entity/PathEntity
 	FIELD a points [Lnet/minecraft/a/a/a/a;
 	FIELD b pathIndex I
+	METHOD <init> ([Lnet/minecraft/a/a/a/a;)V
+		ARG 1 points
 	METHOD a incrementPathIndex ()V
 	METHOD a getPosition (Lnet/minecraft/a/c/b;)Lnet/minecraft/a/d/a;
+		ARG 1 entity
 	METHOD b isFinished ()Z

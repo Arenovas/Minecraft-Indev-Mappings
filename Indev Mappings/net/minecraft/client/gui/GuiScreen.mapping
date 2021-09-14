@@ -8,9 +8,13 @@ CLASS net/minecraft/client/c/i net/minecraft/client/gui/GuiScreen
 	METHOD a onGuiClosed ()V
 	METHOD a keyTyped (CI)V
 	METHOD a drawScreen (IIF)V
+		ARG 1 xSize_lo
+		ARG 2 ySize_lo
 	METHOD a drawSlotInventory (III)V
 	METHOD a actionPerformed (Lnet/minecraft/client/c/r;)V
 	METHOD a setWorldAndResolution (Lnet/minecraft/client/d;II)V
+		ARG 2 width
+		ARG 3 height
 	METHOD b initGui ()V
 	METHOD c doesGuiPauseGame ()Z
 	METHOD f handleMouseInput ()V

@@ -5,3 +5,4 @@ CLASS net/minecraft/client/a/a/g net/minecraft/client/renderer/entity/RenderPlay
 	FIELD h armorFilenamePrefix [Ljava/lang/String;
 	METHOD a drawFirstPersonHand ()V
 	METHOD a renderPlayer (Lnet/minecraft/a/c/e/a;FFFFF)V
+		ARG 1 player

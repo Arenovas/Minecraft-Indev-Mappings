@@ -1,1 +1,3 @@
 CLASS net/minecraft/client/f/b net/minecraft/client/particle/EntityDiggingFX
+	METHOD <init> (Lnet/minecraft/a/a/g;FFFFFFLnet/minecraft/a/a/b/x;)V
+		ARG 1 world

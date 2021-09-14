@@ -1,3 +1,6 @@
 CLASS net/minecraft/client/h net/minecraft/client/KeyBinding
 	FIELD a keyDescription Ljava/lang/String;
 	FIELD b keyCode I
+	METHOD <init> (Ljava/lang/String;I)V
+		ARG 1 keyDescription
+		ARG 2 keyCode

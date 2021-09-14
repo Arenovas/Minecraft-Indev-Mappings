@@ -1,2 +1,4 @@
 CLASS net/minecraft/client/f/c net/minecraft/client/particle/EntityFlameFX
 	FIELD Z flameScale F
+	METHOD <init> (Lnet/minecraft/a/a/g;FFF)V
+		ARG 1 world

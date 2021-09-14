@@ -3,6 +3,10 @@ CLASS net/minecraft/a/a/f net/minecraft/game/level/BlockMapSlot
 	FIELD b ySlot I
 	FIELD c zSlot I
 	FIELD d blockMap Lnet/minecraft/a/a/i;
+	METHOD <init> (Lnet/minecraft/a/a/i;B)V
+		ARG 1 blockMap
 	METHOD a init (FFF)Lnet/minecraft/a/a/f;
 	METHOD a add (Lnet/minecraft/a/c/b;)V
+		ARG 1 entity
 	METHOD b remove (Lnet/minecraft/a/c/b;)V
+		ARG 1 entity

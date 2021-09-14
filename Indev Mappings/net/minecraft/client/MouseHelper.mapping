@@ -7,5 +7,7 @@ CLASS net/minecraft/client/m net/minecraft/client/MouseHelper
 	FIELD f mouseY I
 	FIELD g cursor Lorg/lwjgl/input/Cursor;
 	FIELD h mouseInt I
+	METHOD <init> (Ljava/awt/Component;)V
+		ARG 1 component
 	METHOD a grabMouseCursor ()V
 	METHOD b ungrabMouseCursor ()V

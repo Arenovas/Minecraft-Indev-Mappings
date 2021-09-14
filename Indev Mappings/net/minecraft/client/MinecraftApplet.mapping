@@ -4,3 +4,7 @@ CLASS net/minecraft/client/MinecraftApplet net/minecraft/client/MinecraftApplet
 	FIELD c mcThread Ljava/lang/Thread;
 	METHOD a startMainThread ()V
 	METHOD b shutdown ()V
+	METHOD destroy ()V
+	METHOD init ()V
+	METHOD start ()V
+	METHOD stop ()V

@@ -4,3 +4,6 @@ CLASS net/minecraft/client/c/p net/minecraft/client/gui/GuiLevelNameScreen
 	FIELD j id I
 	FIELD k name Ljava/lang/String;
 	FIELD l counter I
+	METHOD <init> (Lnet/minecraft/client/c/i;Ljava/lang/String;I)V
+		ARG 2 name
+		ARG 3 id

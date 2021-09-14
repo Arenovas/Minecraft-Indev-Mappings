@@ -6,5 +6,7 @@ CLASS net/minecraft/a/a/d net/minecraft/game/level/IWorldAccess
 	METHOD a playSound (Ljava/lang/String;FFFFF)V
 	METHOD a spawnParticle (Ljava/lang/String;FFFFFF)V
 	METHOD a obtainEntitySkin (Lnet/minecraft/a/c/b;)V
+		ARG 1 player
 	METHOD b releaseEntitySkin (Lnet/minecraft/a/c/b;)V
+		ARG 1 player
 	METHOD h updateAllRenderers ()V

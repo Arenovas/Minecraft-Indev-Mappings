@@ -1,2 +1,3 @@
 CLASS net/minecraft/client/c/f net/minecraft/client/gui/GuiLevelDialog
 	FIELD a screen Lnet/minecraft/client/c/e;
+	METHOD run ()V

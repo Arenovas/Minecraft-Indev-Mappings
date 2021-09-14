@@ -2,3 +2,8 @@ CLASS net/minecraft/a/b/g net/minecraft/game/item/ItemTool
 	FIELD as blocksEffectiveAgainst [Lnet/minecraft/a/a/b/x;
 	FIELD at efficiencyOnProperMaterial F
 	FIELD au damageVsEntity I
+	METHOD <init> (III[Lnet/minecraft/a/a/b/x;)V
+		ARG 1 itemID
+		ARG 2 baseDamage
+		ARG 3 damage
+		ARG 4 blocksEffected

@@ -1,2 +1,4 @@
 CLASS net/minecraft/client/a/a/l net/minecraft/client/renderer/entity/RenderGiantZombie
 	FIELD e scale F
+	METHOD <init> (Lnet/minecraft/client/b/l;FF)V
+		ARG 1 modelBase

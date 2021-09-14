@@ -26,9 +26,18 @@ CLASS net/minecraft/client/q net/minecraft/client/GameSettings
 	FIELD x DIFFICULTIES [Ljava/lang/String;
 	FIELD y keyBindChat Lnet/minecraft/client/h;
 	FIELD z mc Lnet/minecraft/client/d;
+	METHOD <init> (Lnet/minecraft/client/d;Ljava/io/File;)V
+		ARG 1 minecraft
+		ARG 2 file
 	METHOD a saveOptions ()V
-	METHOD a getOptionDisplayString (I)Ljava/lang/String;
+	METHOD a setKeyBindingString (I)Ljava/lang/String;
+		ARG 1 keyBindingNumber
 	METHOD a setKeyBinding (II)V
+		ARG 1 keyBindingNumber
+		ARG 2 keyCode
 	METHOD b loadOptions ()V
-	METHOD b getKeyBinding (I)Ljava/lang/String;
-	METHOD b setOptionFloatValue (II)V
+	METHOD b setOptionString (I)Ljava/lang/String;
+		ARG 1 optionMenuValue
+	METHOD b setOptionValue (II)V
+		ARG 1 optionMenuValue
+		ARG 2 optionSubValue

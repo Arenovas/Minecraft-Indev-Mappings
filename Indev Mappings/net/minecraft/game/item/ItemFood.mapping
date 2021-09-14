@@ -1,2 +1,5 @@
 CLASS net/minecraft/a/b/p net/minecraft/game/item/ItemFood
 	FIELD as healAmount I
+	METHOD <init> (II)V
+		ARG 1 itemID
+		ARG 2 healAmount

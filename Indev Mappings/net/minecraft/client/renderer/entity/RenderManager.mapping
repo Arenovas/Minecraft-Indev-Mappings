@@ -9,7 +9,14 @@ CLASS net/minecraft/client/a/a/i net/minecraft/client/renderer/entity/RenderMana
 	FIELD h tickPosZ F
 	METHOD a getDistanceToCamera (FFF)F
 	METHOD a set (Lnet/minecraft/a/a/g;)V
+		ARG 1 world
 	METHOD a cacheActiveRenderInfo (Lnet/minecraft/a/a/g;Lnet/minecraft/client/a/k;Lnet/minecraft/a/c/e/a;F)V
+		ARG 1 world
+		ARG 2 renderEngine
+		ARG 3 entityPlayer
 	METHOD a getEntityRenderObject (Lnet/minecraft/a/c/b;)Lnet/minecraft/client/a/a/f;
+		ARG 1 entity
 	METHOD a renderEntity (Lnet/minecraft/a/c/b;F)V
+		ARG 1 entity
 	METHOD a renderEntityWithPosYaw (Lnet/minecraft/a/c/b;FFFFF)V
+		ARG 1 entity

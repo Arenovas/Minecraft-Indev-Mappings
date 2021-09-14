@@ -1,3 +1,5 @@
 CLASS net/minecraft/client/g/c net/minecraft/client/player/MovementInputFromOptions
 	FIELD d movementKeyStates [Z
 	FIELD e gameSettings Lnet/minecraft/client/q;
+	METHOD <init> (Lnet/minecraft/client/q;)V
+		ARG 1 gameSettings

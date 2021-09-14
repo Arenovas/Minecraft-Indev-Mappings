@@ -2,3 +2,5 @@ CLASS net/minecraft/client/c/a/a net/minecraft/client/inventory/InventoryCraftin
 	FIELD a stackList [Lnet/minecraft/a/b/k;
 	FIELD b inventoryWidth I
 	FIELD c eventHandler Lnet/minecraft/client/c/a/j;
+	METHOD <init> (Lnet/minecraft/client/c/a/j;II)V
+		ARG 1 guiContainer

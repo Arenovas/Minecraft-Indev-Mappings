@@ -19,6 +19,8 @@ CLASS net/minecraft/client/a/e net/minecraft/client/renderer/EntityRenderer
 	FIELD r fogColorBlue F
 	FIELD s fogColor2 F
 	FIELD t fogColor1 F
+	METHOD <init> (Lnet/minecraft/client/d;)V
+		ARG 1 minecraft
 	METHOD a updateRenderer ()V
 	METHOD a updateCameraAndRender (F)V
 	METHOD a screenshotBuffer (Ljava/nio/ByteBuffer;II)Ljava/awt/image/BufferedImage;

@@ -8,4 +8,7 @@ CLASS net/minecraft/a/c/d/a net/minecraft/game/entity/other/EntityArrow
 	FIELD U ticksInAir I
 	FIELD a arrowShake I
 	FIELD b xTile I
+	METHOD <init> (Lnet/minecraft/a/a/g;Lnet/minecraft/a/c/e;)V
+		ARG 1 world
+		ARG 2 entityLiving
 	METHOD a setArrowHeading (FFFFF)V

@@ -1,4 +1,16 @@
 CLASS net/minecraft/a/a/b/ad net/minecraft/game/block/BlockFlower
+	METHOD <init> (II)V
+		ARG 1 blockID
+		ARG 2 textureSlot
 	METHOD b canThisPlantGrowOnThisBlockID (I)Z
+		ARG 1 blockID
 	METHOD e canBlockStay (Lnet/minecraft/a/a/g;III)Z
+		ARG 1 world
+		ARG 2 xCoord
+		ARG 3 yCoord
+		ARG 4 zCoord
 	METHOD h checkFlowerChange (Lnet/minecraft/a/a/g;III)V
+		ARG 1 world
+		ARG 2 xCoord
+		ARG 3 yCoord
+		ARG 4 zCoord

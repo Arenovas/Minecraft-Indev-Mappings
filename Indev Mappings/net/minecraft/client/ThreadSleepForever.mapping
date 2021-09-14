@@ -1,1 +1,4 @@
 CLASS net/minecraft/client/n net/minecraft/client/ThreadSleepForever
+	METHOD <init> (Lnet/minecraft/client/d;Ljava/lang/String;)V
+		ARG 1 minecraft
+	METHOD run ()V

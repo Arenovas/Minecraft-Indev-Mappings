@@ -1,2 +1,4 @@
 CLASS net/minecraft/a/a/b/aj net/minecraft/game/block/BlockStep
 	FIELD a blockType Z
+	METHOD <init> (IZ)V
+		ARG 1 blockID

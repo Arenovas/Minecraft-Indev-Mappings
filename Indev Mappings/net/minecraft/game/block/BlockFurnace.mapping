@@ -1,3 +1,10 @@
 CLASS net/minecraft/a/a/b/s net/minecraft/game/block/BlockFurnace
 	FIELD a isActive Z
+	METHOD <init> (IZ)V
+		ARG 1 blockID
+		ARG 2 status
 	METHOD e setDefaultDirection (Lnet/minecraft/a/a/g;III)V
+		ARG 0 world
+		ARG 1 xCoord
+		ARG 2 yCoord
+		ARG 3 zCoord

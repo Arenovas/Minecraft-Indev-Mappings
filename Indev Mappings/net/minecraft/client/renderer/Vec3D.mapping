@@ -5,8 +5,14 @@ CLASS net/minecraft/a/d/a net/minecraft/client/renderer/Vec3D
 	METHOD a normalize ()Lnet/minecraft/a/d/a;
 	METHOD a addVector (FFF)Lnet/minecraft/a/d/a;
 	METHOD a subtract (Lnet/minecraft/a/d/a;)Lnet/minecraft/a/d/a;
+		ARG 1 vec3D
 	METHOD a getIntermediateWithXValue (Lnet/minecraft/a/d/a;F)Lnet/minecraft/a/d/a;
+		ARG 1 vec3D
 	METHOD b distance (Lnet/minecraft/a/d/a;)F
+		ARG 1 vec3D
 	METHOD b getIntermediateWithYValue (Lnet/minecraft/a/d/a;F)Lnet/minecraft/a/d/a;
+		ARG 1 vec3D
 	METHOD c squareDistanceTo (Lnet/minecraft/a/d/a;)F
+		ARG 1 vec3D
 	METHOD c getIntermediateWithZValue (Lnet/minecraft/a/d/a;F)Lnet/minecraft/a/d/a;
+		ARG 1 vec3D

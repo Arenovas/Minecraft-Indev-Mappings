@@ -4,6 +4,10 @@ CLASS net/minecraft/client/c/a/g net/minecraft/client/gui/Slot
 	FIELD c yPos I
 	FIELD d inventory Lnet/minecraft/a/b;
 	FIELD e guiHandler Lnet/minecraft/client/c/a/j;
+	METHOD <init> (Lnet/minecraft/client/c/a/j;Lnet/minecraft/a/b;III)V
+		ARG 3 slotIndex
+		ARG 4 xPos
+		ARG 5 yPos
 	METHOD a onPickupFromSlot ()V
 	METHOD a isAtCursorPos (II)Z
 	METHOD a isItemValid (Lnet/minecraft/a/b/k;)Z

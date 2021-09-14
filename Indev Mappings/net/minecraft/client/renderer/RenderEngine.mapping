@@ -7,6 +7,8 @@ CLASS net/minecraft/client/a/k net/minecraft/client/renderer/RenderEngine
 	FIELD f urlToImageDataMap Ljava/util/Map;
 	FIELD g options Lnet/minecraft/client/q;
 	FIELD h clampTexture Z
+	METHOD <init> (Lnet/minecraft/client/q;)V
+		ARG 1 gameSettings
 	METHOD a updateDynamicTextures ()V
 	METHOD a bindTexture (I)V
 	METHOD a unwrapImageByColumns (Ljava/awt/image/BufferedImage;)Ljava/awt/image/BufferedImage;
@@ -14,6 +16,8 @@ CLASS net/minecraft/client/a/k net/minecraft/client/renderer/RenderEngine
 	METHOD a getTexture (Ljava/lang/String;)I
 	METHOD a getTextureForDownloadableImage (Ljava/lang/String;Ljava/lang/String;)I
 	METHOD a obtainImageData (Ljava/lang/String;Lnet/minecraft/client/a/c;)Lnet/minecraft/client/a/i;
+		ARG 2 imageBufferDownload
 	METHOD a registerTextureFX (Lnet/minecraft/client/a/c/b;)V
+		ARG 1 textureFX
 	METHOD b refreshTextures ()V
 	METHOD b releaseImageData (Ljava/lang/String;)V

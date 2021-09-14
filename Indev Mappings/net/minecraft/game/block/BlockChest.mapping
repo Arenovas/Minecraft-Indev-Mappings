@@ -1,2 +1,9 @@
 CLASS net/minecraft/a/a/b/a net/minecraft/game/block/BlockChest
 	FIELD a random Ljava/util/Random;
+	METHOD <init> (I)V
+		ARG 1 blockID
+	METHOD e isThereANeighborChest (Lnet/minecraft/a/a/g;III)Z
+		ARG 1 world
+		ARG 2 xCoord
+		ARG 3 yCoord
+		ARG 4 zCoord

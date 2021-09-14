@@ -1,2 +1,5 @@
 CLASS net/minecraft/a/b/f net/minecraft/game/item/ItemSeeds
 	FIELD as blockType I
+	METHOD <init> (II)V
+		ARG 1 itemID
+		ARG 2 blockID

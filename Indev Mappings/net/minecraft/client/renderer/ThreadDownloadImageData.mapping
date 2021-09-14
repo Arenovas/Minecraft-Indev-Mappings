@@ -3,3 +3,5 @@ CLASS net/minecraft/client/a/i net/minecraft/client/renderer/ThreadDownloadImage
 	FIELD b referenceCount I
 	FIELD c textureName I
 	FIELD d textureSetupComplete Z
+	METHOD <init> (Ljava/lang/String;Lnet/minecraft/client/a/c;)V
+		ARG 2 imageBufferDownload

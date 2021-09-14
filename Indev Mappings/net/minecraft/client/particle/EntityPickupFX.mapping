@@ -4,3 +4,5 @@ CLASS net/minecraft/client/f/e net/minecraft/client/particle/EntityPickupFX
 	FIELD ab age I
 	FIELD ac maxAge I
 	FIELD ad yOffs F
+	METHOD <init> (Lnet/minecraft/a/a/g;Lnet/minecraft/a/c/b;Lnet/minecraft/a/c/e;F)V
+		ARG 1 world

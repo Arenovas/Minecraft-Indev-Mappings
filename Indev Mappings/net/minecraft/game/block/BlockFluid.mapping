@@ -3,6 +3,13 @@ CLASS net/minecraft/a/a/b/p net/minecraft/game/block/BlockFluid
 	FIELD b movingId I
 	METHOD e canFlow (Lnet/minecraft/a/a/g;III)Z
 	METHOD e update (Lnet/minecraft/a/a/g;IIII)Z
+		ARG 1 world
+		ARG 2 xCoord
+		ARG 3 yCoord
+		ARG 4 zCoord
 	METHOD h extinguishFireLava (Lnet/minecraft/a/a/g;III)Z
+		ARG 0 world
 	METHOD i flow (Lnet/minecraft/a/a/g;III)Z
+		ARG 1 world
 	METHOD j liquidAirCheck (Lnet/minecraft/a/a/g;III)Z
+		ARG 0 world

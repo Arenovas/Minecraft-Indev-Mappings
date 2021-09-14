@@ -4,6 +4,9 @@ CLASS net/minecraft/a/a/b/m net/minecraft/game/block/BlockFluidFlowing
 	FIELD aF rand Ljava/util/Random;
 	FIELD aG liquidIntArray [I
 	METHOD a liquidSpread (Lnet/minecraft/a/a/g;IIIIII)Z
+		ARG 1 world
 	METHOD b liquidSpread2 (Lnet/minecraft/a/a/g;IIIIII)Z
+		ARG 1 world
 	METHOD h extinguishFireLava (Lnet/minecraft/a/a/g;III)Z
+		ARG 0 world
 	METHOD i flow (Lnet/minecraft/a/a/g;III)Z

@@ -5,6 +5,10 @@ CLASS net/minecraft/client/a/a/f net/minecraft/client/renderer/entity/Render
 	METHOD a loadTexture (Ljava/lang/String;)V
 	METHOD a loadDownloadableImageTexture (Ljava/lang/String;Ljava/lang/String;)V
 	METHOD a renderShadow (Lnet/minecraft/a/c/b;FFFF)V
+		ARG 1 entity
 	METHOD a doRender (Lnet/minecraft/a/c/b;FFFFF)V
+		ARG 1 entity
 	METHOD a renderOffsetAABB (Lnet/minecraft/a/d/b;)V
+		ARG 0 aabb
 	METHOD a setRenderManager (Lnet/minecraft/client/a/a/i;)V
+		ARG 1 renderManager

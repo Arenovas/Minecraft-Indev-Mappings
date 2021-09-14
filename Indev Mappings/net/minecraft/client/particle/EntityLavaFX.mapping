@@ -1,2 +1,4 @@
 CLASS net/minecraft/client/f/g net/minecraft/client/particle/EntityLavaFX
 	FIELD Z lavaParticleScale F
+	METHOD <init> (Lnet/minecraft/a/a/g;FFF)V
+		ARG 1 world

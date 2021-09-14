@@ -1,2 +1,4 @@
 CLASS net/minecraft/client/c/a/d net/minecraft/client/gui/SlotCrafting
 	FIELD e craftMatrix Lnet/minecraft/a/b;
+	METHOD <init> (Lnet/minecraft/client/c/a/j;Lnet/minecraft/a/b;Lnet/minecraft/a/b;III)V
+		ARG 2 craftMatrix

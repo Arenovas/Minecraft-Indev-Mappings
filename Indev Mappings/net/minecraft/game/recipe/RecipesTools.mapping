@@ -2,3 +2,4 @@ CLASS net/minecraft/a/b/a/e net/minecraft/game/recipe/RecipesTools
 	FIELD a recipePatterns [[Ljava/lang/String;
 	FIELD b recipeItems [[Ljava/lang/Object;
 	METHOD a addRecipes (Lnet/minecraft/a/b/a/f;)V
+		ARG 1 craftingManager

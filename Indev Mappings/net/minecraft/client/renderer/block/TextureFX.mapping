@@ -3,4 +3,6 @@ CLASS net/minecraft/client/a/c/b net/minecraft/client/renderer/block/TextureFX
 	FIELD b iconIndex I
 	FIELD c anaglyphEnabled Z
 	FIELD d textureId I
+	METHOD <init> (I)V
+		ARG 1 iconIndex
 	METHOD a onTick ()V

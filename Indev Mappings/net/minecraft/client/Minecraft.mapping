@@ -1,7 +1,7 @@
 CLASS net/minecraft/client/d net/minecraft/client/Minecraft
 	FIELD A running Z
 	FIELD B debug Ljava/lang/String;
-	FIELD C isTakingScreenshot Z
+	FIELD C inventoryScreen Z
 	FIELD D inGameHasFocus Z
 	FIELD E fullscreen Z
 	FIELD F blank Lnet/minecraft/client/i;
@@ -42,15 +42,32 @@ CLASS net/minecraft/client/d net/minecraft/client/Minecraft
 	FIELD x sndManager Lnet/minecraft/client/e/c;
 	FIELD y mouseHelper Lnet/minecraft/client/m;
 	FIELD z mcDataDir Ljava/io/File;
+	METHOD <init> (Ljava/awt/Canvas;Lnet/minecraft/client/MinecraftApplet;IIZ)V
+		ARG 1 canvas
+		ARG 2 minecraftApplet
+		ARG 3 tempDisplayWidth
+		ARG 4 tempDisplayHeight
+		ARG 5 fullscreen
 	METHOD a shutdownMinecraftApplet ()V
 	METHOD a clickMouse (I)V
+		ARG 1 clickState
 	METHOD a resize (II)V
+		ARG 1 scaledWidth
+		ARG 2 scaledHeight
 	METHOD a generateLevel (IIII)V
+		ARG 1 width
+		ARG 2 worldShape
+		ARG 3 depth
+		ARG 4 height
 	METHOD a setServer (Ljava/lang/String;I)V
+		ARG 1 string
 	METHOD a setLevel (Lnet/minecraft/a/a/g;)V
+		ARG 1 world
 	METHOD a displayGuiScreen (Lnet/minecraft/client/c/i;)V
+		ARG 1 guiScreen
 	METHOD b setIngameFocus ()V
 	METHOD c displayInGameMenu ()V
 	METHOD d toggleFullscreen ()V
-	METHOD e screenshotListener ()V
+	METHOD e inputLock ()V
 	METHOD f runTick ()V
+	METHOD run ()V

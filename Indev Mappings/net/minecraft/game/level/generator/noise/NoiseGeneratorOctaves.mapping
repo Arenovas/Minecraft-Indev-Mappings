@@ -1,3 +1,5 @@
 CLASS net/minecraft/a/a/c/a/c net/minecraft/game/level/generator/noise/NoiseGeneratorOctaves
 	FIELD a generatorCollection [Lnet/minecraft/a/a/c/a/a;
 	FIELD b octaves I
+	METHOD <init> (Ljava/util/Random;I)V
+		ARG 2 octaves

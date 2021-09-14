@@ -30,6 +30,7 @@ CLASS net/minecraft/a/c/e net/minecraft/game/entity/EntityLiving
 	METHOD b heal (I)V
 	METHOD c scoreValue ()I
 	METHOD d onDeath (Lnet/minecraft/a/c/b;)V
+		ARG 1 entity
 	METHOD e updatePlayerActionState ()V
 	METHOD f onLivingUpdate ()V
 	METHOD g getLivingSound ()Ljava/lang/String;

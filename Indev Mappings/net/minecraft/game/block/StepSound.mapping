@@ -2,5 +2,9 @@ CLASS net/minecraft/a/a/b/n net/minecraft/game/block/StepSound
 	FIELD a soundVolume F
 	FIELD b soundPitch F
 	FIELD c sound Ljava/lang/String;
+	METHOD <init> (Ljava/lang/String;FF)V
+		ARG 1 sound
+		ARG 2 soundVolume
+		ARG 3 soundPitch
 	METHOD a stepSoundDir ()Ljava/lang/String;
 	METHOD b stepSoundDir2 ()Ljava/lang/String;

@@ -4,6 +4,7 @@ CLASS net/minecraft/a/a/b/a/b net/minecraft/game/block/tileentity/TileEntityFurn
 	FIELD g currentItemBurnTime I
 	FIELD h furnaceCookTime I
 	METHOD a getItemBurnTime (Lnet/minecraft/a/b/k;)I
+		ARG 0 itemStack
 	METHOD b getCookProgressScaled (I)I
 	METHOD c getBurnTimeRemainingScaled (I)I
 	METHOD d smeltItem (I)I

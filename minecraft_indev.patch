@@ -1,6 +1,6 @@
-diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTBase.java minecraft/com/nbt/NBTBase.java
---- minecraft_unpatched/com/nbt/NBTBase.java	2020-09-14 15:22:54.950347400 -0700
-+++ minecraft/com/nbt/NBTBase.java	2020-07-26 23:15:13.553721800 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/com/nbt/NBTBase.java minecraft/com/nbt/NBTBase.java
+--- minecraft_unpatched/com/nbt/NBTBase.java	2021-09-10 01:29:05.728741800 -0700
++++ minecraft/com/nbt/NBTBase.java	2021-09-11 00:20:07.396963800 -0700
 @@ -2,6 +2,7 @@
  
  import java.io.DataInput;
@@ -13,11 +13,11 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTBase.java minecraft/co
          this.key = null;
      }
      
--    abstract void writeTagContents(final DataOutput p0);
-+    abstract void writeTagContents(final DataOutput p0) throws IOException;
+-    abstract void writeTagContents(final DataOutput dataOutput);
++    abstract void writeTagContents(final DataOutput dataOutput) throws IOException;
      
--    abstract void readTagContents(final DataInput p0);
-+    abstract void readTagContents(final DataInput p0) throws IOException;
+-    abstract void readTagContents(final DataInput dataInput);
++    abstract void readTagContents(final DataInput dataInput) throws IOException;
      
      public abstract byte getType();
      
@@ -39,9 +39,9 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTBase.java minecraft/co
          dataOutput.writeByte((int)nbtBase.getType());
          if (nbtBase.getType() == 0) {
              return;
-diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagByte.java minecraft/com/nbt/NBTTagByte.java
---- minecraft_unpatched/com/nbt/NBTTagByte.java	2020-09-14 15:22:53.266900400 -0700
-+++ minecraft/com/nbt/NBTTagByte.java	2020-07-26 23:15:33.335654400 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/com/nbt/NBTTagByte.java minecraft/com/nbt/NBTTagByte.java
+--- minecraft_unpatched/com/nbt/NBTTagByte.java	2021-09-10 01:29:05.993970000 -0700
++++ minecraft/com/nbt/NBTTagByte.java	2021-09-11 00:20:00.149272900 -0700
 @@ -2,6 +2,7 @@
  
  import java.io.DataInput;
@@ -65,9 +65,9 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagByte.java minecraft
          this.byteValue = dataInput.readByte();
      }
      
-diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagByteArray.java minecraft/com/nbt/NBTTagByteArray.java
---- minecraft_unpatched/com/nbt/NBTTagByteArray.java	2020-09-14 15:22:53.201845000 -0700
-+++ minecraft/com/nbt/NBTTagByteArray.java	2020-07-26 23:15:26.143877500 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/com/nbt/NBTTagByteArray.java minecraft/com/nbt/NBTTagByteArray.java
+--- minecraft_unpatched/com/nbt/NBTTagByteArray.java	2021-09-10 01:29:05.776282700 -0700
++++ minecraft/com/nbt/NBTTagByteArray.java	2021-09-11 00:20:16.472616800 -0700
 @@ -2,6 +2,7 @@
  
  import java.io.DataInput;
@@ -92,9 +92,9 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagByteArray.java mine
          dataInput.readFully(this.byteArray = new byte[dataInput.readInt()]);
      }
      
-diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagCompound.java minecraft/com/nbt/NBTTagCompound.java
---- minecraft_unpatched/com/nbt/NBTTagCompound.java	2020-09-14 15:22:54.179184900 -0700
-+++ minecraft/com/nbt/NBTTagCompound.java	2020-07-26 23:15:40.489374600 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/com/nbt/NBTTagCompound.java minecraft/com/nbt/NBTTagCompound.java
+--- minecraft_unpatched/com/nbt/NBTTagCompound.java	2021-09-10 01:29:05.848344800 -0700
++++ minecraft/com/nbt/NBTTagCompound.java	2021-09-11 00:20:22.687822600 -0700
 @@ -3,6 +3,7 @@
  import java.io.DataInput;
  import java.util.Iterator;
@@ -121,9 +121,9 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagCompound.java minec
          this.tagMap.clear();
          NBTBase tag;
          while ((tag = NBTBase.readTag(dataInput)).getType() != 0) {
-diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagDouble.java minecraft/com/nbt/NBTTagDouble.java
---- minecraft_unpatched/com/nbt/NBTTagDouble.java	2020-09-14 15:22:53.803361700 -0700
-+++ minecraft/com/nbt/NBTTagDouble.java	2020-07-26 23:15:51.668648200 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/com/nbt/NBTTagDouble.java minecraft/com/nbt/NBTTagDouble.java
+--- minecraft_unpatched/com/nbt/NBTTagDouble.java	2021-09-10 01:29:06.183132700 -0700
++++ minecraft/com/nbt/NBTTagDouble.java	2021-09-11 00:20:28.311054600 -0700
 @@ -2,17 +2,18 @@
  
  import java.io.DataInput;
@@ -145,9 +145,9 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagDouble.java minecra
          this.doubleValue = dataInput.readDouble();
      }
      
-diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagFloat.java minecraft/com/nbt/NBTTagFloat.java
---- minecraft_unpatched/com/nbt/NBTTagFloat.java	2020-09-14 15:22:54.741668000 -0700
-+++ minecraft/com/nbt/NBTTagFloat.java	2020-07-26 23:15:58.973369700 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/com/nbt/NBTTagFloat.java minecraft/com/nbt/NBTTagFloat.java
+--- minecraft_unpatched/com/nbt/NBTTagFloat.java	2021-09-10 01:29:05.774280800 -0700
++++ minecraft/com/nbt/NBTTagFloat.java	2021-09-11 00:20:35.073965700 -0700
 @@ -2,6 +2,7 @@
  
  import java.io.DataInput;
@@ -171,9 +171,9 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagFloat.java minecraf
          this.floatValue = dataInput.readFloat();
      }
      
-diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagInt.java minecraft/com/nbt/NBTTagInt.java
---- minecraft_unpatched/com/nbt/NBTTagInt.java	2020-09-14 15:22:52.917100000 -0700
-+++ minecraft/com/nbt/NBTTagInt.java	2020-07-26 23:16:05.870751800 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/com/nbt/NBTTagInt.java minecraft/com/nbt/NBTTagInt.java
+--- minecraft_unpatched/com/nbt/NBTTagInt.java	2021-09-10 01:29:05.729742700 -0700
++++ minecraft/com/nbt/NBTTagInt.java	2021-09-11 00:20:42.054030600 -0700
 @@ -2,6 +2,7 @@
  
  import java.io.DataInput;
@@ -197,9 +197,9 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagInt.java minecraft/
          this.intValue = dataInput.readInt();
      }
      
-diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagList.java minecraft/com/nbt/NBTTagList.java
---- minecraft_unpatched/com/nbt/NBTTagList.java	2020-09-14 15:22:55.650449200 -0700
-+++ minecraft/com/nbt/NBTTagList.java	2020-07-26 23:16:12.692667500 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/com/nbt/NBTTagList.java minecraft/com/nbt/NBTTagList.java
+--- minecraft_unpatched/com/nbt/NBTTagList.java	2021-09-10 01:29:06.360284800 -0700
++++ minecraft/com/nbt/NBTTagList.java	2021-09-11 00:20:48.989472300 -0700
 @@ -2,6 +2,7 @@
  
  import java.io.DataInput;
@@ -226,9 +226,9 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagList.java minecraft
          this.tagType = dataInput.readByte();
          final int int1 = dataInput.readInt();
          this.tagList = (List)new ArrayList();
-diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagLong.java minecraft/com/nbt/NBTTagLong.java
---- minecraft_unpatched/com/nbt/NBTTagLong.java	2020-09-14 15:22:54.214215100 -0700
-+++ minecraft/com/nbt/NBTTagLong.java	2020-07-26 23:16:18.695179400 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/com/nbt/NBTTagLong.java minecraft/com/nbt/NBTTagLong.java
+--- minecraft_unpatched/com/nbt/NBTTagLong.java	2021-09-10 01:29:05.850847000 -0700
++++ minecraft/com/nbt/NBTTagLong.java	2021-09-11 00:20:55.989038700 -0700
 @@ -2,6 +2,7 @@
  
  import java.io.DataInput;
@@ -252,9 +252,9 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagLong.java minecraft
          this.longValue = dataInput.readLong();
      }
      
-diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagShort.java minecraft/com/nbt/NBTTagShort.java
---- minecraft_unpatched/com/nbt/NBTTagShort.java	2020-09-14 15:22:52.981655500 -0700
-+++ minecraft/com/nbt/NBTTagShort.java	2020-07-26 23:16:25.713672800 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/com/nbt/NBTTagShort.java minecraft/com/nbt/NBTTagShort.java
+--- minecraft_unpatched/com/nbt/NBTTagShort.java	2021-09-10 01:29:05.729242800 -0700
++++ minecraft/com/nbt/NBTTagShort.java	2021-09-11 00:21:02.555904200 -0700
 @@ -2,6 +2,7 @@
  
  import java.io.DataInput;
@@ -278,19 +278,18 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagShort.java minecraf
          this.shortValue = dataInput.readShort();
      }
      
-diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagString.java minecraft/com/nbt/NBTTagString.java
---- minecraft_unpatched/com/nbt/NBTTagString.java	2020-09-14 15:22:54.186691000 -0700
-+++ minecraft/com/nbt/NBTTagString.java	2020-07-26 23:16:39.157673900 -0700
-@@ -2,6 +2,8 @@
+diff -r -U3 '--exclude=*~' minecraft_unpatched/com/nbt/NBTTagString.java minecraft/com/nbt/NBTTagString.java
+--- minecraft_unpatched/com/nbt/NBTTagString.java	2021-09-10 01:29:05.945928400 -0700
++++ minecraft/com/nbt/NBTTagString.java	2021-09-11 00:21:10.006233000 -0700
+@@ -2,6 +2,7 @@
  
  import java.io.DataInput;
  import java.io.DataOutput;
 +import java.io.IOException;
-+import java.io.UnsupportedEncodingException;
  
  public final class NBTTagString extends NBTBase {
      public String stringValue;
-@@ -14,14 +16,14 @@
+@@ -14,14 +15,14 @@
      }
      
      @Override
@@ -307,56 +306,138 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/com/nbt/NBTTagString.java minecra
          final byte[] array = new byte[dataInput.readShort()];
          dataInput.readFully(array);
          this.stringValue = new String(array, "UTF-8");
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/FontRenderer.java minecraft/net/minecraft/client/gui/FontRenderer.java
---- minecraft_unpatched/net/minecraft/client/gui/FontRenderer.java	2020-09-14 15:22:56.000249600 -0700
-+++ minecraft/net/minecraft/client/gui/FontRenderer.java	2020-07-28 15:07:30.425002700 -0700
-@@ -35,16 +35,16 @@
-             i = j % 16;
-             final int n = j / 16;
-             int n2 = 0;
--            for (int n3 = 0; n2 < 8 && n3 == 0; ++n2) {
--                final int n4 = (i << 3) + n2;
--                for (int n3 = 1, n5 = 0; n5 < 8 && n3 != 0; ++n5) {
--                    final int n6 = ((n << 3) + n5) * width;
--                    final int n7;
--                    if ((n7 = (array[n4 + n6] & 0xFF)) > 128) {
--                        n3 = 0;
--                    }
--                }
--            }
-+			for (boolean n3 = false; n2 < 8 && !n3; ++n2) {
-+				int n4 = (i << 3) + n2;
-+				n3 = true;
-+				for(int n5 = 0; n5 < 8 && n3; ++n5) {
-+					int n6 = ((n << 3) + n5) * width;
-+					if ((array[n4 + n6] & 255) > 128) {
-+						n3 = false;
-+					}
-+				}
-+			}
-             if (j == 32) {
-                 n2 = 4;
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/Minecraft.java minecraft/net/minecraft/client/Minecraft.java
+--- minecraft_unpatched/net/minecraft/client/Minecraft.java	2021-09-10 01:29:06.548947700 -0700
++++ minecraft/net/minecraft/client/Minecraft.java	2021-09-14 00:03:57.145991200 -0700
+@@ -103,7 +103,7 @@
+     private String server;
+     private TextureWaterFX textureWaterFX;
+     private TextureLavaFX textureLavaFX;
+-    volatile boolean running;
++    public volatile boolean running;
+     public String debug;
+     public boolean inventoryScreen;
+     private int prevFrameTime;
+@@ -760,7 +760,9 @@
+     public final void generateLevel(int width, final int worldShape, int depth, int height) {
+         this.setLevel(null);
+         System.gc();
+-        final String authorName = (this.session != null) ? this.session.username : "anonymous";
++        //Commented code is original and commented out for anti-piracy patch
++        //final String authorName = (this.session != null) ? this.session.username : "anonymous";
++        final String authorName = (this.session == null) ? this.session.username : "anonymous";
+         final LevelGenerator levelGenerator;
+         (levelGenerator = new LevelGenerator(this.loadingScreen)).islandGen = (depth == 1);
+         levelGenerator.floatingGen = (depth == 2);
+@@ -784,10 +786,12 @@
+             this.theWorld.worldMethod();
+         }
+         try {
+-            final BufferedReader bufferedReader;
+-            Integer.parseInt((bufferedReader = new BufferedReader((Reader)new InputStreamReader(new URL(new StringBuilder().append(this.mcApplet.getDocumentBase()).append("?n=").append(this.session.username).append("&i=").append(this.session.sessionId).toString()).openStream()))).readLine());
+-            bufferedReader.close();
+-            if (this.mcApplet.getDocumentBase().toString().startsWith("http://www.minecraft.net/") || this.mcApplet.getDocumentBase().toString().startsWith("http://minecraft.net/")) {
++        	//Commented code is original and commented out for anti-piracy patch
++            //final BufferedReader bufferedReader;
++            //Integer.parseInt((bufferedReader = new BufferedReader((Reader)new InputStreamReader(new URL(new StringBuilder().append(this.mcApplet.getDocumentBase()).append("?n=").append(this.session.username).append("&i=").append(this.session.sessionId).toString()).openStream()))).readLine());
++            //bufferedReader.close();
++            //if (this.mcApplet.getDocumentBase().toString().startsWith("http://www.minecraft.net/") || this.mcApplet.getDocumentBase().toString().startsWith("http://minecraft.net/")) {
++        	if (!this.mcApplet.getDocumentBase().toString().startsWith("http://www.minecraft.net/") || !this.mcApplet.getDocumentBase().toString().startsWith("http://minecraft.net/")) {
+                 this.theWorld = world;
              }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiContainer.java minecraft/net/minecraft/client/gui/GuiContainer.java
---- minecraft_unpatched/net/minecraft/client/gui/GuiContainer.java	2020-09-14 15:22:53.963499200 -0700
-+++ minecraft/net/minecraft/client/gui/GuiContainer.java	2020-09-14 13:58:54.034179200 -0700
-@@ -88,124 +88,105 @@
-     protected abstract void drawGuiContainerBackgroundLayer();
+         }
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/MinecraftApplet.java minecraft/net/minecraft/client/MinecraftApplet.java
+--- minecraft_unpatched/net/minecraft/client/MinecraftApplet.java	2021-09-10 01:29:05.756265400 -0700
++++ minecraft/net/minecraft/client/MinecraftApplet.java	2021-09-14 00:03:37.927172100 -0700
+@@ -28,7 +28,9 @@
+             final Minecraft mc = this.mc;
+             mc.minecraftUri = sb.append(mc.minecraftUri).append(":").append(this.getDocumentBase().getPort()).toString();
+         }
+-        if (this.getParameter("username") != null && this.getParameter("sessionid") != null) {
++        //Commented code is original and commented out for anti-piracy patch
++        //if (this.getParameter("username") != null && this.getParameter("sessionid") != null) {
++        if (this.getParameter("username") == null && this.getParameter("sessionid") == null) {
+             this.mc.session = new SessionData(this.getParameter("username"), this.getParameter("sessionid"));
+             if (this.getParameter("mppass") != null) {
+                 this.getParameter("mppass");
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/OSValidator.java minecraft/net/minecraft/client/OSValidator.java
+--- minecraft_unpatched/net/minecraft/client/OSValidator.java	2021-09-10 01:29:06.160613000 -0700
++++ minecraft/net/minecraft/client/OSValidator.java	2021-09-11 00:23:42.073510000 -0700
+@@ -1,7 +1,9 @@
+ package net.minecraft.client;
+ 
+ final class OSValidator {
+-    static {
++    static int[] osValues;
++
++	static {
+         osValues = new int[OS.values().length];
+         try {
+             OSValidator.osValues[OS.linux.ordinal()] = 1;
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/ThreadDownloadResources.java minecraft/net/minecraft/client/ThreadDownloadResources.java
+--- minecraft_unpatched/net/minecraft/client/ThreadDownloadResources.java	2021-09-10 01:29:06.466376300 -0700
++++ minecraft/net/minecraft/client/ThreadDownloadResources.java	2021-09-12 01:27:37.122745800 -0700
+@@ -32,7 +32,8 @@
+     public final void run() {
+         try {
+             final ArrayList list = new ArrayList();
+-            final URL url = new URL("http://www.minecraft.net/resources/");
++            //final URL url = new URL("http://www.minecraft.net/resources/");
++            final URL url = new URL("https://betacraft.pl/resources/");
+             final BufferedReader bufferedReader = new BufferedReader((Reader)new InputStreamReader(url.openStream()));
+             String line;
+             while ((line = bufferedReader.readLine()) != null) {
+@@ -89,7 +90,7 @@
+         }
+     }
+     
+-    private void downloadResource(final URL url, final File file) {
++    private void downloadResource(final URL url, final File file) throws IOException {
+         final byte[] array = new byte[4096];
+         final DataInputStream dataInputStream = new DataInputStream(url.openStream());
+         final DataOutputStream dataOutputStream = new DataOutputStream((OutputStream)new FileOutputStream(file));
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/ThreadSleepForever.java minecraft/net/minecraft/client/ThreadSleepForever.java
+--- minecraft_unpatched/net/minecraft/client/ThreadSleepForever.java	2021-09-10 01:29:06.039008600 -0700
++++ minecraft/net/minecraft/client/ThreadSleepForever.java	2021-09-11 00:23:00.744424000 -0700
+@@ -17,7 +17,6 @@
+             catch (InterruptedException ex) {
+                 continue;
+             }
+-            break;
+         }
+     }
+ }
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/gui/FontRenderer.java minecraft/net/minecraft/client/gui/FontRenderer.java
+--- minecraft_unpatched/net/minecraft/client/gui/FontRenderer.java	2021-09-10 01:29:06.395315300 -0700
++++ minecraft/net/minecraft/client/gui/FontRenderer.java	2021-09-14 16:14:53.277145800 -0700
+@@ -37,7 +37,8 @@
+             int n2 = 0;
+             for (int n3 = 0; n2 < 8 && n3 == 0; ++n2) {
+                 final int n4 = (i << 3) + n2;
+-                for (int n3 = 1, n5 = 0; n5 < 8 && n3 != 0; ++n5) {
++                n3 = 1;
++                for (int n5 = 0; n5 < 8 && n3 != 0; ++n5) {
+                     final int n6 = ((n << 3) + n5) * width;
+                     final int n7;
+                     if ((n7 = (array[n4 + n6] & 0xFF)) > 128) {
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/gui/GuiContainer.java minecraft/net/minecraft/client/gui/GuiContainer.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiContainer.java	2021-09-10 01:29:05.927913000 -0700
++++ minecraft/net/minecraft/client/gui/GuiContainer.java	2021-09-13 22:35:50.334587000 -0700
+@@ -89,123 +89,103 @@
      
      @Override
--    protected final void drawSlotInventory(final int n, final int n2, final int n3) {
-+    public final void drawSlotInventory(int n, int n2, int n3) {
+     protected final void drawSlotInventory(final int integer1, final int integer2, final int integer3) {
 +        Slot slot;
-+        int n4;
-+        int n5 = 1;
-         if (n3 == 0 || n3 == 1) {
--            int n4 = n2;
++        int i4;
++        int i5 = 1;
+         if (integer3 == 0 || integer3 == 1) {
+-            int n = integer2;
 -            int i = 0;
-+            int n6 = 0;
++            int i6 = 0;
              while (true) {
 -                while (i < this.inventorySlots.size()) {
 -                    final Slot slot;
--                    if ((slot = (Slot)this.inventorySlots.get(i)).isAtCursorPos(n, n4)) {
+-                    if ((slot = (Slot)this.inventorySlots.get(i)).isAtCursorPos(integer1, n)) {
 -                        final Slot slot3;
 -                        final Slot slot2 = slot3 = slot;
 -                        final Slot slot4 = slot3;
@@ -365,40 +446,39 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiConta
 -                            final ItemStack stackInSlot;
 -                            if ((stackInSlot = slot5.inventory.getStackInSlot(slot5.slotIndex)) != null || this.itemStack != null) {
 -                                if (stackInSlot != null && this.itemStack == null) {
--                                    n4 = ((n3 == 0) ? stackInSlot.stackSize : ((stackInSlot.stackSize + 1) / 2));
--                                    this.itemStack = slot4.inventory.decrStackSize(slot4.slotIndex, n4);
+-                                    n = ((integer3 == 0) ? stackInSlot.stackSize : ((stackInSlot.stackSize + 1) / 2));
+-                                    this.itemStack = slot4.inventory.decrStackSize(slot4.slotIndex, n);
 -                                    if (stackInSlot.stackSize == 0) {
 -                                        slot4.putStack(null);
 -                                    }
 -                                    slot4.onPickupFromSlot();
 -                                    return;
-+                int n7 = n6;
-+                if (n7 >= this.inventorySlots.size()) {
++                if (i6 >= this.inventorySlots.size()) {
 +                    slot = null;
 +                    break;
 +                }
-+                Slot slot2 = (Slot) this.inventorySlots.get(n7);
-+                if (slot2.isAtCursorPos(n, n2)) {
++                Slot slot2 = (Slot) this.inventorySlots.get(i6);
++                if (slot2.isAtCursorPos(integer1, integer2)) {
 +                    slot = slot2;
 +                    break;
 +                }
-+                n6 = n7 + 1;
++                i6++;
 +            }
 +            if (slot != null) {
 +                ItemStack stackInSlot = slot.inventory.getStackInSlot(slot.slotIndex);
 +                if (stackInSlot != null || this.itemStack != null) {
 +                    if (stackInSlot != null && this.itemStack == null) {
-+                        this.itemStack = slot.inventory.decrStackSize(slot.slotIndex, n3 == 0 ? stackInSlot.stackSize : (stackInSlot.stackSize + 1) / 2);
++                        this.itemStack = slot.inventory.decrStackSize(slot.slotIndex, integer3 == 0 ? stackInSlot.stackSize : (stackInSlot.stackSize + 1) / 2);
 +                        if (stackInSlot.stackSize == 0) {
-+                            slot.putStack((ItemStack) null);
++                            slot.putStack(null);
 +                        }
 +                        slot.onPickupFromSlot();
 +                    } else if (stackInSlot == null && this.itemStack != null && slot.isItemValid(this.itemStack)) {
-+                        int n8 = n3 == 0 ? this.itemStack.stackSize : 1;
-+                        if (n8 > slot.inventory.getInventoryStackLimit()) {
-+                            n8 = slot.inventory.getInventoryStackLimit();
++                        int i7 = integer3 == 0 ? this.itemStack.stackSize : 1;
++                        if (i7 > slot.inventory.getInventoryStackLimit()) {
++                            i7 = slot.inventory.getInventoryStackLimit();
 +                        }
-+                        slot.putStack(this.itemStack.splitStack(n8));
++                        slot.putStack(this.itemStack.splitStack(i7));
 +                        if (this.itemStack.stackSize == 0) {
 +                            this.itemStack = null;
 +                        }
@@ -410,20 +490,20 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiConta
 +                                    this.itemStack = stackInSlot;
                                  }
 -                                if (stackInSlot == null && this.itemStack != null && slot4.isItemValid(this.itemStack)) {
--                                    if ((n4 = ((n3 == 0) ? this.itemStack.stackSize : 1)) > slot4.inventory.getInventoryStackLimit()) {
--                                        n4 = slot4.inventory.getInventoryStackLimit();
+-                                    if ((n = ((integer3 == 0) ? this.itemStack.stackSize : 1)) > slot4.inventory.getInventoryStackLimit()) {
+-                                        n = slot4.inventory.getInventoryStackLimit();
 +                            } else if (stackInSlot.itemID != this.itemStack.itemID) {
 +                            } else {
-+                                if (n3 == 0) {
-+                                    int n9 = this.itemStack.stackSize;
-+                                    if (n9 > slot.inventory.getInventoryStackLimit() - stackInSlot.stackSize) {
-+                                        n9 = slot.inventory.getInventoryStackLimit() - stackInSlot.stackSize;
++                                if (integer3 == 0) {
++                                    int i8 = this.itemStack.stackSize;
++                                    if (i8 > slot.inventory.getInventoryStackLimit() - stackInSlot.stackSize) {
++                                        i8 = slot.inventory.getInventoryStackLimit() - stackInSlot.stackSize;
 +                                    }
-+                                    if (n9 > this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize) {
-+                                        n9 = this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize;
++                                    if (i8 > this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize) {
++                                        i8 = this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize;
                                      }
--                                    slot4.putStack(this.itemStack.splitStack(n4));
-+                                    this.itemStack.splitStack(n9);
+-                                    slot4.putStack(this.itemStack.splitStack(n));
++                                    this.itemStack.splitStack(i8);
                                      if (this.itemStack.stackSize == 0) {
                                          this.itemStack = null;
                                      }
@@ -439,59 +519,59 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiConta
 -                                            }
 -                                        }
 -                                        else if (stackInSlot.itemID == this.itemStack.itemID) {
--                                            if (n3 == 0) {
--                                                if ((n4 = this.itemStack.stackSize) > slot4.inventory.getInventoryStackLimit() - stackInSlot.stackSize) {
--                                                    n4 = slot4.inventory.getInventoryStackLimit() - stackInSlot.stackSize;
+-                                            if (integer3 == 0) {
+-                                                if ((n = this.itemStack.stackSize) > slot4.inventory.getInventoryStackLimit() - stackInSlot.stackSize) {
+-                                                    n = slot4.inventory.getInventoryStackLimit() - stackInSlot.stackSize;
 -                                                }
--                                                if (n4 > this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize) {
--                                                    n4 = this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize;
+-                                                if (n > this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize) {
+-                                                    n = this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize;
 -                                                }
--                                                this.itemStack.splitStack(n4);
+-                                                this.itemStack.splitStack(n);
 -                                                if (this.itemStack.stackSize == 0) {
 -                                                    this.itemStack = null;
 -                                                }
 -                                                final ItemStack itemStack2 = stackInSlot;
--                                                itemStack2.stackSize += n4;
+-                                                itemStack2.stackSize += n;
 -                                                return;
 -                                            }
--                                            if (n3 == 1) {
--                                                n4 = 1;
+-                                            if (integer3 == 1) {
+-                                                n = 1;
 -                                                if (1 > slot4.inventory.getInventoryStackLimit() - stackInSlot.stackSize) {
--                                                    n4 = slot4.inventory.getInventoryStackLimit() - stackInSlot.stackSize;
+-                                                    n = slot4.inventory.getInventoryStackLimit() - stackInSlot.stackSize;
 -                                                }
--                                                if (n4 > this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize) {
--                                                    n4 = this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize;
+-                                                if (n > this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize) {
+-                                                    n = this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize;
 -                                                }
--                                                this.itemStack.splitStack(n4);
+-                                                this.itemStack.splitStack(n);
 -                                                if (this.itemStack.stackSize == 0) {
 -                                                    this.itemStack = null;
 -                                                }
 -                                                final ItemStack itemStack3 = stackInSlot;
--                                                itemStack3.stackSize += n4;
+-                                                itemStack3.stackSize += n;
 -                                            }
 -                                        }
 -                                    }
--                                    else if (stackInSlot.itemID == this.itemStack.itemID && this.itemStack.getItem().getItemStackLimit() > 1 && (n4 = stackInSlot.stackSize) > 0 && n4 + this.itemStack.stackSize <= this.itemStack.getItem().getItemStackLimit()) {
+-                                    else if (stackInSlot.itemID == this.itemStack.itemID && this.itemStack.getItem().getItemStackLimit() > 1 && (n = stackInSlot.stackSize) > 0 && n + this.itemStack.stackSize <= this.itemStack.getItem().getItemStackLimit()) {
 -                                        final ItemStack itemStack4 = this.itemStack;
--                                        itemStack4.stackSize += n4;
--                                        stackInSlot.splitStack(n4);
+-                                        itemStack4.stackSize += n;
+-                                        stackInSlot.splitStack(n);
 -                                        if (stackInSlot.stackSize == 0) {
 -                                            slot4.putStack(null);
 -                                        }
 -                                        slot4.onPickupFromSlot();
-+                                    stackInSlot.stackSize = n9 + stackInSlot.stackSize;
-+                                } else if (n3 == 1) {
++                                    stackInSlot.stackSize = i8 + stackInSlot.stackSize;
++                                } else if (integer3 == 1) {
 +                                    if (1 > slot.inventory.getInventoryStackLimit() - stackInSlot.stackSize) {
-+                                        n5 = slot.inventory.getInventoryStackLimit() - stackInSlot.stackSize;
++                                        i5 = slot.inventory.getInventoryStackLimit() - stackInSlot.stackSize;
 +                                    }
-+                                    if (n5 > this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize) {
-+                                        n5 = this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize;
++                                    if (i5 > this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize) {
++                                        i5 = this.itemStack.getItem().getItemStackLimit() - stackInSlot.stackSize;
 +                                    }
-+                                    this.itemStack.splitStack(n5);
++                                    this.itemStack.splitStack(i5);
 +                                    if (this.itemStack.stackSize == 0) {
 +                                        this.itemStack = null;
                                      }
-+                                    stackInSlot.stackSize += n5;
++                                    stackInSlot.stackSize += i5;
                                  }
                              }
 -                            return;
@@ -499,38 +579,38 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiConta
 -                        if (this.itemStack == null) {
 -                            return;
 -                        }
--                        final int n5 = (this.width - this.xSize) / 2;
--                        n4 = (this.height - this.ySize) / 2;
--                        if (n >= n5 && n2 >= n4 && n < n5 + this.xSize && n2 < n4 + this.xSize) {
+-                        final int n2 = (this.width - this.xSize) / 2;
+-                        n = (this.height - this.ySize) / 2;
+-                        if (integer1 >= n2 && integer2 >= n && integer1 < n2 + this.xSize && integer2 < n + this.xSize) {
 -                            return;
 -                        }
 -                        final EntityPlayerSP thePlayer = this.mc.thePlayer;
--                        if (n3 == 0) {
+-                        if (integer3 == 0) {
 -                            thePlayer.dropPlayerItem(this.itemStack);
 -                            this.itemStack = null;
 -                        }
--                        if (n3 != 1) {
+-                        if (integer3 != 1) {
 -                            return;
-+                        } else if (stackInSlot.itemID == this.itemStack.itemID && this.itemStack.getItem().getItemStackLimit() > 1 && (n4 = stackInSlot.stackSize) > 0 && this.itemStack.stackSize + n4 <= this.itemStack.getItem().getItemStackLimit()) {
-+                            this.itemStack.stackSize += n4;
-+                            stackInSlot.splitStack(n4);
++                        } else if (stackInSlot.itemID == this.itemStack.itemID && this.itemStack.getItem().getItemStackLimit() > 1 && (i4 = stackInSlot.stackSize) > 0 && this.itemStack.stackSize + i4 <= this.itemStack.getItem().getItemStackLimit()) {
++                            this.itemStack.stackSize += i4;
++                            stackInSlot.splitStack(i4);
 +                            if (stackInSlot.stackSize == 0) {
-+                                slot.putStack((ItemStack) null);
++                                slot.putStack(null);
 +                            }
 +                            slot.onPickupFromSlot();
                          }
 +                    }
 +                }
 +            } else if (this.itemStack != null) {
-+                int n10 = (this.width - this.xSize) / 2;
-+                int n11 = (this.height - this.ySize) / 2;
-+                if (n < n10 || n2 < n11 || n >= n10 + this.xSize || n2 >= this.xSize + n11) {
++                int i9 = (this.width - this.xSize) / 2;
++                int i10 = (this.height - this.ySize) / 2;
++                if (integer1 < i9 || integer2 < i10 || integer1 >= i9 + this.xSize || integer2 >= this.xSize + i10) {
 +                    EntityPlayerSP thePlayer = this.mc.thePlayer;
-+                    if (n3 == 0) {
++                    if (integer3 == 0) {
 +                        thePlayer.dropPlayerItem(this.itemStack);
 +                        this.itemStack = null;
 +                    }
-+                    if (n3 == 1) {
++                    if (integer3 == 1) {
                          thePlayer.dropPlayerItem(this.itemStack.splitStack(1));
                          if (this.itemStack.stackSize == 0) {
                              this.itemStack = null;
@@ -547,39 +627,41 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiConta
              }
          }
      }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiLevelDialog.java minecraft/net/minecraft/client/gui/GuiLevelDialog.java
---- minecraft_unpatched/net/minecraft/client/gui/GuiLevelDialog.java	2020-09-14 15:22:54.434403700 -0700
-+++ minecraft/net/minecraft/client/gui/GuiLevelDialog.java	2020-07-26 23:12:02.099490100 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/gui/GuiLevelDialog.java minecraft/net/minecraft/client/gui/GuiLevelDialog.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiLevelDialog.java	2021-09-10 01:29:06.139094700 -0700
++++ minecraft/net/minecraft/client/gui/GuiLevelDialog.java	2021-09-11 00:32:21.833579700 -0700
 @@ -34,7 +34,7 @@
              }
          }
          finally {
 -            GuiLoadLevelScreen.unknown(this.screen, false);
-+        	boolean unused2 = this.screen.frozen = false;
++            this.screen.frozen = false;
          }
      }
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiLevelLoading.java minecraft/net/minecraft/client/gui/GuiLevelLoading.java
---- minecraft_unpatched/net/minecraft/client/gui/GuiLevelLoading.java	2020-09-14 15:22:55.561372600 -0700
-+++ minecraft/net/minecraft/client/gui/GuiLevelLoading.java	2020-07-26 23:11:13.729692000 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/gui/GuiLevelLoading.java minecraft/net/minecraft/client/gui/GuiLevelLoading.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiLevelLoading.java	2021-09-10 01:29:06.479888100 -0700
++++ minecraft/net/minecraft/client/gui/GuiLevelLoading.java	2021-09-11 00:29:06.834901200 -0700
 @@ -113,7 +113,7 @@
      public GuiLevelLoading() {
      }
      
--    public static NBTTagCompound writeLevelTags(InputStream inputStream) {
-+    public static NBTTagCompound writeLevelTags(InputStream inputStream) throws IOException {
-         inputStream = (InputStream)new DataInputStream((InputStream)new GZIPInputStream(inputStream));
+-    public static NBTTagCompound writeLevelTags(InputStream var_0_0F) {
++    public static NBTTagCompound writeLevelTags(InputStream var_0_0F) throws IOException {
+         var_0_0F = (InputStream)new DataInputStream((InputStream)new GZIPInputStream(var_0_0F));
          try {
              final NBTBase tag;
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiLoadLevelScreen.java minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java
---- minecraft_unpatched/net/minecraft/client/gui/GuiLoadLevelScreen.java	2020-09-14 15:22:53.963499200 -0700
-+++ minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java	2020-09-14 14:37:52.710306500 -0700
-@@ -17,11 +17,11 @@
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/gui/GuiLoadLevelScreen.java minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java
+--- minecraft_unpatched/net/minecraft/client/gui/GuiLoadLevelScreen.java	2021-09-10 01:29:05.946929300 -0700
++++ minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java	2021-09-14 00:05:09.084942900 -0700
+@@ -17,16 +17,19 @@
      private GuiScreen parent;
      private boolean finished;
      private boolean loaded;
 -    private String[] levels;
-+    private String levels;
++    //Commented code is original and commented out for anti-piracy patch
++    //private String[] levels;
++    private String[] levels = {"Load From Button","Load From Button","Load From Button","Load From Button","Load From Button"};
      private String status;
      protected String title;
 -    private boolean frozen;
@@ -587,138 +669,54 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiLoadL
 +    boolean frozen;
 +    File selectedFile;
      
-     public GuiLoadLevelScreen(final GuiScreen parent) {
+     public GuiLoadLevelScreen(final GuiScreen i) {
          this.finished = false;
-@@ -48,13 +48,13 @@
+         this.loaded = false;
+-        this.levels = null;
++        //Commented code is original and commented out for anti-piracy patch
++        //this.levels = null;
+         this.status = "";
+         this.title = "Load level";
+         this.frozen = false;
+@@ -48,7 +51,8 @@
      public void run() {
          try {
              this.status = "Getting level list..";
 -            this.levels = new BufferedReader((Reader)new InputStreamReader(new URL("http://" + this.mc.minecraftUri + "/listmaps.jsp?user=" + this.mc.session.username).openConnection().getInputStream())).readLine().split(";");
--            if (this.levels.length >= 5) {
-+            this.levels = "Load From Button";
-+            if (this.levels.length() >= 5) {
++            //Commented code is original and commented out for anti-piracy patch
++            //this.levels = new BufferedReader((Reader)new InputStreamReader(new URL("http://" + this.mc.minecraftUri + "/listmaps.jsp?user=" + this.mc.session.username).openConnection().getInputStream())).readLine().split(";");
+             if (this.levels.length >= 5) {
                  this.setLevels(this.levels);
                  this.loaded = true;
-                 return;
-             }
--            this.status = this.levels[0];
-+            this.status = this.levels;
-             this.finished = true;
-         }
-         catch (Exception ex) {
-@@ -64,10 +64,10 @@
-         }
-     }
-     
--    protected void setLevels(final String[] array) {
-+    protected void setLevels(final String levels2) {
-         for (int i = 0; i < 5; ++i) {
--            ((GuiButton)this.controlList.get(i)).enabled = !array[i].equals("-");
--            ((GuiButton)this.controlList.get(i)).displayString = array[i];
-+            ((GuiButton)this.controlList.get(i)).enabled = !levels2.equals("-");
-+            ((GuiButton)this.controlList.get(i)).displayString = levels2;
-             ((GuiButton)this.controlList.get(i)).enabled2 = true;
-         }
-         ((GuiButton)this.controlList.get(5)).enabled2 = true;
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/GuiSaveLevelScreen.java minecraft/net/minecraft/client/gui/GuiSaveLevelScreen.java
---- minecraft_unpatched/net/minecraft/client/gui/GuiSaveLevelScreen.java	2020-09-14 15:22:54.358338100 -0700
-+++ minecraft/net/minecraft/client/gui/GuiSaveLevelScreen.java	2020-07-27 03:33:01.379183300 -0700
-@@ -26,9 +26,9 @@
-     }
-     
-     @Override
--    protected final void setLevels(final String[] array) {
-+    protected final void setLevels(final String array) {
-         for (int i = 0; i < 5; ++i) {
--            ((GuiButton)this.controlList.get(i)).displayString = array[i];
-+            ((GuiButton)this.controlList.get(i)).displayString = array;
-             ((GuiButton)this.controlList.get(i)).enabled2 = true;
-         }
-         ((GuiButton)this.controlList.get(5)).enabled2 = true;
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/gui/SlotArmor.java minecraft/net/minecraft/client/gui/SlotArmor.java
---- minecraft_unpatched/net/minecraft/client/gui/SlotArmor.java	2020-09-14 15:22:52.981155500 -0700
-+++ minecraft/net/minecraft/client/gui/SlotArmor.java	2020-07-26 23:10:39.893149600 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/gui/SlotArmor.java minecraft/net/minecraft/client/gui/SlotArmor.java
+--- minecraft_unpatched/net/minecraft/client/gui/SlotArmor.java	2021-09-10 01:29:05.732745400 -0700
++++ minecraft/net/minecraft/client/gui/SlotArmor.java	2021-09-11 00:28:46.675049100 -0700
 @@ -8,8 +8,8 @@
      private /* synthetic */ int armorType;
      
-     SlotArmor(final GuiInventory guiInventory, final GuiContainer guiContainer, final IInventory inventory, final int n, final int n2, final int n3, final int armorType) {
+     SlotArmor(final GuiInventory f, final GuiContainer j, final IInventory b, final int integer4, final int integer5, final int integer6, final int armorType) {
 -        this.armorType = armorType;
-         super(guiContainer, inventory, n, 8, n3);
+         super(j, b, integer4, 8, integer6);
 +    	this.armorType = armorType;
      }
      
      @Override
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/Minecraft.java minecraft/net/minecraft/client/Minecraft.java
---- minecraft_unpatched/net/minecraft/client/Minecraft.java	2020-09-14 15:22:55.456782700 -0700
-+++ minecraft/net/minecraft/client/Minecraft.java	2020-09-14 14:26:42.930162600 -0700
-@@ -103,7 +103,7 @@
-     private String server;
-     private TextureWaterFX textureWaterFX;
-     private TextureLavaFX textureLavaFX;
--    volatile boolean running;
-+    public volatile boolean running;
-     public String debug;
-     public boolean isTakingScreenshot;
-     private int prevFrameTime;
-@@ -760,7 +760,7 @@
-     public final void generateLevel(int n, final int n2, int n3, int levelType) {
-         this.setLevel(null);
-         System.gc();
--        final String s = (this.session != null) ? this.session.username : "anonymous";
-+        final String s = (this.session == null) ? this.session.username : "anonymous";
-         final LevelGenerator levelGenerator;
-         (levelGenerator = new LevelGenerator(this.loadingScreen)).islandGen = (n3 == 1);
-         levelGenerator.floatingGen = (n3 == 2);
-@@ -784,10 +784,7 @@
-             this.theWorld.worldMethod();
-         }
-         try {
--            final BufferedReader bufferedReader;
--            Integer.parseInt((bufferedReader = new BufferedReader((Reader)new InputStreamReader(new URL(new StringBuilder().append(this.mcApplet.getDocumentBase()).append("?n=").append(this.session.username).append("&i=").append(this.session.sessionId).toString()).openStream()))).readLine());
--            bufferedReader.close();
--            if (this.mcApplet.getDocumentBase().toString().startsWith("http://www.minecraft.net/") || this.mcApplet.getDocumentBase().toString().startsWith("http://minecraft.net/")) {
-+            if (!this.mcApplet.getDocumentBase().toString().startsWith("http://www.minecraft.net/") || !this.mcApplet.getDocumentBase().toString().startsWith("http://minecraft.net/")) {
-                 this.theWorld = theWorld;
-             }
-         }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/MinecraftApplet.java minecraft/net/minecraft/client/MinecraftApplet.java
---- minecraft_unpatched/net/minecraft/client/MinecraftApplet.java	2020-09-14 15:22:55.039424000 -0700
-+++ minecraft/net/minecraft/client/MinecraftApplet.java	2020-07-27 03:40:50.281841300 -0700
-@@ -28,7 +28,7 @@
-             final Minecraft mc = this.mc;
-             mc.minecraftUri = sb.append(mc.minecraftUri).append(":").append(this.getDocumentBase().getPort()).toString();
-         }
--        if (this.getParameter("username") != null && this.getParameter("sessionid") != null) {
-+        if (this.getParameter("username") == null && this.getParameter("sessionid") == null) {
-             this.mc.session = new SessionData(this.getParameter("username"), this.getParameter("sessionid"));
-             if (this.getParameter("mppass") != null) {
-                 this.getParameter("mppass");
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/OSValidator.java minecraft/net/minecraft/client/OSValidator.java
---- minecraft_unpatched/net/minecraft/client/OSValidator.java	2020-09-14 15:22:55.727515400 -0700
-+++ minecraft/net/minecraft/client/OSValidator.java	2020-07-26 23:09:43.769375500 -0700
-@@ -1,6 +1,7 @@
- package net.minecraft.client;
- 
- final class OSValidator {
-+    public static int[] osValues;
-     static {
-         osValues = new int[OS.values().length];
-         try {
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/player/EntityPlayerSP.java minecraft/net/minecraft/client/player/EntityPlayerSP.java
---- minecraft_unpatched/net/minecraft/client/player/EntityPlayerSP.java	2020-09-14 15:22:55.603909100 -0700
-+++ minecraft/net/minecraft/client/player/EntityPlayerSP.java	2020-07-27 03:40:09.363321800 -0700
-@@ -28,7 +28,7 @@
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/player/EntityPlayerSP.java minecraft/net/minecraft/client/player/EntityPlayerSP.java
+--- minecraft_unpatched/net/minecraft/client/player/EntityPlayerSP.java	2021-09-10 01:29:06.336264600 -0700
++++ minecraft/net/minecraft/client/player/EntityPlayerSP.java	2021-09-14 00:05:53.535093700 -0700
+@@ -28,7 +28,8 @@
          super(world);
-         this.mc = mc;
+         this.mc = minecraft;
          if (sessionData != null) {
 -            this.skinUrl = "http://www.minecraft.net/skin/" + sessionData.username + ".png";
-+            this.skinUrl = "http://mcresources.modification-station.net/skinapi.php?user=" + sessionData.username + ".png";
++        	//this.skinUrl = "http://www.minecraft.net/skin/" + sessionData.username + ".png";
++        	this.skinUrl = "http://mcresources.modification-station.net/skinapi.php?user=" + sessionData.username + ".png";
          }
      }
      
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/player/PlayerControllerCreative.java minecraft/net/minecraft/client/player/PlayerControllerCreative.java
---- minecraft_unpatched/net/minecraft/client/player/PlayerControllerCreative.java	2020-09-14 15:22:54.395370200 -0700
-+++ minecraft/net/minecraft/client/player/PlayerControllerCreative.java	2020-09-14 13:34:14.592116300 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/player/PlayerControllerCreative.java minecraft/net/minecraft/client/player/PlayerControllerCreative.java
+--- minecraft_unpatched/net/minecraft/client/player/PlayerControllerCreative.java	2021-09-10 01:29:06.287222200 -0700
++++ minecraft/net/minecraft/client/player/PlayerControllerCreative.java	2021-09-11 00:39:09.746953500 -0700
 @@ -2,13 +2,19 @@
  
  import net.minecraft.game.level.World;
@@ -731,45 +729,154 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/player/Playe
  
  public final class PlayerControllerCreative extends PlayerController {
 -    private MobSpawner mobSpawner;
-+    public PlayerControllerCreative(Minecraft mc)
++    public PlayerControllerCreative(Minecraft minecraft)
 +	{
-+		super(mc);
++		super(minecraft);
 +	}
 +
 +	private MobSpawner mobSpawner;
      
      @Override
      public final void blankPlayerFunction(final EntityPlayer entityPlayer) {
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ChunkDistanceComparator.java minecraft/net/minecraft/client/renderer/ChunkDistanceComparator.java
---- minecraft_unpatched/net/minecraft/client/renderer/ChunkDistanceComparator.java	2020-09-14 15:22:54.145155900 -0700
-+++ minecraft/net/minecraft/client/renderer/ChunkDistanceComparator.java	2020-07-27 01:55:19.916654600 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/ChunkDistanceComparator.java minecraft/net/minecraft/client/renderer/ChunkDistanceComparator.java
+--- minecraft_unpatched/net/minecraft/client/renderer/ChunkDistanceComparator.java	2021-09-10 01:29:06.156609900 -0700
++++ minecraft/net/minecraft/client/renderer/ChunkDistanceComparator.java	2021-09-13 23:01:18.304460000 -0700
 @@ -10,4 +10,8 @@
-     public ChunkDistanceComparator(final EntityPlayer entityplayer) {
-         this.entityplayer = entityplayer;
+     public ChunkDistanceComparator(final EntityPlayer entityPlayer) {
+         this.entityplayer = entityPlayer;
      }
 +    
 +    public final int compare(Object obj, Object obj2) {
-+        return ((WorldRenderer) obj).distanceToEntitySquared((EntityLiving) this.entityplayer) < ((WorldRenderer) obj2).distanceToEntitySquared((EntityLiving) this.entityplayer) ? -1 : 1;
++        return ((WorldRenderer) obj).distanceToEntitySquared(this.entityplayer) < ((WorldRenderer) obj2).distanceToEntitySquared(this.entityplayer) ? -1 : 1;
 +    }
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderArrow.java minecraft/net/minecraft/client/renderer/entity/RenderArrow.java
---- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderArrow.java	2020-09-14 15:22:55.410743100 -0700
-+++ minecraft/net/minecraft/client/renderer/entity/RenderArrow.java	2020-09-14 03:14:09.617626600 -0700
-@@ -7,4 +7,55 @@
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/ImageBufferDownload.java minecraft/net/minecraft/client/renderer/ImageBufferDownload.java
+--- minecraft_unpatched/net/minecraft/client/renderer/ImageBufferDownload.java	2021-09-10 01:29:05.848344800 -0700
++++ minecraft/net/minecraft/client/renderer/ImageBufferDownload.java	2021-09-12 00:47:34.993649800 -0700
+@@ -33,34 +33,27 @@
+         integer4 = n3;
+         integer3 = n2;
+         integer2 = (integer2 = n);
++        boolean b;
+     Label_0076:
+         while (true) {
+             while (integer2 < integer4) {
+                 for (int i = integer3; i < n4; ++i) {
+                     if (this.imageData[integer2 + i * this.imageWidth] >>> 24 < 128) {
+-                        final boolean b = true;
++                        b = true;
+                         break Label_0076;
+                     }
+                 }
+                 ++integer2;
+-                continue;
+-                boolean b = false;
+-                if (b) {
+-                    return;
+-                }
+-                int[] imageData;
+-                int n5;
+-                for (integer1 = 32; integer1 < 64; ++integer1) {
+-                    for (integer2 = 0; integer2 < 32; ++integer2) {
+-                        imageData = this.imageData;
+-                        n5 = integer1 + integer2 * this.imageWidth;
+-                        imageData[n5] &= 0xFFFFFF;
+-                    }
++            }
++        }
++        if (!b) {
++            for (int i7 = 32; i7 < 64; i7++) {
++                for (int i8 = 0; i8 < 32; i8++) {
++                    int[] iArr = this.imageData;
++                    int i9 = (this.imageWidth * i8) + i7;
++                    iArr[i9] = iArr[i9] & 16777215;
+                 }
+-                return;
+             }
+-            final boolean b = false;
+-            continue Label_0076;
+         }
+     }
+     
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/RenderEngine.java minecraft/net/minecraft/client/renderer/RenderEngine.java
+--- minecraft_unpatched/net/minecraft/client/renderer/RenderEngine.java	2021-09-10 01:29:06.514918100 -0700
++++ minecraft/net/minecraft/client/renderer/RenderEngine.java	2021-09-12 00:35:06.961982200 -0700
+@@ -19,8 +19,8 @@
+ import java.util.HashMap;
+ 
+ public class RenderEngine {
+-    private HashMap textureMap;
+-    private HashMap textureNameToImageMap;
++    private HashMap<String,Object> textureMap;
++    private HashMap<Integer,Object> textureNameToImageMap;
+     private IntBuffer singleIntBuffer;
+     private ByteBuffer imageData;
+     private List textureList;
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/RenderGlobal.java minecraft/net/minecraft/client/renderer/RenderGlobal.java
+--- minecraft_unpatched/net/minecraft/client/renderer/RenderGlobal.java	2021-09-10 01:29:06.345272100 -0700
++++ minecraft/net/minecraft/client/renderer/RenderGlobal.java	2021-09-13 00:18:00.842848300 -0700
+@@ -197,9 +197,9 @@
+                         }
+                         if (b) {
+                             for (l = 0; l < list.size(); ++l) {
+-                                final EntityLiving entity2;
+-                                final Entity entity;
+-                                n6 = (entity = (entity2 = (EntityLiving)list.get(l))).posX - vec3D.xCoord;
++                                final Entity entity2 = (Entity) list.get(l);;
++                                final Entity entity = entity2;
++                                n6 = entity.posX - vec3D.xCoord;
+                                 n5 = entity.posY - vec3D.yCoord;
+                                 n7 = entity.posZ - vec3D.zCoord;
+                                 n6 = n6 * n6 + n5 * n5 + n7 * n7;
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/RenderSorter.java minecraft/net/minecraft/client/renderer/RenderSorter.java
+--- minecraft_unpatched/net/minecraft/client/renderer/RenderSorter.java	2021-09-10 01:29:06.358784000 -0700
++++ minecraft/net/minecraft/client/renderer/RenderSorter.java	2021-09-13 23:24:07.246438500 -0700
+@@ -10,4 +10,15 @@
+     public RenderSorter(final EntityPlayer entityPlayer) {
+         this.baseEntity = entityPlayer;
+     }
++    
++    public final int compare(Object obj, Object obj2) {
++        WorldRenderer hVar = (WorldRenderer) obj;
++        WorldRenderer hVar2 = (WorldRenderer) obj2;
++        boolean z = hVar.isInFrustrum;
++        boolean z2 = hVar2.isInFrustrum;
++        if (!z || z2) {
++            return ((!z2 || z) && hVar.distanceToEntitySquared(this.baseEntity) < hVar2.distanceToEntitySquared(this.baseEntity)) ? 1 : -1;
++        }
++        return 1;
++    }
+ }
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/WorldRenderer.java minecraft/net/minecraft/client/renderer/WorldRenderer.java
+--- minecraft_unpatched/net/minecraft/client/renderer/WorldRenderer.java	2021-09-10 01:29:06.194642800 -0700
++++ minecraft/net/minecraft/client/renderer/WorldRenderer.java	2021-09-11 01:03:10.791462900 -0700
+@@ -106,7 +106,7 @@
+         }
+     }
+     
+-    public final float compare(final EntityLiving e) {
++    public final float distanceToEntitySquared(final EntityLiving e) {
+         final float n = e.posX - this.posXPlus;
+         final float n2 = e.posY - this.posYPlus;
+         final float n3 = e.posZ - this.posZPlus;
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderArrow.java minecraft/net/minecraft/client/renderer/entity/RenderArrow.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderArrow.java	2021-09-10 01:29:06.229672700 -0700
++++ minecraft/net/minecraft/client/renderer/entity/RenderArrow.java	2021-09-13 23:48:06.776037500 -0700
+@@ -7,4 +7,48 @@
  import net.minecraft.game.entity.Entity;
  
  public final class RenderArrow extends Render {
 +	
-+    public final void doRender(Entity bVar, float f, float f2, float f3, float f4, float f5) {
-+        EntityArrow aVar = (EntityArrow) bVar;
++    public final void doRender(Entity entity, float f, float f2, float f3, float f4, float f5) {
++        EntityArrow arrow = (EntityArrow) entity;
 +        loadTexture("/item/arrows.png");
 +        GL11.glPushMatrix();
 +        GL11.glTranslatef(f, f2, f3);
-+        GL11.glRotatef((aVar.prevRotationYaw + ((aVar.rotationYaw - aVar.prevRotationYaw) * f5)) - 90.0f, 0.0f, 1.0f, 0.0f);
-+        GL11.glRotatef(aVar.prevRotationPitch + ((aVar.rotationPitch - aVar.prevRotationPitch) * f5), 0.0f, 0.0f, 1.0f);
++        GL11.glRotatef((arrow.prevRotationYaw + ((arrow.rotationYaw - arrow.prevRotationYaw) * f5)) - 90.0f, 0.0f, 1.0f, 0.0f);
++        GL11.glRotatef(arrow.prevRotationPitch + ((arrow.rotationPitch - arrow.prevRotationPitch) * f5), 0.0f, 0.0f, 1.0f);
 +        Tessellator dVar = Tessellator.instance;
 +        GL11.glEnable(2977);
-+        float f6 = ((float) aVar.arrowShake) - f5;
++        float f6 = ((float) arrow.arrowShake) - f5;
 +        if (f6 > 0.0f) {
 +            GL11.glRotatef(f6 * (-MathHelper.sin(3.0f * f6)), 0.0f, 0.0f, 1.0f);
 +        }
@@ -790,39 +897,32 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
 +        dVar.addVertexWithUV(-7.0f, -2.0f, 2.0f, 0.15625f, 0.3125f);
 +        dVar.addVertexWithUV(-7.0f, -2.0f, -2.0f, 0.0f, 0.3125f);
 +        dVar.draw();
-+        int i = 0;
-+        while (true) {
-+            int i2 = i;
-+            if (i2 < 4) {
-+                GL11.glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-+                GL11.glNormal3f(0.0f, 0.0f, 0.05625f);
-+                dVar.startDrawingQuads();
-+                dVar.addVertexWithUV(-8.0f, -2.0f, 0.0f, 0.0f, 0.0f);
-+                dVar.addVertexWithUV(8.0f, -2.0f, 0.0f, 0.5f, 0.0f);
-+                dVar.addVertexWithUV(8.0f, 2.0f, 0.0f, 0.5f, 0.15625f);
-+                dVar.addVertexWithUV(-8.0f, 2.0f, 0.0f, 0.0f, 0.15625f);
-+                dVar.draw();
-+                i = i2 + 1;
-+            } else {
-+                GL11.glDisable(2977);
-+                GL11.glPopMatrix();
-+                return;
-+            }
++        for (int i = 0; i < 4; i++) {
++            GL11.glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
++            GL11.glNormal3f(0.0f, 0.0f, 0.05625f);
++            dVar.startDrawingQuads();
++            dVar.addVertexWithUV(-8.0f, -2.0f, 0.0f, 0.0f, 0.0f);
++            dVar.addVertexWithUV(8.0f, -2.0f, 0.0f, 0.5f, 0.0f);
++            dVar.addVertexWithUV(8.0f, 2.0f, 0.0f, 0.5f, 0.15625f);
++            dVar.addVertexWithUV(-8.0f, 2.0f, 0.0f, 0.0f, 0.15625f);
++            dVar.draw();
 +        }
++        GL11.glDisable(2977);
++        GL11.glPopMatrix();
 +    }
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderCreeper.java minecraft/net/minecraft/client/renderer/entity/RenderCreeper.java
---- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderCreeper.java	2020-09-14 15:22:54.029556000 -0700
-+++ minecraft/net/minecraft/client/renderer/entity/RenderCreeper.java	2020-09-14 03:13:53.162195200 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderCreeper.java minecraft/net/minecraft/client/renderer/entity/RenderCreeper.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderCreeper.java	2021-09-10 01:29:06.284219500 -0700
++++ minecraft/net/minecraft/client/renderer/entity/RenderCreeper.java	2021-09-13 23:43:28.359868600 -0700
 @@ -11,4 +11,37 @@
      public RenderCreeper() {
          super(new ModelCreeper(), 0.5f);
      }
 +    
-+    public final int getColorMultiplier(EntityLiving eVar, float f, float f2) {
++    public final int getColorMultiplier(EntityLiving entity, float f, float f2) {
 +        int i = 255;
 +        int i2 = 0;
-+        float c = ((EntityCreeper) eVar).setCreeperFlashTime(f2);
++        float c = ((EntityCreeper) entity).setCreeperFlashTime(f2);
 +        if (((int) (10.0f * c)) % 2 == 0) {
 +            return 0;
 +        }
@@ -836,9 +936,9 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
 +        return (i << 24) | 16711680 | 65280 | 255;
 +    }
 +
-+    public final void preRenderCallback(EntityLiving eVar, float f) {
++    public final void preRenderCallback(EntityLiving entity, float f) {
 +        float f2 = 0.0f;
-+        float c = ((EntityCreeper) eVar).setCreeperFlashTime(f);
++        float c = ((EntityCreeper) entity).setCreeperFlashTime(f);
 +        float a = (MathHelper.sin(100.0f * c) * c * 0.01f) + 1.0f;
 +        if (c >= 0.0f) {
 +            f2 = c;
@@ -852,47 +952,47 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
 +        GL11.glScalef(f5, ((f4 * 0.1f) + 1.0f) / a, f5);
 +    }
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderGiantZombie.java minecraft/net/minecraft/client/renderer/entity/RenderGiantZombie.java
---- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderGiantZombie.java	2020-09-14 15:22:55.019907200 -0700
-+++ minecraft/net/minecraft/client/renderer/entity/RenderGiantZombie.java	2020-09-14 03:13:23.102130800 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderGiantZombie.java minecraft/net/minecraft/client/renderer/entity/RenderGiantZombie.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderGiantZombie.java	2021-09-10 01:29:06.445358200 -0700
++++ minecraft/net/minecraft/client/renderer/entity/RenderGiantZombie.java	2021-09-13 23:43:54.800983800 -0700
 @@ -11,4 +11,8 @@
          super(modelBase, 3.0f);
          this.scale = 6.0f;
      }
 +    
-+    public final void preRenderCallback(EntityLiving eVar, float f) {
++    public final void preRenderCallback(EntityLiving entity, float f) {
 +        GL11.glScalef(this.scale, this.scale, this.scale);
 +    }
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderItem.java minecraft/net/minecraft/client/renderer/entity/RenderItem.java
---- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderItem.java	2020-09-14 15:22:54.087606100 -0700
-+++ minecraft/net/minecraft/client/renderer/entity/RenderItem.java	2020-07-27 02:43:22.447469700 -0700
-@@ -112,4 +112,81 @@
-         tessellator.addVertex((float)(n + n3), (float)n2, 0.0f);
-         tessellator.draw();
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderItem.java minecraft/net/minecraft/client/renderer/entity/RenderItem.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderItem.java	2021-09-10 01:29:05.821821600 -0700
++++ minecraft/net/minecraft/client/renderer/entity/RenderItem.java	2021-09-13 23:47:37.812734000 -0700
+@@ -112,4 +112,75 @@
+         d.addVertex((float)(integer2 + integer4), (float)integer3, 0.0f);
+         d.draw();
      }
 +    
-+    public final void doRenderItem(EntityItem bVar, float f, float f2, float f3, float f4, float f5) {
-+        EntityItem bVar2 = (EntityItem) bVar;
++    public final void doRenderItem(EntityItem entity, float f, float f2, float f3, float f4, float f5) {
++        EntityItem item = (EntityItem) entity;
 +        this.random.setSeed(187);
-+        ItemStack kVar = bVar2.item;
++        ItemStack itemStack = item.item;
 +        GL11.glPushMatrix();
-+        float a = 0.1f + (MathHelper.sin(((((float) bVar2.age) + f5) / 10.0f) + bVar2.hoverStart) * 0.1f);
-+        float f6 = 57.295776f * (((((float) bVar2.age) + f5) / 20.0f) + bVar2.hoverStart);
++        float a = 0.1f + (MathHelper.sin(((((float) item.age) + f5) / 10.0f) + item.hoverStart) * 0.1f);
++        float f6 = 57.295776f * (((((float) item.age) + f5) / 20.0f) + item.hoverStart);
 +        int i = 1;
-+        if (bVar2.item.stackSize > 1) {
++        if (item.item.stackSize > 1) {
 +            i = 2;
 +        }
-+        if (bVar2.item.stackSize > 5) {
++        if (item.item.stackSize > 5) {
 +            i = 3;
 +        }
-+        int i2 = bVar2.item.stackSize > 20 ? 4 : i;
++        int i2 = item.item.stackSize > 20 ? 4 : i;
 +        GL11.glTranslatef(f, f2 + a, f3);
 +        GL11.glEnable(2977);
-+        if (kVar.itemID >= 256 || Block.blocksList[kVar.itemID].getRenderType() != 0) {
++        if (itemStack.itemID >= 256 || Block.blocksList[itemStack.itemID].getRenderType() != 0) {
 +            GL11.glScalef(0.5f, 0.5f, 0.5f);
-+            int b = kVar.getItem().getIconFromDamage();
-+            if (kVar.itemID < 256) {
++            int b = itemStack.getItem().getIconFromDamage();
++            if (itemStack.itemID < 256) {
 +                loadTexture("/terrain.png");
 +            } else {
 +                loadTexture("/gui/items.png");
@@ -902,14 +1002,9 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
 +            float f8 = ((float) (((b % 16) << 4) + 16)) / 256.0f;
 +            float f9 = ((float) ((b / 16) << 4)) / 256.0f;
 +            float f10 = ((float) (((b / 16) << 4) + 16)) / 256.0f;
-+            int i3 = 0;
-+            while (true) {
-+                int i4 = i3;
-+                if (i4 >= i2) {
-+                    break;
-+                }
++            for (int i3 = 0; i3 < i2; i3++) {
 +                GL11.glPushMatrix();
-+                if (i4 > 0) {
++                if (i3 > 0) {
 +                    GL11.glTranslatef(((this.random.nextFloat() * 2.0f) - 1.0f) * 0.3f, ((this.random.nextFloat() * 2.0f) - 1.0f) * 0.3f, ((this.random.nextFloat() * 2.0f) - 1.0f) * 0.3f);
 +                }
 +                GL11.glRotatef(180.0f - this.renderManager.playerViewY, 0.0f, 1.0f, 0.0f);
@@ -921,22 +1016,21 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
 +                dVar.addVertexWithUV(-0.5f, 0.75f, 0.0f, f7, f9);
 +                dVar.draw();
 +                GL11.glPopMatrix();
-+                i3 = i4 + 1;
 +            }
 +        } else {
 +            GL11.glRotatef(f6, 0.0f, 1.0f, 0.0f);
 +            loadTexture("/terrain.png");
 +            float f11 = 0.25f;
-+            if (!Block.blocksList[kVar.itemID].renderAsNormalBlock() && kVar.itemID != Block.stairSingle.blockID) {
++            if (!Block.blocksList[itemStack.itemID].renderAsNormalBlock() && itemStack.itemID != Block.stairSingle.blockID) {
 +                f11 = 0.5f;
 +            }
 +            GL11.glScalef(f11, f11, f11);
-+            for (int i5 = 0; i5 < i2; i5++) {
++            for (int i4 = 0; i4 < i2; i4++) {
 +                GL11.glPushMatrix();
-+                if (i5 > 0) {
++                if (i4 > 0) {
 +                    GL11.glTranslatef((((this.random.nextFloat() * 2.0f) - 1.0f) * 0.2f) / f11, (((this.random.nextFloat() * 2.0f) - 1.0f) * 0.2f) / f11, (((this.random.nextFloat() * 2.0f) - 1.0f) * 0.2f) / f11);
 +                }
-+                this.renderBlocks.renderBlockOnInventory(Block.blocksList[kVar.itemID]);
++                this.renderBlocks.renderBlockOnInventory(Block.blocksList[itemStack.itemID]);
 +                GL11.glPopMatrix();
 +            }
 +        }
@@ -949,126 +1043,113 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
 +		this.doRenderItem((EntityItem)p0, p1, p2, p3, p4, p5);
 +	}
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderLiving.java minecraft/net/minecraft/client/renderer/entity/RenderLiving.java
---- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderLiving.java	2020-09-14 15:22:54.264758300 -0700
-+++ minecraft/net/minecraft/client/renderer/entity/RenderLiving.java	2020-07-27 02:44:29.749038200 -0700
-@@ -114,4 +114,9 @@
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderLiving.java minecraft/net/minecraft/client/renderer/entity/RenderLiving.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderLiving.java	2021-09-10 01:29:06.130587400 -0700
++++ minecraft/net/minecraft/client/renderer/entity/RenderLiving.java	2021-09-13 23:16:58.483187500 -0700
+@@ -114,4 +114,8 @@
      
-     protected void preRenderCallback(final EntityLiving entityLiving, final float n) {
+     protected void preRenderCallback(final EntityLiving entityLiving, final float float2) {
      }
 +    
-+    public void doRender(Entity entity, float d, float d1, float d2, float f, float f1)
-+    {
++    public void doRender(Entity entity, float d, float d1, float d2, float f, float f1) {
 +		doRender((EntityLiving)entity, d, d1, d2, f, f1);
 +    }
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPainting.java minecraft/net/minecraft/client/renderer/entity/RenderPainting.java
---- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPainting.java	2020-09-14 15:22:55.506825600 -0700
-+++ minecraft/net/minecraft/client/renderer/entity/RenderPainting.java	2020-07-27 02:44:47.853686500 -0700
-@@ -13,4 +13,100 @@
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPainting.java minecraft/net/minecraft/client/renderer/entity/RenderPainting.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPainting.java	2021-09-10 01:29:06.453365100 -0700
++++ minecraft/net/minecraft/client/renderer/entity/RenderPainting.java	2021-09-13 23:47:00.504470500 -0700
+@@ -13,4 +13,88 @@
      public RenderPainting() {
          this.rand = new Random();
      }
 +    
-+    public final void doRender(Entity bVar, float f, float f2, float f3, float f4, float f5) {
-+        EntityPainting aVar = (EntityPainting) bVar;
++    public final void doRender(Entity entity, float f, float f2, float f3, float f4, float f5) {
++        EntityPainting painting = (EntityPainting) entity;
 +        this.rand.setSeed(187);
 +        GL11.glPushMatrix();
 +        GL11.glTranslatef(f, f2, f3);
 +        GL11.glRotatef(f4, 0.0f, 1.0f, 0.0f);
 +        GL11.glEnable(2977);
 +        loadTexture("/art/kz.png");
-+        EnumArt dVar = aVar.art;
++        EnumArt paintingType = painting.art;
 +        GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
-+        int i = dVar.sizeX;
-+        int i2 = dVar.sizeY;
-+        int i3 = dVar.offsetX;
-+        int i4 = dVar.offsetY;
++        int i = paintingType.sizeX;
++        int i2 = paintingType.sizeY;
++        int i3 = paintingType.offsetX;
++        int i4 = paintingType.offsetY;
 +        float f6 = ((float) (-i)) / 2.0f;
 +        float f7 = ((float) (-i2)) / 2.0f;
-+        int i5 = 0;
-+        while (true) {
-+            int i6 = i5;
-+            if (i6 < i / 16) {
-+                int i7 = 0;
-+                while (true) {
-+                    int i8 = i7;
-+                    if (i8 >= i2 / 16) {
-+                        break;
-+                    }
-+                    float f8 = f6 + ((float) ((i6 + 1) << 4));
-+                    float f9 = f6 + ((float) (i6 << 4));
-+                    float f10 = f7 + ((float) ((i8 + 1) << 4));
-+                    float f11 = f7 + ((float) (i8 << 4));
-+                    float f12 = (f8 + f9) / 2.0f;
-+                    int i9 = (int) aVar.posX;
-+                    int i10 = (int) ((((f10 + f11) / 2.0f) / 16.0f) + aVar.posY);
-+                    int i11 = (int) aVar.posZ;
-+                    if (aVar.direction == 0) {
-+                        i9 = (int) (aVar.posX + (f12 / 16.0f));
-+                    }
-+                    if (aVar.direction == 1) {
-+                        i11 = (int) (aVar.posZ - (f12 / 16.0f));
-+                    }
-+                    if (aVar.direction == 2) {
-+                        i9 = (int) (aVar.posX - (f12 / 16.0f));
-+                    }
-+                    if (aVar.direction == 3) {
-+                        i11 = (int) (aVar.posZ + (f12 / 16.0f));
-+                    }
-+                    float c = this.renderManager.worldObj.getLightBrightness(i9, i10, i11);
-+                    GL11.glColor3f(c, c, c);
-+                    float f13 = ((float) ((i3 + i) - (i6 << 4))) / 256.0f;
-+                    float f14 = ((float) ((i3 + i) - ((i6 + 1) << 4))) / 256.0f;
-+                    float f15 = ((float) ((i4 + i2) - (i8 << 4))) / 256.0f;
-+                    float f16 = ((float) ((i4 + i2) - ((i8 + 1) << 4))) / 256.0f;
-+                    Tessellator dVar2 = Tessellator.instance;
-+                    dVar2.startDrawingQuads();
-+                    Tessellator.setNormal(0.0f, 0.0f, -1.0f);
-+                    dVar2.addVertexWithUV(f8, f11, -0.5f, f14, f15);
-+                    dVar2.addVertexWithUV(f9, f11, -0.5f, f13, f15);
-+                    dVar2.addVertexWithUV(f9, f10, -0.5f, f13, f16);
-+                    dVar2.addVertexWithUV(f8, f10, -0.5f, f14, f16);
-+                    Tessellator.setNormal(0.0f, 0.0f, 1.0f);
-+                    dVar2.addVertexWithUV(f8, f10, 0.5f, 0.75f, 0.0f);
-+                    dVar2.addVertexWithUV(f9, f10, 0.5f, 0.8125f, 0.0f);
-+                    dVar2.addVertexWithUV(f9, f11, 0.5f, 0.8125f, 0.0625f);
-+                    dVar2.addVertexWithUV(f8, f11, 0.5f, 0.75f, 0.0625f);
-+                    Tessellator.setNormal(0.0f, -1.0f, 0.0f);
-+                    dVar2.addVertexWithUV(f8, f10, -0.5f, 0.75f, 0.001953125f);
-+                    dVar2.addVertexWithUV(f9, f10, -0.5f, 0.8125f, 0.001953125f);
-+                    dVar2.addVertexWithUV(f9, f10, 0.5f, 0.8125f, 0.001953125f);
-+                    dVar2.addVertexWithUV(f8, f10, 0.5f, 0.75f, 0.001953125f);
-+                    Tessellator.setNormal(0.0f, 1.0f, 0.0f);
-+                    dVar2.addVertexWithUV(f8, f11, 0.5f, 0.75f, 0.001953125f);
-+                    dVar2.addVertexWithUV(f9, f11, 0.5f, 0.8125f, 0.001953125f);
-+                    dVar2.addVertexWithUV(f9, f11, -0.5f, 0.8125f, 0.001953125f);
-+                    dVar2.addVertexWithUV(f8, f11, -0.5f, 0.75f, 0.001953125f);
-+                    Tessellator.setNormal(-1.0f, 0.0f, 0.0f);
-+                    dVar2.addVertexWithUV(f8, f10, 0.5f, 0.7519531f, 0.0f);
-+                    dVar2.addVertexWithUV(f8, f11, 0.5f, 0.7519531f, 0.0625f);
-+                    dVar2.addVertexWithUV(f8, f11, -0.5f, 0.7519531f, 0.0625f);
-+                    dVar2.addVertexWithUV(f8, f10, -0.5f, 0.7519531f, 0.0f);
-+                    Tessellator.setNormal(1.0f, 0.0f, 0.0f);
-+                    dVar2.addVertexWithUV(f9, f10, -0.5f, 0.7519531f, 0.0f);
-+                    dVar2.addVertexWithUV(f9, f11, -0.5f, 0.7519531f, 0.0625f);
-+                    dVar2.addVertexWithUV(f9, f11, 0.5f, 0.7519531f, 0.0625f);
-+                    dVar2.addVertexWithUV(f9, f10, 0.5f, 0.7519531f, 0.0f);
-+                    dVar2.draw();
-+                    i7 = i8 + 1;
++        for (int i5 = 0; i5 < i / 16; i5++) {
++            for (int i6 = 0; i6 < i2 / 16; i6++) {
++                float f8 = f6 + ((float) ((i5 + 1) << 4));
++                float f9 = f6 + ((float) (i5 << 4));
++                float f10 = f7 + ((float) ((i6 + 1) << 4));
++                float f11 = f7 + ((float) (i6 << 4));
++                float f12 = (f8 + f9) / 2.0f;
++                int i7 = (int) painting.posX;
++                int i8 = (int) ((((f10 + f11) / 2.0f) / 16.0f) + painting.posY);
++                int i9 = (int) painting.posZ;
++                if (painting.direction == 0) {
++                    i7 = (int) (painting.posX + (f12 / 16.0f));
 +                }
-+                i5 = i6 + 1;
-+            } else {
-+                GL11.glDisable(2977);
-+                GL11.glPopMatrix();
-+                return;
++                if (painting.direction == 1) {
++                    i9 = (int) (painting.posZ - (f12 / 16.0f));
++                }
++                if (painting.direction == 2) {
++                    i7 = (int) (painting.posX - (f12 / 16.0f));
++                }
++                if (painting.direction == 3) {
++                    i9 = (int) (painting.posZ + (f12 / 16.0f));
++                }
++                float c = this.renderManager.worldObj.getLightBrightness(i7, i8, i9);
++                GL11.glColor3f(c, c, c);
++                float f13 = ((float) ((i3 + i) - (i5 << 4))) / 256.0f;
++                float f14 = ((float) ((i3 + i) - ((i5 + 1) << 4))) / 256.0f;
++                float f15 = ((float) ((i4 + i2) - (i6 << 4))) / 256.0f;
++                float f16 = ((float) ((i4 + i2) - ((i6 + 1) << 4))) / 256.0f;
++                Tessellator dVar2 = Tessellator.instance;
++                dVar2.startDrawingQuads();
++                Tessellator.setNormal(0.0f, 0.0f, -1.0f);
++                dVar2.addVertexWithUV(f8, f11, -0.5f, f14, f15);
++                dVar2.addVertexWithUV(f9, f11, -0.5f, f13, f15);
++                dVar2.addVertexWithUV(f9, f10, -0.5f, f13, f16);
++                dVar2.addVertexWithUV(f8, f10, -0.5f, f14, f16);
++                Tessellator.setNormal(0.0f, 0.0f, 1.0f);
++                dVar2.addVertexWithUV(f8, f10, 0.5f, 0.75f, 0.0f);
++                dVar2.addVertexWithUV(f9, f10, 0.5f, 0.8125f, 0.0f);
++                dVar2.addVertexWithUV(f9, f11, 0.5f, 0.8125f, 0.0625f);
++                dVar2.addVertexWithUV(f8, f11, 0.5f, 0.75f, 0.0625f);
++                Tessellator.setNormal(0.0f, -1.0f, 0.0f);
++                dVar2.addVertexWithUV(f8, f10, -0.5f, 0.75f, 0.001953125f);
++                dVar2.addVertexWithUV(f9, f10, -0.5f, 0.8125f, 0.001953125f);
++                dVar2.addVertexWithUV(f9, f10, 0.5f, 0.8125f, 0.001953125f);
++                dVar2.addVertexWithUV(f8, f10, 0.5f, 0.75f, 0.001953125f);
++                Tessellator.setNormal(0.0f, 1.0f, 0.0f);
++                dVar2.addVertexWithUV(f8, f11, 0.5f, 0.75f, 0.001953125f);
++                dVar2.addVertexWithUV(f9, f11, 0.5f, 0.8125f, 0.001953125f);
++                dVar2.addVertexWithUV(f9, f11, -0.5f, 0.8125f, 0.001953125f);
++                dVar2.addVertexWithUV(f8, f11, -0.5f, 0.75f, 0.001953125f);
++                Tessellator.setNormal(-1.0f, 0.0f, 0.0f);
++                dVar2.addVertexWithUV(f8, f10, 0.5f, 0.7519531f, 0.0f);
++                dVar2.addVertexWithUV(f8, f11, 0.5f, 0.7519531f, 0.0625f);
++                dVar2.addVertexWithUV(f8, f11, -0.5f, 0.7519531f, 0.0625f);
++                dVar2.addVertexWithUV(f8, f10, -0.5f, 0.7519531f, 0.0f);
++                Tessellator.setNormal(1.0f, 0.0f, 0.0f);
++                dVar2.addVertexWithUV(f9, f10, -0.5f, 0.7519531f, 0.0f);
++                dVar2.addVertexWithUV(f9, f11, -0.5f, 0.7519531f, 0.0625f);
++                dVar2.addVertexWithUV(f9, f11, 0.5f, 0.7519531f, 0.0625f);
++                dVar2.addVertexWithUV(f9, f10, 0.5f, 0.7519531f, 0.0f);
++                dVar2.draw();
 +            }
 +        }
++        GL11.glDisable(2977);
++        GL11.glPopMatrix();
 +    }
++
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPlayer.java minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java
---- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPlayer.java	2020-09-14 15:22:55.630932400 -0700
-+++ minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java	2020-09-14 03:07:42.136457700 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPlayer.java minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-09-10 01:29:06.351277300 -0700
++++ minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-09-14 00:09:20.495962800 -0700
 @@ -8,6 +8,7 @@
  import net.minecraft.game.entity.player.EntityPlayer;
  import net.minecraft.client.model.ModelBase;
@@ -1077,30 +1158,31 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
  
  public final class RenderPlayer extends RenderLiving {
      private ModelBiped modelBipedMain;
-@@ -30,6 +31,37 @@
+@@ -30,6 +31,38 @@
          this.modelBipedMain.bipedRightArm.render(1.0f);
      }
      
-+    public final boolean shouldRenderPass(EntityLiving eVar, int i) {
++    
++    public final boolean shouldRenderPass(EntityLiving entity, int i) {
 +        boolean z = false;
-+        ItemStack kVar = ((EntityPlayer) eVar).inventory.armorInventory[3 - i];
-+        if (kVar != null) {
-+            Item a = kVar.getItem();
++        ItemStack itemStack = ((EntityPlayer) entity).inventory.armorInventory[3 - i];
++        if (itemStack != null) {
++            Item a = itemStack.getItem();
 +            if (a instanceof ItemArmor) {
-+                loadTexture("/armor/" + armorFilenamePrefix[((ItemArmor) a).armorType] + "_" + (i == 2 ? 2 : 1) + ".png");
-+                ModelBiped hVar = i == 2 ? this.modelArmor : this.modelArmorChestplate;
-+                hVar.bipedHead.showModel = i == 0;
-+                hVar.bipedHeadwear.showModel = i == 0;
-+                hVar.bipedBody.showModel = i == 1 || i == 2;
-+                hVar.bipedLeftArm.showModel = i == 1;
-+                hVar.bipedRightArm.showModel = i == 1;
-+                hVar.bipedLeftLeg.showModel = i == 2 || i == 3;
-+                ModelRenderer cVar = hVar.bipedRightLeg;
++                loadTexture("/armor/" + armorFilenamePrefix[((ItemArmor) a).renderIndex] + "_" + (i == 2 ? 2 : 1) + ".png");
++                ModelBiped modelBiped = i == 2 ? this.modelArmor : this.modelArmorChestplate;
++                modelBiped.bipedHead.showModel = i == 0;
++                modelBiped.bipedHeadwear.showModel = i == 0;
++                modelBiped.bipedBody.showModel = i == 1 || i == 2;
++                modelBiped.bipedLeftArm.showModel = i == 1;
++                modelBiped.bipedRightArm.showModel = i == 1;
++                modelBiped.bipedLeftLeg.showModel = i == 2 || i == 3;
++                ModelRenderer cVar = modelBiped.bipedRightLeg;
 +                if (i == 2 || i == 3) {
 +                    z = true;
 +                }
 +                cVar.showModel = z;
-+                setRenderPassModel((ModelBase) hVar);
++                setRenderPassModel((ModelBase) modelBiped);
 +                return true;
 +            }
 +        }
@@ -1115,23 +1197,22 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
      static {
          armorFilenamePrefix = new String[] { "cloth", "chain", "iron", "diamond", "gold" };
      }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSheep.java minecraft/net/minecraft/client/renderer/entity/RenderSheep.java
---- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSheep.java	2020-09-14 15:22:53.624707900 -0700
-+++ minecraft/net/minecraft/client/renderer/entity/RenderSheep.java	2020-07-28 14:49:47.224523600 -0700
-@@ -9,4 +9,10 @@
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSheep.java minecraft/net/minecraft/client/renderer/entity/RenderSheep.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSheep.java	2021-09-10 01:29:05.821322100 -0700
++++ minecraft/net/minecraft/client/renderer/entity/RenderSheep.java	2021-09-13 23:45:52.864141500 -0700
+@@ -9,4 +9,9 @@
          super(modelBase, 0.7f);
-         this.setRenderPassModel(renderPassModel);
+         this.setRenderPassModel(modelBase2);
      }
-+    
-+    public final boolean shouldRenderPass(EntityLiving eVar, int i) {
-+        EntitySheep bVar = (EntitySheep) eVar;
++    public final boolean shouldRenderPass(EntityLiving entity, int i) {
++        EntitySheep sheep = (EntitySheep) entity;
 +        loadTexture("/mob/sheep_fur.png");
-+        return i == 0 && !bVar.sheared;
++        return i == 0 && !sheep.sheared;
 +    }
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSpider.java minecraft/net/minecraft/client/renderer/entity/RenderSpider.java
---- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSpider.java	2020-09-14 15:22:53.789849900 -0700
-+++ minecraft/net/minecraft/client/renderer/entity/RenderSpider.java	2020-07-28 14:50:07.678988800 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSpider.java minecraft/net/minecraft/client/renderer/entity/RenderSpider.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderSpider.java	2021-09-10 01:29:06.005980400 -0700
++++ minecraft/net/minecraft/client/renderer/entity/RenderSpider.java	2021-09-13 23:45:24.154424800 -0700
 @@ -11,4 +11,21 @@
          super(new ModelSpider(), 1.0f);
          this.setRenderPassModel(new ModelSpider());
@@ -1141,8 +1222,8 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
 +        return 180.0f;
 +    }
 +
-+    public final boolean shouldRenderPass(EntityLiving eVar, int i) {
-+        EntitySpider bVar = (EntitySpider) eVar;
++    public final boolean shouldRenderPass(EntityLiving entity, int i) {
++        EntitySpider spider = (EntitySpider) entity;
 +        if (i != 0 || i != 0) {
 +            return false;
 +        }
@@ -1150,25 +1231,25 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
 +        GL11.glEnable(3042);
 +        GL11.glDisable(3008);
 +        GL11.glBlendFunc(770, 771);
-+        GL11.glColor4f(1.0f, 1.0f, 1.0f, (1.0f - bVar.getEntityBrightness(1.0f)) * 0.5f);
++        GL11.glColor4f(1.0f, 1.0f, 1.0f, (1.0f - spider.getEntityBrightness(1.0f)) * 0.5f);
 +        return true;
 +    }
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderTNTPrimed.java minecraft/net/minecraft/client/renderer/entity/RenderTNTPrimed.java
---- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderTNTPrimed.java	2020-09-14 15:22:54.197700600 -0700
-+++ minecraft/net/minecraft/client/renderer/entity/RenderTNTPrimed.java	2020-07-27 02:45:02.941667200 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/client/renderer/entity/RenderTNTPrimed.java minecraft/net/minecraft/client/renderer/entity/RenderTNTPrimed.java
+--- minecraft_unpatched/net/minecraft/client/renderer/entity/RenderTNTPrimed.java	2021-09-10 01:29:06.093055200 -0700
++++ minecraft/net/minecraft/client/renderer/entity/RenderTNTPrimed.java	2021-09-14 00:10:16.362488900 -0700
 @@ -13,4 +13,39 @@
          this.blockRenderer = new RenderBlocks();
          this.shadowSize = 0.5f;
      }
 +    
-+    public final void doRender(Entity bVar, float f, float f2, float f3, float f4, float f5) {
++    public final void doRender(Entity entity, float f, float f2, float f3, float f4, float f5) {
 +        float f6 = 0.0f;
-+        EntityTNT aVar = (EntityTNT) bVar;
++        EntityTNT tnt = (EntityTNT) entity;
 +        GL11.glPushMatrix();
 +        GL11.glTranslatef(f, f2, f3);
-+        if ((((float) aVar.fuse) - f5) + 1.0f < 10.0f) {
-+            float f7 = 1.0f - (((((float) aVar.fuse) - f5) + 1.0f) / 10.0f);
++        if ((((float) tnt.fuse) - f5) + 1.0f < 10.0f) {
++            float f7 = 1.0f - (((((float) tnt.fuse) - f5) + 1.0f) / 10.0f);
 +            if (f7 >= 0.0f) {
 +                f6 = f7;
 +            }
@@ -1179,10 +1260,10 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
 +            float f9 = (f8 * f8 * 0.3f) + 1.0f;
 +            GL11.glScalef(f9, f9, f9);
 +        }
-+        float f10 = (1.0f - (((((float) aVar.fuse) - f5) + 1.0f) / 100.0f)) * 0.8f;
++        float f10 = (1.0f - (((((float) tnt.fuse) - f5) + 1.0f) / 100.0f)) * 0.8f;
 +        loadTexture("/terrain.png");
 +        this.blockRenderer.renderBlockOnInventory(Block.tnt);
-+        if ((aVar.fuse / 5) % 2 == 0) {
++        if ((tnt.fuse / 5) % 2 == 0) {
 +            GL11.glDisable(3553);
 +            GL11.glDisable(2896);
 +            GL11.glEnable(3042);
@@ -1197,308 +1278,39 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ent
 +        GL11.glPopMatrix();
 +    }
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/ImageBufferDownload.java minecraft/net/minecraft/client/renderer/ImageBufferDownload.java
---- minecraft_unpatched/net/minecraft/client/renderer/ImageBufferDownload.java	2020-09-14 15:22:53.350972700 -0700
-+++ minecraft/net/minecraft/client/renderer/ImageBufferDownload.java	2020-07-26 23:13:45.330764800 -0700
-@@ -44,20 +44,6 @@
-                 }
-                 ++j;
-                 continue;
--                boolean b = false;
--                if (b) {
--                    return;
--                }
--                int[] imageData;
--                int n7;
--                for (i = 32; i < 64; ++i) {
--                    for (j = 0; j < 32; ++j) {
--                        imageData = this.imageData;
--                        n7 = i + j * this.imageWidth;
--                        imageData[n7] &= 0xFFFFFF;
--                    }
--                }
--                return;
-             }
-             final boolean b = false;
-             continue Label_0076;
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/RenderEngine.java minecraft/net/minecraft/client/renderer/RenderEngine.java
---- minecraft_unpatched/net/minecraft/client/renderer/RenderEngine.java	2020-09-14 15:22:55.205066200 -0700
-+++ minecraft/net/minecraft/client/renderer/RenderEngine.java	2020-09-13 14:08:32.738134600 -0700
-@@ -202,35 +202,36 @@
-     }
-     
-     public final void refreshTextures() {
--        for (final int n : this.textureNameToImageMap.keySet()) {
--            this.setupTexture((BufferedImage)this.textureNameToImageMap.get(n), n);
-+        Iterator iterator = this.textureNameToImageMap.keySet().iterator();
-+        int n;
-+        BufferedImage bufferedImage;
-+        while(iterator.hasNext()) {
-+           n = (Integer)iterator.next();
-+           bufferedImage = (BufferedImage)this.textureNameToImageMap.get(n);
-+           this.setupTexture(bufferedImage, n);
-         }
--        final Iterator iterator2 = this.urlToImageDataMap.values().iterator();
--        while (iterator2.hasNext()) {
--            ((ThreadDownloadImageData)iterator2.next()).textureSetupComplete = false;
-+        for(iterator = this.urlToImageDataMap.values().iterator(); iterator.hasNext(); ((ThreadDownloadImageData)iterator.next()).textureSetupComplete = false) {
-         }
--        for (final String s : this.textureMap.keySet()) {
--            try {
--                BufferedImage bufferedImage;
--                if (s.startsWith("##")) {
--                    bufferedImage = unwrapImageByColumns(ImageIO.read(RenderEngine.class.getResourceAsStream(s.substring(2))));
--                }
--                else if (s.startsWith("%%")) {
--                    this.clampTexture = true;
--                    bufferedImage = ImageIO.read(RenderEngine.class.getResourceAsStream(s.substring(2)));
--                    this.clampTexture = false;
--                }
--                else {
--                    bufferedImage = ImageIO.read(RenderEngine.class.getResourceAsStream(s));
--                }
--                final int n = (int)this.textureMap.get(s);
--                this.setupTexture(bufferedImage, n);
--            }
--            catch (IOException ex) {
--                ex.printStackTrace();
--            }
-+        iterator = this.textureMap.keySet().iterator();
-+        while(iterator.hasNext()) {
-+           String s = (String)iterator.next();
-+           try {
-+              if (s.startsWith("##")) {
-+                 bufferedImage = unwrapImageByColumns(ImageIO.read(RenderEngine.class.getResourceAsStream(s.substring(2))));
-+              } else if (s.startsWith("%%")) {
-+                 this.clampTexture = true;
-+                 bufferedImage = ImageIO.read(RenderEngine.class.getResourceAsStream(s.substring(2)));
-+                 this.clampTexture = false;
-+              } else {
-+                 bufferedImage = ImageIO.read(RenderEngine.class.getResourceAsStream(s));
-+              }
-+              n = (Integer)this.textureMap.get(s);
-+              this.setupTexture(bufferedImage, n);
-+           } catch (IOException ex) {
-+              ex.printStackTrace();
-+           }
-         }
--    }
-+     }
-     
-     public static void bindTexture(final int n) {
-         if (n < 0) {
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/RenderGlobal.java minecraft/net/minecraft/client/renderer/RenderGlobal.java
---- minecraft_unpatched/net/minecraft/client/renderer/RenderGlobal.java	2020-09-14 15:22:55.960715600 -0700
-+++ minecraft/net/minecraft/client/renderer/RenderGlobal.java	2020-09-14 14:03:58.291337400 -0700
-@@ -165,62 +165,74 @@
-         this.markBlocksForUpdate(0, 0, 0, this.worldObj.width, this.worldObj.height, this.worldObj.length);
-     }
-     
--    public final void renderEntities(final Vec3D vec3D, final ICamera camera, final float n) {
--        final BlockMap blockMap = this.worldObj.blockMap;
--        RenderManager.instance.cacheActiveRenderInfo(this.worldObj, this.renderEngine, this.mc.thePlayer, n);
-+    public final void renderEntities(Vec3D aVar, ICamera eVar, float f) {
-+        boolean z;
-+        BlockMap blockMap = this.worldObj.blockMap;
-+        RenderManager.instance.cacheActiveRenderInfo(this.worldObj, this.renderEngine, this.mc.thePlayer, f);
-         this.countEntitiesTotal = 0;
-         this.countEntitiesRendered = 0;
-         this.countEntitiesHidden = 0;
--        for (int i = 0; i < blockMap.width; ++i) {
--            for (int j = 0; j < blockMap.depth; ++j) {
--                for (int k = 0; k < blockMap.height; ++k) {
--                    final List list;
--                    if ((list = blockMap.entityGrid[(k * blockMap.depth + j) * blockMap.width + i]).size() != 0) {
--                        int l = (i << 3) + 4;
--                        final int n2 = (j << 3) + 4;
--                        final int n3 = (k << 3) + 4;
--                        this.countEntitiesTotal += list.size();
--                        final float n4 = (float)l;
--                        final float n5 = (float)n2;
--                        float n6 = (float)n3;
--                        float n7 = n5;
--                        float n8 = n4;
--                        boolean b;
--                        if (n8 < 0.0f || n7 < 0.0f || n6 < 0.0f || n8 >= this.worldObj.width || n7 >= this.worldObj.height || n6 >= this.worldObj.length) {
--                            b = true;
--                        }
--                        else {
--                            final int n9 = (int)(n8 / 16.0f);
--                            final int n10 = (int)(n7 / 16.0f);
--                            final int n11 = (int)(n6 / 16.0f);
--                            b = (this.worldRenderers[(n11 * this.renderChunksTall + n10) * this.renderChunksWide + n9].isInFrustrum && this.worldRenderers[(n11 * this.renderChunksTall + n10) * this.renderChunksWide + n9].isVisible);
-+        int i = 0;
-+        while (true) {
-+            int i2 = i;
-+            if (i2 < blockMap.width) {
-+                int i3 = 0;
-+                while (true) {
-+                    int i4 = i3;
-+                    if (i4 >= blockMap.depth) {
-+                        break;
-+                    }
-+                    int i5 = 0;
-+                    while (true) {
-+                        int i6 = i5;
-+                        if (i6 >= blockMap.height) {
-+                            break;
-                         }
--                        if (b) {
--                            for (l = 0; l < list.size(); ++l) {
--                                final EntityLiving entityLiving;
--                                final Entity entity;
--                                n7 = (entity = (entityLiving = (EntityLiving)list.get(l))).posX - vec3D.xCoord;
--                                n6 = entity.posY - vec3D.yCoord;
--                                n8 = entity.posZ - vec3D.zCoord;
--                                n7 = n7 * n7 + n6 * n6 + n8 * n8;
--                                final Entity entity2 = entity;
--                                final float n12 = n7;
--                                final AxisAlignedBB boundingBox;
--                                n7 = (boundingBox = entity2.boundingBox).maxX - boundingBox.minX;
--                                n6 = boundingBox.maxY - boundingBox.minY;
--                                n8 = boundingBox.maxZ - boundingBox.minZ;
--                                n8 = (n8 = (n7 + n6 + n8) / 3.0f) * 64.0f;
--                                if (n12 < n8 * n8 && camera.isBoundingBoxInFrustrum(entityLiving.boundingBox) && (entityLiving != this.worldObj.player || this.mc.gameSettings.thirdPersonView)) {
--                                    ++this.countEntitiesRendered;
--                                    RenderManager.instance.renderEntity(entityLiving, n);
-+                        List list = blockMap.entityGrid[(((blockMap.depth * i6) + i4) * blockMap.width) + i2];
-+                        if (list.size() != 0) {
-+                            this.countEntitiesTotal += list.size();
-+                            float f2 = (float) ((i2 << 3) + 4);
-+                            float f3 = (float) ((i4 << 3) + 4);
-+                            float f4 = (float) ((i6 << 3) + 4);
-+                            if (f2 < 0.0f || f3 < 0.0f || f4 < 0.0f || f2 >= ((float) this.worldObj.width) || f3 >= ((float) this.worldObj.length) || f4 >= ((float) this.worldObj.height)) {
-+                                z = true;
-+                            } else {
-+                                int i7 = (int) (f2 / 16.0f);
-+                                int i8 = (int) (f3 / 16.0f);
-+                                int i9 = (int) (f4 / 16.0f);
-+                                z = this.worldRenderers[(((this.renderChunksTall * i9) + i8) * this.renderChunksWide) + i7].isInFrustrum && this.worldRenderers[i7 + ((i8 + (i9 * this.renderChunksTall)) * this.renderChunksWide)].isVisible;
-+                            }
-+                            if (z) {
-+                                int i10 = 0;
-+                                while (true) {
-+                                    int i11 = i10;
-+                                    if (i11 >= list.size()) {
-+                                        break;
-+                                    }
-+                                    Entity entity = (Entity) list.get(i11);
-+                                    float f5 = entity.posX - aVar.xCoord;
-+                                    float f6 = entity.posY - aVar.yCoord;
-+                                    float f7 = entity.posZ - aVar.zCoord;
-+                                    float f8 = (f5 * f5) + (f6 * f6) + (f7 * f7);
-+                                    AxisAlignedBB boundingBox = entity.boundingBox;
-+                                    float f9 = (((boundingBox.maxZ - boundingBox.minZ) + ((boundingBox.maxX - boundingBox.minX) + (boundingBox.maxY - boundingBox.minY))) / 3.0f) * 64.0f;
-+                                    if ((f8 < f9 * f9) && eVar.isBoundingBoxInFrustrum(entity.boundingBox) && (entity != this.worldObj.player || this.mc.gameSettings.thirdPersonView)) {
-+                                        this.countEntitiesRendered++;
-+                                        RenderManager.instance.renderEntity(entity, f);
-+                                    }
-+                                    i10 = i11 + 1;
-                                 }
-+                            } else {
-+                                this.countEntitiesHidden += list.size();
-                             }
-                         }
--                        else {
--                            this.countEntitiesHidden += list.size();
--                        }
-+                        i5 = i6 + 1;
-                     }
-+                    i3 = i4 + 1;
-                 }
-+                i = i2 + 1;
-+            } else {
-+                return;
-             }
-         }
-     }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/renderer/RenderSorter.java minecraft/net/minecraft/client/renderer/RenderSorter.java
---- minecraft_unpatched/net/minecraft/client/renderer/RenderSorter.java	2020-09-14 15:22:55.068949400 -0700
-+++ minecraft/net/minecraft/client/renderer/RenderSorter.java	2020-07-27 02:42:01.211679800 -0700
-@@ -10,4 +10,15 @@
-     public RenderSorter(final EntityPlayer baseEntity) {
-         this.baseEntity = baseEntity;
-     }
-+    
-+    public final int compare(Object obj, Object obj2) {
-+        WorldRenderer hVar = (WorldRenderer) obj;
-+        WorldRenderer hVar2 = (WorldRenderer) obj2;
-+        boolean z = hVar.isInFrustrum;
-+        boolean z2 = hVar2.isInFrustrum;
-+        if (!z || z2) {
-+            return ((!z2 || z) && hVar.distanceToEntitySquared((EntityLiving) this.baseEntity) < hVar2.distanceToEntitySquared((EntityLiving) this.baseEntity)) ? 1 : -1;
-+        }
-+        return 1;
-+    }
- }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/ThreadDownloadResources.java minecraft/net/minecraft/client/ThreadDownloadResources.java
---- minecraft_unpatched/net/minecraft/client/ThreadDownloadResources.java	2020-09-14 15:22:55.051934900 -0700
-+++ minecraft/net/minecraft/client/ThreadDownloadResources.java	2020-07-27 03:39:09.283880000 -0700
-@@ -32,7 +32,7 @@
-     public final void run() {
-         try {
-             final ArrayList list = new ArrayList();
--            final URL url = new URL("http://www.minecraft.net/resources/");
-+            final URL url = new URL("https://betacraft.pl/resources/");
-             final BufferedReader bufferedReader = new BufferedReader((Reader)new InputStreamReader(url.openStream()));
-             String line;
-             while ((line = bufferedReader.readLine()) != null) {
-@@ -89,7 +89,7 @@
-         }
-     }
-     
--    private void downloadResource(final URL url, final File file) {
-+    private void downloadResource(final URL url, final File file) throws IOException {
-         final byte[] array = new byte[4096];
-         final DataInputStream dataInputStream = new DataInputStream(url.openStream());
-         final DataOutputStream dataOutputStream = new DataOutputStream((OutputStream)new FileOutputStream(file));
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/client/ThreadSleepForever.java minecraft/net/minecraft/client/ThreadSleepForever.java
---- minecraft_unpatched/net/minecraft/client/ThreadSleepForever.java	2020-09-14 15:22:53.558651300 -0700
-+++ minecraft/net/minecraft/client/ThreadSleepForever.java	2020-07-26 23:09:58.059057500 -0700
-@@ -17,7 +17,6 @@
-             catch (InterruptedException ex) {
-                 continue;
-             }
--            break;
-         }
-     }
- }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/block/BlockFarmland.java minecraft/net/minecraft/game/block/BlockFarmland.java
---- minecraft_unpatched/net/minecraft/game/block/BlockFarmland.java	2020-09-14 15:22:55.410743100 -0700
-+++ minecraft/net/minecraft/game/block/BlockFarmland.java	2020-07-27 03:15:21.761646800 -0700
-@@ -40,63 +40,53 @@
-     }
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/game/block/BlockFarmland.java minecraft/net/minecraft/game/block/BlockFarmland.java
+--- minecraft_unpatched/net/minecraft/game/block/BlockFarmland.java	2021-09-10 01:29:06.540940200 -0700
++++ minecraft/net/minecraft/game/block/BlockFarmland.java	2021-09-13 22:40:16.041101300 -0700
+@@ -41,62 +41,51 @@
      
      @Override
--    public final void updateTick(final World world, final int n, final int n2, final int n3, final Random random) {
-+    public final void updateTick(World gVar, int i, int i2, int i3, Random random) {
+     public final void updateTick(final World world, final int xCoord, final int yCoord, final int zCoord, final Random random) {
 +        boolean b;
 +        boolean b2 = true;
          if (random.nextInt(5) == 0) {
--            int n4 = n3;
--            int n5 = n2;
--            int n6 = n;
--            int i = n6 - 4;
+-            int n = zCoord;
+-            int n2 = yCoord;
+-            int n3 = xCoord;
+-            int i = n3 - 4;
 -        Label_0105:
-+            int i4 = i - 4;
++            int i4 = xCoord - 4;
 +            loop0:
              while (true) {
 -            Label_0220_Outer:
--                while (i <= n6 + 4) {
--                    for (int j = n5; j <= n5 + 1; ++j) {
--                        for (int k = n4 - 4; k <= n4 + 4; ++k) {
+-                while (i <= n3 + 4) {
+-                    for (int j = n2; j <= n2 + 1; ++j) {
+-                        for (int k = n - 4; k <= n + 4; ++k) {
 -                            if (world.getBlockMaterial(i, j, k) == Material.water) {
 -                                final boolean b = true;
 -                                break Label_0105;
 -                            }
-+                int i5 = i4;
-+                if (i5 > i + 4) {
++                if (i4 > xCoord + 4) {
 +                    b = false;
 +                    break;
 +                }
-+                for (int i6 = i2; i6 <= i2 + 1; i6++) {
-+                    for (int i7 = i3 - 4; i7 <= i3 + 4; i7++) {
-+                        if (gVar.getBlockMaterial(i5, i6, i7) == Material.water) {
++                for (int i5 = yCoord; i5 <= yCoord + 1; i5++) {
++                    for (int i6 = zCoord - 4; i6 <= zCoord + 4; i6++) {
++                        if (world.getBlockMaterial(i4, i5, i6) == Material.water) {
 +                            b = true;
 +                            break loop0;
                          }
@@ -1507,23 +1319,23 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/block/BlockFar
 -                    continue Label_0220_Outer;
 -                    boolean b = false;
 -                    if (b) {
--                        world.setBlockMetadataWithNotify(n, n2, n3, 7);
+-                        world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 7);
 -                        return;
 -                    }
 -                    final byte blockMetadata;
--                    if ((blockMetadata = world.getBlockMetadata(n, n2, n3)) > 0) {
--                        world.setBlockMetadataWithNotify(n, n2, n3, blockMetadata - 1);
+-                    if ((blockMetadata = world.getBlockMetadata(xCoord, yCoord, zCoord)) > 0) {
+-                        world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, blockMetadata - 1);
 -                        return;
 -                    }
--                    n4 = n3;
--                    n5 = n2;
+-                    n = zCoord;
+-                    n2 = yCoord;
 -                    int j;
--                    n6 = (j = n);
+-                    n3 = (j = xCoord);
 -                Label_0220:
 -                    while (true) {
--                        while (j <= n6) {
--                            for (int k = n4; k <= n4; ++k) {
--                                if (world.getBlockId(j, n5 + 1, k) == Block.crops.blockID) {
+-                        while (j <= n3) {
+-                            for (int k = n; k <= n; ++k) {
+-                                if (world.getBlockId(j, n2 + 1, k) == Block.crops.blockID) {
 -                                    final boolean b2 = true;
 -                                    break Label_0220;
 -                                }
@@ -1532,79 +1344,80 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/block/BlockFar
 -                            continue Label_0220_Outer;
 -                            boolean b2 = false;
 -                            if (!b2) {
--                                world.setBlockWithNotify(n, n2, n3, Block.dirt.blockID);
+-                                world.setBlockWithNotify(xCoord, yCoord, zCoord, Block.dirt.blockID);
 -                            }
 -                            return;
 -                        }
 -                        final boolean b2 = false;
 -                        continue Label_0220;
 +                }
-+                i4 = i5 + 1;
++                i4++;
 +            }
 +            if (b) {
-+                gVar.setBlockMetadataWithNotify(i, i2, i3, 7);
++                world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 7);
 +                return;
 +            }
-+            byte e = gVar.getBlockMetadata(i, i2, i3);
++            byte e = world.getBlockMetadata(xCoord, yCoord, zCoord);
 +            if (e > 0) {
-+                gVar.setBlockMetadataWithNotify(i, i2, i3, e - 1);
++                world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, e - 1);
 +                return;
 +            }
-+            int i8 = i;
++            int i7 = xCoord;
 +            loop3:
 +            while (true) {
-+                if (i8 > i) {
++                if (i7 > xCoord) {
 +                    b2 = false;
 +                    break;
 +                }
-+                for (int i9 = i3; i9 <= i3; i9++) {
-+                    if (gVar.getBlockId(i8, i2 + 1, i9) == Block.crops.blockID) {
++                for (int i8 = zCoord; i8 <= zCoord; i8++) {
++                    if (world.getBlockId(i7, yCoord + 1, i8) == Block.crops.blockID) {
 +                        break loop3;
                      }
                  }
 -                final boolean b = false;
 -                continue Label_0105;
-+                i8++;
++                i7++;
 +            }
 +            if (!b2) {
-+                gVar.setBlockWithNotify(i, i2, i3, Block.dirt.blockID);
++                world.setBlockWithNotify(xCoord, yCoord, zCoord, Block.dirt.blockID);
              }
          }
      }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/monster/EntityCreeper.java minecraft/net/minecraft/game/entity/monster/EntityCreeper.java
---- minecraft_unpatched/net/minecraft/game/entity/monster/EntityCreeper.java	2020-09-14 15:22:54.802220300 -0700
-+++ minecraft/net/minecraft/game/entity/monster/EntityCreeper.java	2020-07-28 14:37:09.616512400 -0700
-@@ -64,7 +64,7 @@
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/game/entity/monster/EntityCreeper.java minecraft/net/minecraft/game/entity/monster/EntityCreeper.java
+--- minecraft_unpatched/net/minecraft/game/entity/monster/EntityCreeper.java	2021-09-10 01:29:06.443856900 -0700
++++ minecraft/net/minecraft/game/entity/monster/EntityCreeper.java	2021-09-11 00:49:08.907057100 -0700
+@@ -64,8 +64,8 @@
          }
      }
      
--    public final float c(final float n) {
-+    public final float setCreeperFlashTime(final float n) {
-         return (this.lastActiveTime + (this.timeSinceIgnited - this.lastActiveTime) * n) / (this.fuseTime - 2);
+-    @Override
+-    public final float getEntityBrightness(final float float1) {
++
++    public final float setCreeperFlashTime(final float float1) {
+         return (this.lastActiveTime + (this.timeSinceIgnited - this.lastActiveTime) * float1) / (this.fuseTime - 2);
      }
      
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/player/InventoryPlayer.java minecraft/net/minecraft/game/entity/player/InventoryPlayer.java
---- minecraft_unpatched/net/minecraft/game/entity/player/InventoryPlayer.java	2020-09-14 15:22:53.182868500 -0700
-+++ minecraft/net/minecraft/game/entity/player/InventoryPlayer.java	2020-09-13 15:02:20.070225900 -0700
-@@ -56,71 +56,50 @@
-         return true;
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/game/entity/player/InventoryPlayer.java minecraft/net/minecraft/game/entity/player/InventoryPlayer.java
+--- minecraft_unpatched/net/minecraft/game/entity/player/InventoryPlayer.java	2021-09-10 01:29:05.772279100 -0700
++++ minecraft/net/minecraft/game/entity/player/InventoryPlayer.java	2021-09-13 01:01:54.640076500 -0700
+@@ -57,62 +57,41 @@
      }
      
--    public final boolean storePartialItemStack(final ItemStack itemStack) {
+     public final boolean storePartialItemStack(final ItemStack itemStack) {
 -        Label_0335: {
 -            if (itemStack.itemDamage == 0) {
 -                final int itemID = itemStack.itemID;
 -                int stackSize = itemStack.stackSize;
--                final int n2;
--                int n = n2 = itemID;
+-                final int n;
+-                int integer1 = n = itemID;
 -                int i = 0;
 -                while (true) {
 -                    while (i < this.mainInventory.length) {
--                        if (this.mainInventory[i] != null && this.mainInventory[i].itemID == n2 && this.mainInventory[i].stackSize < this.mainInventory[i].getItem().getItemStackLimit() && this.mainInventory[i].stackSize < 64) {
--                            final int n4;
--                            final int n3 = n4 = i;
--                            int storeItemStack = n4;
--                            if (n3 < 0) {
+-                        if (this.mainInventory[i] != null && this.mainInventory[i].itemID == n && this.mainInventory[i].stackSize < this.mainInventory[i].getItem().getItemStackLimit() && this.mainInventory[i].stackSize < 64) {
+-                            final int n3;
+-                            final int n2 = n3 = i;
+-                            int storeItemStack = n3;
+-                            if (n2 < 0) {
 -                                storeItemStack = this.storeItemStack();
 -                            }
 -                            int stackSize2;
@@ -1613,21 +1426,21 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/player/
 -                            }
 -                            else {
 -                                if (this.mainInventory[storeItemStack] == null) {
--                                    this.mainInventory[storeItemStack] = new ItemStack(n, 0);
+-                                    this.mainInventory[storeItemStack] = new ItemStack(integer1, 0);
 -                                }
--                                if ((n = stackSize) > this.mainInventory[storeItemStack].getItem().getItemStackLimit() - this.mainInventory[storeItemStack].stackSize) {
--                                    n = this.mainInventory[storeItemStack].getItem().getItemStackLimit() - this.mainInventory[storeItemStack].stackSize;
+-                                if ((integer1 = stackSize) > this.mainInventory[storeItemStack].getItem().getItemStackLimit() - this.mainInventory[storeItemStack].stackSize) {
+-                                    integer1 = this.mainInventory[storeItemStack].getItem().getItemStackLimit() - this.mainInventory[storeItemStack].stackSize;
 -                                }
--                                if (n > 64 - this.mainInventory[storeItemStack].stackSize) {
--                                    n = 64 - this.mainInventory[storeItemStack].stackSize;
+-                                if (integer1 > 64 - this.mainInventory[storeItemStack].stackSize) {
+-                                    integer1 = 64 - this.mainInventory[storeItemStack].stackSize;
 -                                }
--                                if (n == 0) {
+-                                if (integer1 == 0) {
 -                                    stackSize2 = stackSize;
 -                                }
 -                                else {
--                                    stackSize -= n;
+-                                    stackSize -= integer1;
 -                                    final ItemStack itemStack2 = this.mainInventory[storeItemStack];
--                                    itemStack2.stackSize += n;
+-                                    itemStack2.stackSize += integer1;
 -                                    this.mainInventory[storeItemStack].animationsToGo = 5;
 -                                    stackSize2 = stackSize;
 -                                }
@@ -1641,65 +1454,50 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/entity/player/
 -                        else {
 -                            ++i;
 -                        }
-+    public final boolean storePartialItemStack(ItemStack itemStack) {
 +        if (itemStack.itemDamage == 0) {
-+            int itemID = itemStack.itemID;
-+            int stackSize = itemStack.stackSize;
-+            int i = 0;
++            int i = itemStack.itemID;
++            int i2 = itemStack.stackSize;
++            int i3 = 0;
 +            while (true) {
-+                if (i < this.mainInventory.length) {
-+                    if (this.mainInventory[i] != null && this.mainInventory[i].itemID == itemID && this.mainInventory[i].stackSize < this.mainInventory[i].getItem().getItemStackLimit() && this.mainInventory[i].stackSize < 64) {
++                if (i3 < this.mainInventory.length) {
++                    if (this.mainInventory[i3] != null && this.mainInventory[i3].itemID == i && this.mainInventory[i3].stackSize < this.mainInventory[i3].getItem().getItemStackLimit() && this.mainInventory[i3].stackSize < 64) {
 +                        break;
                      }
--                    int n4;
--                    final int n3 = n4 = -1;
+-                    int n3;
+-                    final int n2 = n3 = -1;
 -                    continue;
-+                    i++;
++                    i3++;
 +                } else {
-+                    i = -1;
++                    i3 = -1;
 +                    break;
                  }
              }
-+            int storeItemStack = i < 0 ? storeItemStack() : i;
-+            if (storeItemStack >= 0) {
-+                if (this.mainInventory[storeItemStack] == null) {
-+                    this.mainInventory[storeItemStack] = new ItemStack(itemID, 0);
++            int f = i3 < 0 ? storeItemStack() : i3;
++            if (f >= 0) {
++                if (this.mainInventory[f] == null) {
++                    this.mainInventory[f] = new ItemStack(i, 0);
 +                }
-+                int c = stackSize > this.mainInventory[storeItemStack].getItem().getItemStackLimit() - this.mainInventory[storeItemStack].stackSize ? this.mainInventory[storeItemStack].getItem().getItemStackLimit() - this.mainInventory[storeItemStack].stackSize : stackSize;
-+                if (c > 64 - this.mainInventory[storeItemStack].stackSize) {
-+                    c = 64 - this.mainInventory[storeItemStack].stackSize;
++                int c = i2 > this.mainInventory[f].getItem().getItemStackLimit() - this.mainInventory[f].stackSize ? this.mainInventory[f].getItem().getItemStackLimit() - this.mainInventory[f].stackSize : i2;
++                if (c > 64 - this.mainInventory[f].stackSize) {
++                    c = 64 - this.mainInventory[f].stackSize;
 +                }
 +                if (c != 0) {
-+                    stackSize -= c;
-+                    ItemStack kVar2 = this.mainInventory[storeItemStack];
++                    i2 -= c;
++                    ItemStack kVar2 = this.mainInventory[f];
 +                    kVar2.stackSize = c + kVar2.stackSize;
-+                    this.mainInventory[storeItemStack].animationsToGo = 5;
++                    this.mainInventory[f].animationsToGo = 5;
 +                }
 +            }
-+            itemStack.stackSize = stackSize;
++            itemStack.stackSize = i2;
 +            if (itemStack.stackSize == 0) {
 +                return true;
 +            }
          }
--        final int storeItemStack2;
--        if ((storeItemStack2 = this.storeItemStack()) >= 0) {
--            this.mainInventory[storeItemStack2] = itemStack;
--            this.mainInventory[storeItemStack2].animationsToGo = 5;
--            return true;
-+        int f2 = storeItemStack();
-+        if (f2 < 0) {
-+            return false;
-         }
--        return false;
-+        this.mainInventory[f2] = itemStack;
-+        this.mainInventory[f2].animationsToGo = 5;
-+        return true;
-     }
-     
-     public final ItemStack decrStackSize(int n, final int n2) {
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/item/Item.java minecraft/net/minecraft/game/item/Item.java
---- minecraft_unpatched/net/minecraft/game/item/Item.java	2020-09-14 15:22:53.859910300 -0700
-+++ minecraft/net/minecraft/game/item/Item.java	2020-07-27 03:15:43.578390400 -0700
+         final int storeItemStack2;
+         if ((storeItemStack2 = this.storeItemStack()) >= 0) {
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/game/item/Item.java minecraft/net/minecraft/game/item/Item.java
+--- minecraft_unpatched/net/minecraft/game/item/Item.java	2021-09-10 01:29:05.921908200 -0700
++++ minecraft/net/minecraft/game/item/Item.java	2021-09-11 00:50:33.323520900 -0700
 @@ -76,7 +76,7 @@
      public final int shiftedIndex;
      protected int maxStackSize;
@@ -1707,11 +1505,23 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/item/Item.java
 -    private int iconIndex;
 +    protected int iconIndex;
      
-     protected Item(final int n) {
+     protected Item(final int itemID) {
          this.maxStackSize = 64;
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/BlockMapSlot.java minecraft/net/minecraft/game/level/BlockMapSlot.java
---- minecraft_unpatched/net/minecraft/game/level/BlockMapSlot.java	2020-09-14 15:22:55.700992300 -0700
-+++ minecraft/net/minecraft/game/level/BlockMapSlot.java	2020-07-27 03:16:52.745212800 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/game/level/BlockMap.java minecraft/net/minecraft/game/level/BlockMap.java
+--- minecraft_unpatched/net/minecraft/game/level/BlockMap.java	2021-09-10 01:29:06.457368400 -0700
++++ minecraft/net/minecraft/game/level/BlockMap.java	2021-09-12 00:52:53.612867100 -0700
+@@ -12,7 +12,7 @@
+     private BlockMapSlot slot;
+     private BlockMapSlot slot2;
+     public List[] entityGrid;
+-    public List all;
++    public List<Entity> all;
+     private List tmp;
+     
+     public BlockMap(int width, int depth, int height) {
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/game/level/BlockMapSlot.java minecraft/net/minecraft/game/level/BlockMapSlot.java
+--- minecraft_unpatched/net/minecraft/game/level/BlockMapSlot.java	2021-09-10 01:29:06.131087800 -0700
++++ minecraft/net/minecraft/game/level/BlockMapSlot.java	2021-09-11 00:52:08.955293100 -0700
 @@ -3,12 +3,12 @@
  import net.minecraft.game.entity.Entity;
  
@@ -1724,38 +1534,14 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/BlockMap
 +    int zSlot;
      private /* synthetic */ BlockMap blockMap;
      
--    private BlockMapSlot(final BlockMap blockMap, final byte b) {
+-    private BlockMapSlot(final BlockMap blockMap, final byte byte2) {
 +    BlockMapSlot(final BlockMap blockMap) {
          this.blockMap = blockMap;
      }
      
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/generator/LevelGenerator.java minecraft/net/minecraft/game/level/generator/LevelGenerator.java
---- minecraft_unpatched/net/minecraft/game/level/generator/LevelGenerator.java	2020-09-14 15:22:55.406239200 -0700
-+++ minecraft/net/minecraft/game/level/generator/LevelGenerator.java	2020-09-13 15:18:12.770207400 -0700
-@@ -296,13 +296,13 @@
-             if (this.levelType == 1) {
-                 j = Block.lavaStill.blockID;
-             }
--            for (int k = 0; k < i; ++k) {
--                this.flood(k, this.waterLevel - 1, 0, 0, j);
--                this.flood(k, this.waterLevel - 1, depth - 1, 0, j);
--            }
--            for (int k = 0; k < depth; ++k) {
--                this.flood(i - 1, this.waterLevel - 1, k, 0, j);
--                this.flood(0, this.waterLevel - 1, k, 0, j);
-+            for (int k1 = 0; k1 < i; ++k1) {
-+                this.flood(k1, this.waterLevel - 1, 0, 0, j);
-+                this.flood(k1, this.waterLevel - 1, depth - 1, 0, j);
-+            }
-+            for (int k2 = 0; k2 < depth; ++k2) {
-+                this.flood(i - 1, this.waterLevel - 1, k2, 0, j);
-+                this.flood(0, this.waterLevel - 1, k2, 0, j);
-             }
-         }
-         if (this.levelType == 0) {
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/LevelLoader.java minecraft/net/minecraft/game/level/LevelLoader.java
---- minecraft_unpatched/net/minecraft/game/level/LevelLoader.java	2020-09-14 15:22:54.728156200 -0700
-+++ minecraft/net/minecraft/game/level/LevelLoader.java	2020-07-27 03:25:49.222381900 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/game/level/LevelLoader.java minecraft/net/minecraft/game/level/LevelLoader.java
+--- minecraft_unpatched/net/minecraft/game/level/LevelLoader.java	2021-09-10 01:29:06.271708700 -0700
++++ minecraft/net/minecraft/game/level/LevelLoader.java	2021-09-12 00:41:02.759135300 -0700
 @@ -3,6 +3,7 @@
  import java.util.Iterator;
  import java.io.DataOutput;
@@ -1768,23 +1554,23 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/LevelLoa
          this.guiLoading = guiLoading;
      }
      
--    public final World load(InputStream writeLevelTags) {
-+    public final World load(InputStream writeLevelTags) throws IOException {
+-    public final World load(InputStream var_1_29) {
++    public final World load(InputStream var_1_29) throws IOException {
          if (this.guiLoading != null) {
              this.guiLoading.setTitle("Loading level");
          }
          if (this.guiLoading != null) {
              this.guiLoading.setText("Reading..");
          }
--        final NBTTagCompound compoundTag = ((NBTTagCompound)(writeLevelTags = (InputStream)GuiLevelLoading.writeLevelTags(writeLevelTags))).getCompoundTag("About");
--        final NBTTagCompound compoundTag2 = ((NBTTagCompound)writeLevelTags).getCompoundTag("Map");
--        final NBTTagCompound compoundTag3 = ((NBTTagCompound)writeLevelTags).getCompoundTag("Environment");
--        final NBTTagList tagList = ((NBTTagCompound)writeLevelTags).getTagList("Entities");
-+		NBTTagCompound var13;
-+        NBTTagCompound compoundTag = (var13 = GuiLevelLoading.writeLevelTags(writeLevelTags)).getCompoundTag("About");
-+        NBTTagCompound compoundTag2 = var13.getCompoundTag("Map");
-+        NBTTagCompound compoundTag3 = var13.getCompoundTag("Environment");
-+        NBTTagList tagList = var13.getTagList("Entities");
+-        final NBTTagCompound compoundTag = ((NBTTagCompound)(var_1_29 = (InputStream)GuiLevelLoading.writeLevelTags(var_1_29))).getCompoundTag("About");
+-        final NBTTagCompound compoundTag2 = ((NBTTagCompound)var_1_29).getCompoundTag("Map");
+-        final NBTTagCompound compoundTag3 = ((NBTTagCompound)var_1_29).getCompoundTag("Environment");
+-        final NBTTagList tagList = ((NBTTagCompound)var_1_29).getTagList("Entities");
++		NBTTagCompound var13 = GuiLevelLoading.writeLevelTags(var_1_29);
++        final NBTTagCompound compoundTag = var13.getCompoundTag("About");
++        final NBTTagCompound compoundTag2 = var13.getCompoundTag("Map");
++        final NBTTagCompound compoundTag3 = var13.getCompoundTag("Environment");
++        final NBTTagList tagList = var13.getTagList("Entities");
          int n = compoundTag2.getShort("Width");
          int short1 = compoundTag2.getShort("Length");
          final short short2 = compoundTag2.getShort("Height");
@@ -1792,7 +1578,7 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/LevelLoa
                  ex.printStackTrace();
              }
          }
--        final NBTTagList tagList3 = ((NBTTagCompound)writeLevelTags).getTagList("TileEntities");
+-        final NBTTagList tagList3 = ((NBTTagCompound)var_1_29).getTagList("TileEntities");
 +        final NBTTagList tagList3 = var13.getTagList("TileEntities");
          for (int j = 0; j < tagList3.tagCount(); ++j) {
              try {
@@ -1801,79 +1587,75 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/LevelLoa
          return null;
      }
      
--    public final void save(final World world, OutputStream o) {
-+    public final void save(final World world, OutputStream o) throws IOException {
+-    public final void save(final World world, OutputStream outputStream) {
++    public final void save(final World world, OutputStream outputStream) throws IOException {
          if (this.guiLoading != null) {
              this.guiLoading.setTitle("Saving level");
          }
-@@ -193,20 +195,24 @@
-         if (this.guiLoading != null) {
-             this.guiLoading.setText("Preparing entities..");
-         }
--        final NBTTagList list2 = new NBTTagList();
--        for (final Entity entity : world.blockMap.all) {
--            final NBTTagCompound tag = new NBTTagCompound();
--            entity.writeToNBT(tag);
--            if (!tag.emptyNBTMap()) {
--                list2.setTag(tag);
-+		Iterator var7 = world.blockMap.all.iterator();	
-+		final NBTTagList list2 = new NBTTagList();
-+        while(var7.hasNext()) {
-+		    Entity var8 = (Entity)var7.next();
-+            final NBTTagCompound nbtCompound4 = new NBTTagCompound();
-+            var8.writeToNBT(nbtCompound4);
-+            if (!nbtCompound4.emptyNBTMap()) {
-+                list2.setTag(nbtCompound4);
-             }
-         }
-         final NBTTagList list3 = new NBTTagList();
--        for (final int intValue : world.map.keySet()) {
--            final NBTTagCompound tag2;
--            (tag2 = new NBTTagCompound()).setInteger("Pos", intValue);
--            ((TileEntity)world.map.get(intValue)).writeToNBT(tag2);
--            list3.setTag(tag2);
-+        Iterator var17 = world.map.keySet().iterator();
-+        while(var17.hasNext()) {
-+            int var19 = (Integer)var17.next();
-+            final NBTTagCompound nbtCompound5;
-+            (nbtCompound5 = new NBTTagCompound()).setInteger("Pos", var19);
-+            ((TileEntity)world.map.get(var19)).writeToNBT(nbtCompound5);
-+            list3.setTag(nbtCompound5);
-         }
-         final NBTTagCompound nbtTagCompound4;
-         (nbtTagCompound4 = new NBTTagCompound()).setKey("MinecraftLevel");
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/level/World.java minecraft/net/minecraft/game/level/World.java
---- minecraft_unpatched/net/minecraft/game/level/World.java	2020-09-14 15:22:55.486308100 -0700
-+++ minecraft/net/minecraft/game/level/World.java	2020-09-14 13:34:14.654670200 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/game/level/World.java minecraft/net/minecraft/game/level/World.java
+--- minecraft_unpatched/net/minecraft/game/level/World.java	2021-09-10 01:29:06.374797400 -0700
++++ minecraft/net/minecraft/game/level/World.java	2021-09-12 00:53:04.808412100 -0700
+@@ -39,7 +39,7 @@
+     public int defaultFluid;
+     List worldAccesses;
+     private List tickList;
+-    public Map map;
++    public Map<Integer,Object> map;
+     private List list;
+     int[] worldIntArray1;
+     public Random random;
 @@ -224,6 +224,7 @@
                  this.ySpawn = ySpawn;
-                 this.zSpawn = n3;
+                 this.zSpawn = zSpawn;
                  this.rotSpawn = 180.0f;
 +                return;
              }
          }
      }
 @@ -1166,7 +1167,7 @@
-                 int n13 = this.worldIntArray2[--i];
-                 if (this.blocksShortArray[n13] != World.worldShort) {
-                     int n14;
--                    for (n = n13 % 1024, n14 *= (n14 = (n3 = n13 / 1024) - n7); n > 0 && this.blocksShortArray[n13 - 1] != World.worldShort && (this.blocks[(n2 * this.length + n3) * this.width + n - 1] == n4 || this.blocks[(n2 * this.length + n3) * this.width + n - 1] == n5); --n, --n13) {}
-+                    for (n = n13 % 1024, n14 = (n3 = n13 / 1024) - n7; n > 0 && this.blocksShortArray[n13 - 1] != World.worldShort && (this.blocks[(n2 * this.length + n3) * this.width + n - 1] == n4 || this.blocks[(n2 * this.length + n3) * this.width + n - 1] == n5); --n, --n13) {}
-                     if (n > 0 && this.blocks[(n2 * this.length + n3) * this.width + n - 1] == n10) {
+                 int n8 = this.worldIntArray2[--i];
+                 if (this.blocksShortArray[n8] != World.worldShort) {
+                     int n9;
+-                    for (integer1 = n8 % 1024, n9 *= (n9 = (integer3 = n8 / 1024) - n2); integer1 > 0 && this.blocksShortArray[n8 - 1] != World.worldShort && (this.blocks[(integer2 * this.length + integer3) * this.width + integer1 - 1] == integer4 || this.blocks[(integer2 * this.length + integer3) * this.width + integer1 - 1] == integer5); --integer1, --n8) {}
++                    for (integer1 = n8 % 1024, n9 = (integer3 = n8 / 1024) - n2; integer1 > 0 && this.blocksShortArray[n8 - 1] != World.worldShort && (this.blocks[(integer2 * this.length + integer3) * this.width + integer1 - 1] == integer4 || this.blocks[(integer2 * this.length + integer3) * this.width + integer1 - 1] == integer5); --integer1, --n8) {}
+                     if (integer1 > 0 && this.blocks[(integer2 * this.length + integer3) * this.width + integer1 - 1] == n5) {
                          b = true;
                      }
 @@ -1202,7 +1203,7 @@
-                             n17 = b2;
+                             n12 = b2;
                          }
-                         int n18;
--                        if ((n18 = (n18 *= (n18 = n - n6)) + n14) > n12) {
-+                        if ((n18 = (n18 = n - n6) + n14) > n12) {
-                             n12 = n18;
-                             n8 = ((n2 << 10) + n3 << 10) + n;
+                         int n13;
+-                        if ((n13 = (n13 *= (n13 = integer1 - n)) + n9) > n7) {
++                        if ((n13 = (n13 = integer1 - n) + n9) > n7) {
+                             n7 = n13;
+                             n3 = ((integer2 << 10) + integer3 << 10) + integer1;
                          }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/recipe/RecipeSorter.java minecraft/net/minecraft/game/recipe/RecipeSorter.java
---- minecraft_unpatched/net/minecraft/game/recipe/RecipeSorter.java	2020-09-14 15:22:55.388724000 -0700
-+++ minecraft/net/minecraft/game/recipe/RecipeSorter.java	2020-07-27 03:27:16.004168400 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/game/level/generator/LevelGenerator.java minecraft/net/minecraft/game/level/generator/LevelGenerator.java
+--- minecraft_unpatched/net/minecraft/game/level/generator/LevelGenerator.java	2021-09-10 01:29:06.675556100 -0700
++++ minecraft/net/minecraft/game/level/generator/LevelGenerator.java	2021-09-11 00:56:49.169710300 -0700
+@@ -296,13 +296,13 @@
+             if (this.levelType == 1) {
+                 i = Block.lavaStill.blockID;
+             }
+-            for (int j = 0; j < width; ++j) {
+-                this.flood(j, this.waterLevel - 1, 0, 0, i);
+-                this.flood(j, this.waterLevel - 1, depth - 1, 0, i);
++            for (int j1 = 0; j1 < width; ++j1) {
++                this.flood(j1, this.waterLevel - 1, 0, 0, i);
++                this.flood(j1, this.waterLevel - 1, depth - 1, 0, i);
+             }
+-            for (int j = 0; j < depth; ++j) {
+-                this.flood(width - 1, this.waterLevel - 1, j, 0, i);
+-                this.flood(0, this.waterLevel - 1, j, 0, i);
++            for (int j2 = 0; j2 < depth; ++j2) {
++                this.flood(width - 1, this.waterLevel - 1, j2, 0, i);
++                this.flood(0, this.waterLevel - 1, j2, 0, i);
+             }
+         }
+         if (this.levelType == 0) {
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/game/recipe/RecipeSorter.java minecraft/net/minecraft/game/recipe/RecipeSorter.java
+--- minecraft_unpatched/net/minecraft/game/recipe/RecipeSorter.java	2021-09-10 01:29:06.622511200 -0700
++++ minecraft/net/minecraft/game/recipe/RecipeSorter.java	2021-09-11 00:57:17.238053300 -0700
 @@ -5,4 +5,13 @@
  final class RecipeSorter implements Comparator {
      RecipeSorter(final CraftingManager craftingManager) {
@@ -1888,14 +1670,14 @@ diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/recipe/RecipeS
 +        return cVar2.getRecipeSize() > cVar.getRecipeSize() ? 1 : 0;
 +    }
  }
-diff -r -U3 --exclude='*~' minecraft_unpatched/net/minecraft/game/recipe/ShapelessRecipes.java minecraft/net/minecraft/game/recipe/ShapelessRecipes.java
---- minecraft_unpatched/net/minecraft/game/recipe/ShapelessRecipes.java	2020-09-14 15:22:54.238735600 -0700
-+++ minecraft/net/minecraft/game/recipe/ShapelessRecipes.java	2020-07-27 03:28:26.840240400 -0700
+diff -r -U3 '--exclude=*~' minecraft_unpatched/net/minecraft/game/recipe/ShapelessRecipes.java minecraft/net/minecraft/game/recipe/ShapelessRecipes.java
+--- minecraft_unpatched/net/minecraft/game/recipe/ShapelessRecipes.java	2021-09-10 01:29:05.961942600 -0700
++++ minecraft/net/minecraft/game/recipe/ShapelessRecipes.java	2021-09-11 00:57:37.262226000 -0700
 @@ -55,7 +55,7 @@
          return new ItemStack(this.recipeOutput.itemID, this.recipeOutput.stackSize);
      }
      
--    public final int b() {
+-    public final int compare() {
 +    public final int getRecipeSize() {
          return this.width * this.height;
      }

@@ -29,19 +29,34 @@ CLASS net/minecraft/client/a/b net/minecraft/client/renderer/RenderGlobal
 	FIELD x renderersLoaded I
 	FIELD y renderersBeingClipped I
 	FIELD z renderersBeingOccluded I
+	METHOD <init> (Lnet/minecraft/client/d;Lnet/minecraft/client/a/k;)V
+		ARG 1 minecraft
+		ARG 2 renderEngine
 	METHOD a renderSky (F)V
 	METHOD a checkOcclusionQueryResult (II)V
 	METHOD a changeWorld (Lnet/minecraft/a/a/g;)V
+		ARG 1 world
 	METHOD a updateRenderers (Lnet/minecraft/a/c/e/a;)V
+		ARG 1 entityPlayer
 	METHOD a sortAndRender (Lnet/minecraft/a/c/e/a;I)I
+		ARG 1 entityPlayer
 	METHOD a renderEntities (Lnet/minecraft/a/d/a;Lnet/minecraft/client/a/b/e;F)V
+		ARG 1 vec3D
+		ARG 2 iCamera
 	METHOD a drawSelectionBox (Lnet/minecraft/a/d/c;I)V
+		ARG 1 movingObjectPosition
 	METHOD a drawBlockBreaking (Lnet/minecraft/a/d/c;ILnet/minecraft/a/b/k;)V
+		ARG 1 movingObjectPosition
+		ARG 3 itemStack
 	METHOD a clipRenderersByFrustrum (Lnet/minecraft/client/a/b/e;)V
+		ARG 1 iCamera
 	METHOD b getDebugInfoRenders ()Ljava/lang/String;
 	METHOD b renderSortedRenderers (III)I
 	METHOD b markBlocksForUpdate (IIIIII)V
 	METHOD c getDebugInfoEntities ()Ljava/lang/String;
 	METHOD d renderAllRenderLists ()V
 	METHOD e updateClouds ()V
-	METHOD g renderWaterTexture ()V
+	METHOD f oobGroundRenderer ()V
+	METHOD g oobWaterRenderer ()V
+	METHOD i oobGroundRenderHeight ()V
+	METHOD j oobWaterRenderHeight ()V

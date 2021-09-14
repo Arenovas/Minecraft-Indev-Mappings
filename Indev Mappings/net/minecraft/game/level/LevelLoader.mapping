@@ -1,6 +1,11 @@
 CLASS net/minecraft/a/a/a net/minecraft/game/level/LevelLoader
 	FIELD a guiLoading La/b;
+	METHOD <init> (La/b;)V
+		ARG 1 guiLoading
 	METHOD a load (Ljava/io/InputStream;)Lnet/minecraft/a/a/g;
 		ARG 1 writeLevelTags
 	METHOD a save (Lnet/minecraft/a/a/g;Ljava/io/OutputStream;)V
+		ARG 1 world
 	METHOD a loadEntity (Lnet/minecraft/a/a/g;Ljava/lang/String;)Lnet/minecraft/a/c/b;
+		ARG 1 world
+		ARG 2 playerName

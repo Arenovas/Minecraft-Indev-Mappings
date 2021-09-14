@@ -1,3 +1,6 @@
 CLASS net/minecraft/a/a/c/a/d net/minecraft/game/level/generator/noise/NoiseGeneratorCombined
 	FIELD a noiseGenerator Lnet/minecraft/a/a/c/a/b;
 	FIELD b noiseGenerator2 Lnet/minecraft/a/a/c/a/b;
+	METHOD <init> (Lnet/minecraft/a/a/c/a/b;Lnet/minecraft/a/a/c/a/b;)V
+		ARG 1 noiseGenerator
+		ARG 2 noiseGenerator2

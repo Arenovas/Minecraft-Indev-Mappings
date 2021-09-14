@@ -1,4 +1,8 @@
 CLASS net/minecraft/client/g/a net/minecraft/client/player/EntityPlayerSP
 	FIELD a movementInput Lnet/minecraft/client/g/b;
 	FIELD an mc Lnet/minecraft/client/d;
+	METHOD <init> (Lnet/minecraft/client/d;Lnet/minecraft/a/a/g;Lnet/minecraft/client/l;)V
+		ARG 1 minecraft
+		ARG 2 world
+		ARG 3 sessionData
 	METHOD h_ displayGUIInventory ()V

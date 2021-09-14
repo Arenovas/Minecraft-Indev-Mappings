@@ -2,3 +2,7 @@ CLASS net/minecraft/client/a/j net/minecraft/client/renderer/ThreadDownloadImage
 	FIELD a location Ljava/lang/String;
 	FIELD b buffer Lnet/minecraft/client/a/c;
 	FIELD c imageData Lnet/minecraft/client/a/i;
+	METHOD <init> (Lnet/minecraft/client/a/i;Ljava/lang/String;Lnet/minecraft/client/a/c;)V
+		ARG 1 threadDownloadImageData
+		ARG 3 imageBufferDownload
+	METHOD run ()V

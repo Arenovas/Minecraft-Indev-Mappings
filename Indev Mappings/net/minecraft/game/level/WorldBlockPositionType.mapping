@@ -5,3 +5,11 @@ CLASS net/minecraft/a/a/c net/minecraft/game/level/WorldBlockPositionType
 	FIELD d acceptCountdown I
 	FIELD e blockID I
 	FIELD f metadata I
+	METHOD <init> (Lnet/minecraft/a/a/h;IIIIII)V
+		ARG 1 worldClient
+		ARG 2 posX
+		ARG 3 posY
+		ARG 4 posZ
+		ARG 5 acceptCountdown
+		ARG 6 blockID
+		ARG 7 metadata

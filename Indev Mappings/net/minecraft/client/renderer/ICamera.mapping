@@ -1,2 +1,3 @@
 CLASS net/minecraft/client/a/b/e net/minecraft/client/renderer/ICamera
 	METHOD a isBoundingBoxInFrustrum (Lnet/minecraft/a/d/b;)Z
+		ARG 1 aabb

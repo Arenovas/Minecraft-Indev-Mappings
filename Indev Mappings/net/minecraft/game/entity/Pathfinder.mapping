@@ -6,7 +6,14 @@ CLASS net/minecraft/a/a/a/c net/minecraft/game/entity/Pathfinder
 	METHOD a openPoint (III)Lnet/minecraft/a/a/a/a;
 	METHOD a getVerticalOffset (IIILnet/minecraft/a/a/a/a;)I
 	METHOD a createEntityPath (Lnet/minecraft/a/a/a/a;)Lnet/minecraft/a/a/a/b;
+		ARG 0 pathPoint
 	METHOD a addToPath (Lnet/minecraft/a/c/b;FFFF)Lnet/minecraft/a/a/a/b;
+		ARG 1 entity
 	METHOD a createEntityPathTo (Lnet/minecraft/a/c/b;IIIF)Lnet/minecraft/a/a/a/b;
+		ARG 1 entity
 	METHOD a getSafePoint (Lnet/minecraft/a/c/b;IIILnet/minecraft/a/a/a/a;I)Lnet/minecraft/a/a/a/a;
+		ARG 1 entity
+		ARG 5 pathPoint
 	METHOD a createEntityPathTo (Lnet/minecraft/a/c/b;Lnet/minecraft/a/c/b;F)Lnet/minecraft/a/a/a/b;
+		ARG 1 entity
+		ARG 2 entity2

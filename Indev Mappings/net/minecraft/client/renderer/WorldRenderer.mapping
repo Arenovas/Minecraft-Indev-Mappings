@@ -20,6 +20,11 @@ CLASS net/minecraft/client/a/h net/minecraft/client/renderer/WorldRenderer
 	FIELD s posZPlus I
 	FIELD t rendererBoundingBox Lnet/minecraft/a/d/b;
 	FIELD u renderBlocks Lnet/minecraft/client/a/f;
+	METHOD <init> (Lnet/minecraft/a/a/g;IIIII)V
+		ARG 1 world
+		ARG 2 xCoord
+		ARG 3 yCoord
+		ARG 4 zCoord
 	METHOD a updateRenderer ()V
 	METHOD a distanceToEntitySquared (Lnet/minecraft/a/c/e;)F
 	METHOD a updateInFrustrum (Lnet/minecraft/client/a/b/e;)V

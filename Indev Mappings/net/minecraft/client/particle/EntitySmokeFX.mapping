@@ -1,2 +1,6 @@
 CLASS net/minecraft/client/f/j net/minecraft/client/particle/EntitySmokeFX
 	FIELD Z smokeParticleScale F
+	METHOD <init> (Lnet/minecraft/a/a/g;FFF)V
+		ARG 1 world
+	METHOD <init> (Lnet/minecraft/a/a/g;FFFF)V
+		ARG 1 world
